@@ -1,0 +1,12 @@
+# Local WP / dev files
+*.log
+.DS_Store
+Thumbs.db
+node_modules/
+*.zip
+*.tar.gz
+
+# WordPress core (never commit these)
+wp-config.php
+wp-content/uploads/
+wp-content/cache/
