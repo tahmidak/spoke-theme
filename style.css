@@ -1,0 +1,24 @@
+/*
+Theme Name: Spoke Theme
+Theme URI: https://studymatecentral.org.uk
+Author: StudyMate Central
+Author URI: https://studymatecentral.org.uk
+Description: A WordPress FSE block theme for UK e-learning. Sells accredited online courses via Tutor LMS and WooCommerce.
+Version: 1.0.0
+Requires at least: 6.4
+Tested up to: 6.7
+Requires PHP: 8.1
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: spoke-theme
+Tags: full-site-editing, block-theme, e-learning, woocommerce, education
+*/
+
+/*
+  ---------------------------------------------------------------
+  All custom styles go in assets/css/ — NOT here.
+  LMS overrides    → assets/css/lms-overrides.css
+  WooCommerce      → assets/css/woocommerce-overrides.css
+  This file is the theme header only. WordPress requires it.
+  ---------------------------------------------------------------
+*/
