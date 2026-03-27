@@ -47,6 +47,24 @@ function spoke_enqueue_assets(): void {
         $ver
     );
 
+    // Global theme styles — header, footer, and site-wide layout.
+    // NOT for LMS or WooCommerce (those have their own files below).
+    wp_enqueue_style(
+        'spoke-global',
+        get_template_directory_uri() . '/assets/css/global.css',
+        [ 'spoke-style' ],
+        $ver
+    );
+
+    // Header scroll shadow — adds .is-scrolled class on scroll
+    wp_enqueue_script(
+        'spoke-header-scroll',
+        get_template_directory_uri() . '/assets/js/header-scroll.js',
+        [],
+        $ver,
+        true  // load in footer
+    );
+
     // Tutor LMS overrides
     if ( class_exists( 'TUTOR\Tutor' ) ) {
         wp_enqueue_style(
