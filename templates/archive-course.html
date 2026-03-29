@@ -1,0 +1,281 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- ═══════════════════════════════════════════════════════════════
+     COURSE ARCHIVE — archive-course.html
+     Spoke Theme · Phase 3
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- PAGE HEADER ─────────────────────────────────────────────────── -->
+<!-- wp:group {"tagName":"section","className":"course-archive-hero","backgroundColor":"primary","textColor":"white","style":{"spacing":{"padding":{"top":"var(--wp--preset--spacing--8)","bottom":"var(--wp--preset--spacing--8)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}},"layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section class="wp-block-group course-archive-hero has-primary-background-color has-white-color has-background has-text-color">
+
+	<!-- wp:group {"layout":{"type":"constrained","contentSize":"720px"}} -->
+	<div class="wp-block-group">
+
+		<!-- wp:heading {"level":1,"className":"course-archive-hero__title","style":{"typography":{"fontSize":"clamp(2rem,5vw,3rem)","fontWeight":"500","lineHeight":"1.15","letterSpacing":"-0.02em"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--2)"}}}} -->
+		<h1 class="wp-block-heading course-archive-hero__title" style="font-size:clamp(2rem,5vw,3rem);font-weight:500;line-height:1.15;letter-spacing:-0.02em;margin-top:0;margin-bottom:var(--wp--preset--spacing--2);">Browse Accredited Courses</h1>
+		<!-- /wp:heading -->
+
+		<!-- wp:paragraph {"className":"course-archive-hero__sub","style":{"typography":{"fontSize":"1.125rem"},"color":{"text":"rgba(255,255,255,0.75)"},"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
+		<p class="course-archive-hero__sub" style="font-size:1.125rem;color:rgba(255,255,255,0.75);margin-top:0;margin-bottom:0;">Professional development courses for UK careers — CPD certified, expert-led, and industry recognised.</p>
+		<!-- /wp:paragraph -->
+
+	</div>
+	<!-- /wp:group -->
+
+</section>
+<!-- /wp:group -->
+
+<!-- FILTER BAR ──────────────────────────────────────────────────── -->
+<!-- wp:group {"tagName":"section","className":"course-filter-bar","style":{"spacing":{"padding":{"top":"var(--wp--preset--spacing--3)","bottom":"var(--wp--preset--spacing--3)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}},"backgroundColor":"surface","border":{"bottom":{"color":"var(--wp--preset--color--on-surface-variant)","width":"1px","style":"solid","opacity":"0.12"}}},"layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section class="wp-block-group course-filter-bar has-surface-background-color has-background">
+
+	<!-- wp:html -->
+	<div class="course-filter-bar__inner">
+
+		<!-- Search -->
+		<div class="course-filter-bar__search">
+			<label for="course-search" class="screen-reader-text">Search courses</label>
+			<span class="course-filter-bar__search-icon" aria-hidden="true">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+			</span>
+			<input
+				id="course-search"
+				type="search"
+				class="course-filter-bar__input"
+				placeholder="Search courses, skills or instructors…"
+				autocomplete="off"
+			/>
+		</div>
+
+		<!-- Category pills (Tutor LMS renders these via its own filter shortcode, but we provide the markup shell) -->
+		<div class="course-filter-bar__pills" role="group" aria-label="Filter by category">
+			<button class="course-filter-pill course-filter-pill--active" data-category="">All Courses</button>
+			<button class="course-filter-pill" data-category="management">Management</button>
+			<button class="course-filter-pill" data-category="finance">Finance</button>
+			<button class="course-filter-pill" data-category="technology">Technology</button>
+			<button class="course-filter-pill" data-category="hr">HR &amp; People</button>
+			<button class="course-filter-pill" data-category="marketing">Marketing</button>
+		</div>
+
+		<!-- Sort -->
+		<div class="course-filter-bar__sort">
+			<label for="course-sort" class="screen-reader-text">Sort courses</label>
+			<select id="course-sort" class="course-filter-bar__select">
+				<option value="popular">Most Popular</option>
+				<option value="newest">Newest First</option>
+				<option value="price-asc">Price: Low → High</option>
+				<option value="price-desc">Price: High → Low</option>
+				<option value="rating">Highest Rated</option>
+			</select>
+		</div>
+
+	</div>
+	<!-- /wp:html -->
+
+</section>
+<!-- /wp:group -->
+
+<!-- TRUST BAR ───────────────────────────────────────────────────── -->
+<!-- wp:group {"tagName":"section","className":"course-trust-bar","style":{"spacing":{"padding":{"top":"var(--wp--preset--spacing--2)","bottom":"var(--wp--preset--spacing--2)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}},"backgroundColor":"light"},"layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section class="wp-block-group course-trust-bar has-light-background-color has-background">
+	<!-- wp:html -->
+	<div class="course-trust-bar__inner">
+		<div class="course-trust-badge">
+			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+			<span>Stripe Secure Checkout</span>
+		</div>
+		<div class="course-trust-badge">
+			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+			<span>CPD UK Certified Courses</span>
+		</div>
+		<div class="course-trust-badge">
+			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+			<span>30-Day Money-Back Guarantee</span>
+		</div>
+		<div class="course-trust-badge">
+			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+			<span>Lifetime Access to All Materials</span>
+		</div>
+	</div>
+	<!-- /wp:html -->
+</section>
+<!-- /wp:group -->
+
+<!-- MAIN CONTENT AREA ───────────────────────────────────────────── -->
+<!-- wp:group {"tagName":"section","className":"course-archive-body","style":{"spacing":{"padding":{"top":"var(--wp--preset--spacing--6)","bottom":"var(--wp--preset--spacing--12)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}},"layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section class="wp-block-group course-archive-body">
+
+	<!-- wp:columns {"className":"course-archive-layout","style":{"spacing":{"blockGap":{"left":"var(--wp--preset--spacing--6)"}}}} -->
+	<div class="wp-block-columns course-archive-layout">
+
+		<!-- ── SIDEBAR FILTERS ── -->
+		<!-- wp:column {"width":"260px","className":"course-archive-sidebar"} -->
+		<div class="wp-block-column course-archive-sidebar" style="flex-basis:260px;flex-grow:0;flex-shrink:0">
+
+			<!-- Accreditation -->
+			<!-- wp:group {"className":"course-filter-group"} -->
+			<div class="wp-block-group course-filter-group">
+				<!-- wp:heading {"level":3,"className":"course-filter-group__label","style":{"typography":{"fontSize":"0.6875rem","fontWeight":"700","textTransform":"uppercase","letterSpacing":"0.1em"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--2)"}}}} -->
+				<h3 class="wp-block-heading course-filter-group__label" style="font-size:0.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-top:0;margin-bottom:var(--wp--preset--spacing--2);">Accreditation Body</h3>
+				<!-- /wp:heading -->
+				<!-- wp:html -->
+				<div class="course-filter-checklist">
+					<label class="course-filter-check"><input type="checkbox" name="accreditation" value="cpd"> CPD UK Certified</label>
+					<label class="course-filter-check"><input type="checkbox" name="accreditation" value="city-guilds"> City &amp; Guilds</label>
+					<label class="course-filter-check"><input type="checkbox" name="accreditation" value="ilm"> ILM Approved</label>
+					<label class="course-filter-check"><input type="checkbox" name="accreditation" value="cmi"> CMI Recognised</label>
+				</div>
+				<!-- /wp:html -->
+			</div>
+			<!-- /wp:group -->
+
+			<!-- Level -->
+			<!-- wp:group {"className":"course-filter-group","style":{"spacing":{"margin":{"top":"var(--wp--preset--spacing--4)"}}}} -->
+			<div class="wp-block-group course-filter-group" style="margin-top:var(--wp--preset--spacing--4)">
+				<!-- wp:heading {"level":3,"className":"course-filter-group__label","style":{"typography":{"fontSize":"0.6875rem","fontWeight":"700","textTransform":"uppercase","letterSpacing":"0.1em"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--2)"}}}} -->
+				<h3 class="wp-block-heading course-filter-group__label" style="font-size:0.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-top:0;margin-bottom:var(--wp--preset--spacing--2);">Level</h3>
+				<!-- /wp:heading -->
+				<!-- wp:html -->
+				<div class="course-filter-checklist">
+					<label class="course-filter-check"><input type="checkbox" name="level" value="foundation"> Foundation</label>
+					<label class="course-filter-check"><input type="checkbox" name="level" value="intermediate"> Intermediate</label>
+					<label class="course-filter-check"><input type="checkbox" name="level" value="advanced"> Advanced</label>
+					<label class="course-filter-check"><input type="checkbox" name="level" value="executive"> Executive</label>
+				</div>
+				<!-- /wp:html -->
+			</div>
+			<!-- /wp:group -->
+
+			<!-- Price Range -->
+			<!-- wp:group {"className":"course-filter-group","style":{"spacing":{"margin":{"top":"var(--wp--preset--spacing--4)"}}}} -->
+			<div class="wp-block-group course-filter-group" style="margin-top:var(--wp--preset--spacing--4)">
+				<!-- wp:heading {"level":3,"className":"course-filter-group__label","style":{"typography":{"fontSize":"0.6875rem","fontWeight":"700","textTransform":"uppercase","letterSpacing":"0.1em"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--2)"}}}} -->
+				<h3 class="wp-block-heading course-filter-group__label" style="font-size:0.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-top:0;margin-bottom:var(--wp--preset--spacing--2);">Price Range</h3>
+				<!-- /wp:heading -->
+				<!-- wp:html -->
+				<div class="course-filter-checklist">
+					<label class="course-filter-check"><input type="radio" name="price" value="under-100"> Under £100</label>
+					<label class="course-filter-check"><input type="radio" name="price" value="100-500"> £100 – £500</label>
+					<label class="course-filter-check"><input type="radio" name="price" value="over-500"> £500+</label>
+				</div>
+				<!-- /wp:html -->
+			</div>
+			<!-- /wp:group -->
+
+			<!-- Duration -->
+			<!-- wp:group {"className":"course-filter-group","style":{"spacing":{"margin":{"top":"var(--wp--preset--spacing--4)"}}}} -->
+			<div class="wp-block-group course-filter-group" style="margin-top:var(--wp--preset--spacing--4)">
+				<!-- wp:heading {"level":3,"className":"course-filter-group__label","style":{"typography":{"fontSize":"0.6875rem","fontWeight":"700","textTransform":"uppercase","letterSpacing":"0.1em"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--2)"}}}} -->
+				<h3 class="wp-block-heading course-filter-group__label" style="font-size:0.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-top:0;margin-bottom:var(--wp--preset--spacing--2);">Duration</h3>
+				<!-- /wp:heading -->
+				<!-- wp:html -->
+				<div class="course-filter-checklist">
+					<label class="course-filter-check"><input type="checkbox" name="duration" value="short"> Under 4 weeks</label>
+					<label class="course-filter-check"><input type="checkbox" name="duration" value="medium"> 4–8 weeks</label>
+					<label class="course-filter-check"><input type="checkbox" name="duration" value="long"> 8–12 weeks</label>
+					<label class="course-filter-check"><input type="checkbox" name="duration" value="extended"> 12+ weeks</label>
+				</div>
+				<!-- /wp:html -->
+			</div>
+			<!-- /wp:group -->
+
+		</div>
+		<!-- /wp:column -->
+
+		<!-- ── COURSE GRID ── -->
+		<!-- wp:column {"className":"course-archive-main"} -->
+		<div class="wp-block-column course-archive-main">
+
+			<!-- Results count + view toggle -->
+			<!-- wp:html -->
+			<div class="course-archive-toolbar">
+				<p class="course-archive-count"><strong>150</strong> courses found</p>
+				<div class="course-archive-view-toggle" role="group" aria-label="View mode">
+					<button class="view-toggle-btn view-toggle-btn--active" data-view="grid" aria-label="Grid view">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+					</button>
+					<button class="view-toggle-btn" data-view="list" aria-label="List view">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+					</button>
+				</div>
+			</div>
+			<!-- /wp:html -->
+
+			<!-- Tutor LMS Course Loop -->
+			<!-- wp:html -->
+			<div class="course-grid" id="course-grid">
+				<?php
+				/**
+				 * Tutor LMS renders its course archive loop here.
+				 * The shortcode [tutor_course] or the archive template
+				 * auto-populates course cards via the loop.
+				 *
+				 * In FSE, Tutor LMS hooks into the block loop via:
+				 *   tutor_after_course_archive_content
+				 *   tutor_before_course_archive_content
+				 *
+				 * The CSS classes below (`.course-card`, etc.) are
+				 * what lms-overrides.css targets to skin the output.
+				 */
+				if ( function_exists( 'tutor_course_loop' ) ) {
+					tutor_course_loop();
+				} else {
+					// Editor placeholder — shows when Tutor isn't active
+					echo '<p style="padding:2rem;text-align:center;color:#888">Tutor LMS course cards will appear here on the live site.</p>';
+				}
+				?>
+			</div>
+			<!-- /wp:html -->
+
+			<!-- Pagination -->
+			<!-- wp:query-pagination {"className":"course-pagination","paginationArrow":"arrow","layout":{"type":"flex","justifyContent":"center"}} -->
+			<div class="wp-block-query-pagination course-pagination">
+				<!-- wp:query-pagination-previous {"label":"Previous"} /-->
+				<!-- wp:query-pagination-numbers /-->
+				<!-- wp:query-pagination-next {"label":"Next"} /-->
+			</div>
+			<!-- /wp:query-pagination -->
+
+		</div>
+		<!-- /wp:column -->
+
+	</div>
+	<!-- /wp:columns -->
+
+</section>
+<!-- /wp:group -->
+
+<!-- CTA BANNER ──────────────────────────────────────────────────── -->
+<!-- wp:group {"tagName":"section","className":"course-archive-cta","style":{"spacing":{"padding":{"top":"var(--wp--preset--spacing--8)","bottom":"var(--wp--preset--spacing--8)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}},"backgroundColor":"primary"},"layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section class="wp-block-group course-archive-cta has-primary-background-color has-background">
+
+	<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","alignItems":"center","gap":"var(--wp--preset--spacing--4)"}} -->
+	<div class="wp-block-group">
+
+		<!-- wp:group {"layout":{"type":"constrained","contentSize":"640px"}} -->
+		<div class="wp-block-group">
+			<!-- wp:heading {"level":2,"textColor":"white","style":{"typography":{"fontSize":"1.75rem","fontWeight":"500","lineHeight":"1.2"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--2)"}}}} -->
+			<h2 class="wp-block-heading has-white-color has-text-color" style="font-size:1.75rem;font-weight:500;line-height:1.2;margin-top:0;margin-bottom:var(--wp--preset--spacing--2);">Can't find what you're looking for?</h2>
+			<!-- /wp:heading -->
+			<!-- wp:paragraph {"style":{"color":{"text":"rgba(255,255,255,0.7)"},"typography":{"fontSize":"1rem"},"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
+			<p style="color:rgba(255,255,255,0.7);font-size:1rem;margin-top:0;margin-bottom:0;">Our team can recommend the right course for your career goals. Get in touch for a free consultation.</p>
+			<!-- /wp:paragraph -->
+		</div>
+		<!-- /wp:group -->
+
+		<!-- wp:buttons -->
+		<div class="wp-block-buttons">
+			<!-- wp:button {"backgroundColor":"accent","textColor":"dark","className":"course-archive-cta__btn","style":{"border":{"radius":"8px"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--2)","bottom":"var(--wp--preset--spacing--2)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}}} -->
+			<div class="wp-block-button course-archive-cta__btn"><a class="wp-block-button__link has-accent-background-color has-dark-color has-background has-text-color" href="/contact/" style="border-radius:8px;padding-top:var(--wp--preset--spacing--2);padding-bottom:var(--wp--preset--spacing--2);padding-left:var(--wp--preset--spacing--4);padding-right:var(--wp--preset--spacing--4);font-weight:700;">Contact Our Team</a></div>
+			<!-- /wp:button -->
+		</div>
+		<!-- /wp:buttons -->
+
+	</div>
+	<!-- /wp:group -->
+
+</section>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

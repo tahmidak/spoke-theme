@@ -1,0 +1,250 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- ═══════════════════════════════════════════════════════════════
+     LOGIN PAGE — page-login.html
+     Spoke Theme · Phase 4
+     Serves [tutor_login] shortcode.
+     WooCommerce login is redirected here via functions.php.
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- wp:group {"tagName":"main","className":"login-page","style":{"spacing":{"padding":{"top":"var(--wp--preset--spacing--12)","bottom":"var(--wp--preset--spacing--12)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}},"minHeight":"100vh","backgroundColor":"light"},"layout":{"type":"constrained","contentSize":"480px"}} -->
+<main class="wp-block-group login-page has-light-background-color has-background">
+
+	<!-- Card wrapper -->
+	<!-- wp:group {"className":"login-card","style":{"border":{"radius":"12px"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--6)","bottom":"var(--wp--preset--spacing--6)","left":"var(--wp--preset--spacing--6)","right":"var(--wp--preset--spacing--6)"}},"shadow":"var(--wp--preset--shadow--enrol-card)","backgroundColor":"white"}} -->
+	<div class="wp-block-group login-card has-white-background-color has-background" style="border-radius:12px;padding:var(--wp--preset--spacing--6);box-shadow:var(--wp--preset--shadow--enrol-card);">
+
+		<!-- Logo / site name -->
+		<!-- wp:site-title {"level":0,"isLink":true,"className":"login-card__logo","style":{"typography":{"fontSize":"1.5rem","fontWeight":"700","letterSpacing":"-0.02em","textDecoration":"none","textAlign":"center"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--1)"}},"elements":{"link":{"color":{"text":"var(--wp--preset--color--primary)"},":hover":{"color":{"text":"var(--wp--preset--color--accent)"}}}}}} /-->
+
+		<!-- Welcome heading -->
+		<!-- wp:heading {"level":2,"textAlign":"center","className":"login-card__heading","style":{"typography":{"fontSize":"1.75rem","fontWeight":"500","lineHeight":"1.2"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--1)"}},"color":{"text":"var(--wp--preset--color--primary)"}}} -->
+		<h2 class="wp-block-heading has-text-align-center login-card__heading has-primary-color has-text-color" style="font-size:1.75rem;font-weight:500;line-height:1.2;margin-top:0;margin-bottom:var(--wp--preset--spacing--1);">Welcome Back</h2>
+		<!-- /wp:heading -->
+
+		<!-- Sub-text -->
+		<!-- wp:paragraph {"textAlign":"center","className":"login-card__sub","style":{"typography":{"fontSize":"0.9375rem"},"color":{"text":"var(--wp--preset--color--on-surface-variant)"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--4)"}}}} -->
+		<p class="has-text-align-center login-card__sub" style="font-size:0.9375rem;color:var(--wp--preset--color--on-surface-variant);margin-top:0;margin-bottom:var(--wp--preset--spacing--4);">Access your learning dashboard</p>
+		<!-- /wp:paragraph -->
+
+		<!-- Tutor LMS login shortcode -->
+		<!-- wp:shortcode -->
+		[tutor_login]
+		<!-- /wp:shortcode -->
+
+		<!-- Divider -->
+		<!-- wp:html -->
+		<div class="login-card__divider" aria-hidden="true">
+			<span>or</span>
+		</div>
+		<!-- /wp:html -->
+
+		<!-- Social login placeholder (activated when WooCommerce Social Login is installed) -->
+		<!-- wp:html -->
+		<div class="login-card__social">
+			<p class="login-card__social-hint">Don't have an account? <a href="/courses/">Browse our courses</a></p>
+		</div>
+		<!-- /wp:html -->
+
+	</div>
+	<!-- /wp:group -->
+
+	<!-- Trust strip below card -->
+	<!-- wp:html -->
+	<div class="login-trust-strip">
+		<span>🔒 SSL Secured</span>
+		<span>·</span>
+		<span>✓ CPD Certified Platform</span>
+		<span>·</span>
+		<span>↩ 30-Day Guarantee</span>
+	</div>
+	<!-- /wp:html -->
+
+</main>
+<!-- /wp:group -->
+
+<!-- LOGIN PAGE STYLES ────────────────────────────────────────────
+     Scoped to this template only. Lives here rather than in global.css
+     because the login page is the only place that needs them.
+     ─────────────────────────────────────────────────────────────── -->
+<!-- wp:html -->
+<style>
+/* ── Login card shell ── */
+.login-page {
+	display:         flex;
+	flex-direction:  column;
+	align-items:     center;
+	justify-content: center;
+}
+
+/* ── Tutor LMS form reset inside the card ── */
+.login-card .tutor-login-form,
+.login-card .woocommerce-form-login {
+	width:   100%;
+	margin:  0;
+	padding: 0;
+}
+
+/* Labels */
+.login-card .tutor-form-group label,
+.login-card .woocommerce-form__label {
+	display:        block;
+	font-size:      11px;
+	font-weight:    700;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color:          var(--wp--preset--color--on-surface-variant);
+	margin-bottom:  6px;
+}
+
+/* Input fields */
+.login-card .tutor-form-control,
+.login-card input[type="text"],
+.login-card input[type="email"],
+.login-card input[type="password"] {
+	width:         100%;
+	height:        48px;
+	padding:       0 var(--wp--preset--spacing--2);
+	background:    var(--wp--preset--color--light);
+	border:        1px solid rgba(0,0,0,0.1);
+	border-radius: 8px;
+	font-family:   var(--wp--preset--font-family--inter);
+	font-size:     var(--wp--preset--font-size--body);
+	color:         #191c1d;
+	transition:    border-color 200ms ease, box-shadow 200ms ease;
+	margin-bottom: var(--wp--preset--spacing--3);
+}
+.login-card input[type="text"]:focus,
+.login-card input[type="email"]:focus,
+.login-card input[type="password"]:focus {
+	outline:      none;
+	border-color: var(--wp--preset--color--accent);
+	box-shadow:   0 0 0 3px rgba(244,167,38,0.15);
+}
+
+/* Remember me */
+.login-card .tutor-form-check,
+.login-card .woocommerce-form__label-for-checkbox {
+	display:     flex;
+	align-items: center;
+	gap:         8px;
+	font-size:   var(--wp--preset--font-size--small);
+	color:       var(--wp--preset--color--on-surface-variant);
+	margin-bottom: var(--wp--preset--spacing--3);
+	cursor:      pointer;
+}
+.login-card input[type="checkbox"] {
+	width:        16px;
+	height:       16px;
+	accent-color: var(--wp--preset--color--primary);
+}
+
+/* Submit button */
+.login-card .tutor-btn-primary,
+.login-card input[type="submit"],
+.login-card button[type="submit"] {
+	width:           100%;
+	height:          52px;
+	background:      var(--wp--preset--color--primary);
+	color:           #ffffff;
+	border:          none;
+	border-radius:   8px;
+	font-family:     var(--wp--preset--font-family--inter);
+	font-size:       1.0625rem;
+	font-weight:     700;
+	cursor:          pointer;
+	transition:      filter 200ms ease, transform 200ms ease;
+	margin-top:      var(--wp--preset--spacing--1);
+}
+.login-card .tutor-btn-primary:hover,
+.login-card input[type="submit"]:hover,
+.login-card button[type="submit"]:hover {
+	filter:    brightness(1.1);
+	transform: translateY(-1px);
+}
+
+/* Lost password link */
+.login-card .tutor-lost-password,
+.login-card .woocommerce-LostPassword a,
+.login-card a[href*="lost-password"] {
+	display:         block;
+	text-align:      center;
+	font-size:       var(--wp--preset--font-size--small);
+	font-weight:     600;
+	color:           var(--wp--preset--color--primary);
+	text-decoration: none;
+	margin-top:      var(--wp--preset--spacing--2);
+}
+.login-card .tutor-lost-password:hover,
+.login-card a[href*="lost-password"]:hover {
+	text-decoration: underline;
+	color:           var(--wp--preset--color--accent);
+}
+
+/* Error messages */
+.login-card .tutor-notice,
+.login-card .woocommerce-error {
+	background:    rgba(186,26,26,0.06);
+	border-left:   4px solid var(--wp--preset--color--error);
+	border-radius: 8px;
+	padding:       var(--wp--preset--spacing--2);
+	font-size:     var(--wp--preset--font-size--small);
+	color:         var(--wp--preset--color--error);
+	margin-bottom: var(--wp--preset--spacing--3);
+}
+
+/* ── Divider ── */
+.login-card__divider {
+	display:         flex;
+	align-items:     center;
+	gap:             var(--wp--preset--spacing--2);
+	margin:          var(--wp--preset--spacing--3) 0;
+}
+.login-card__divider::before,
+.login-card__divider::after {
+	content:    '';
+	flex:       1;
+	height:     1px;
+	background: rgba(0,0,0,0.1);
+}
+.login-card__divider span {
+	font-size:  var(--wp--preset--font-size--small);
+	color:      var(--wp--preset--color--on-surface-variant);
+	flex-shrink: 0;
+}
+
+/* ── Social hint ── */
+.login-card__social-hint {
+	text-align: center;
+	font-size:  var(--wp--preset--font-size--small);
+	color:      var(--wp--preset--color--on-surface-variant);
+	margin:     0;
+}
+.login-card__social-hint a {
+	font-weight:     700;
+	color:           var(--wp--preset--color--primary);
+	text-decoration: none;
+}
+.login-card__social-hint a:hover {
+	text-decoration: underline;
+}
+
+/* ── Trust strip ── */
+.login-trust-strip {
+	display:     flex;
+	flex-wrap:   wrap;
+	align-items: center;
+	justify-content: center;
+	gap:         10px;
+	margin-top:  var(--wp--preset--spacing--4);
+	font-size:   11px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color:       var(--wp--preset--color--on-surface-variant);
+	opacity:     0.7;
+}
+</style>
+<!-- /wp:html -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

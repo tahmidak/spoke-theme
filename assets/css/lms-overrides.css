@@ -1,0 +1,1694 @@
+/**
+ * lms-overrides.css — Spoke Theme · Phase 3
+ *
+ * Skins Tutor LMS output to match the Spoke Design System.
+ * All colour values use CSS custom properties — no hardcoded hex.
+ *
+ * Sections:
+ *  1.  CSS custom-property bridge
+ *  2.  Course Archive — filter bar & sidebar
+ *  3.  Course Archive — course card grid
+ *  4.  Single Course — hero
+ *  5.  Single Course — enrolment card
+ *  6.  Single Course — tabs & curriculum accordion
+ *  7.  Single Course — instructor & reviews
+ *  8.  Student Dashboard — layout shell
+ *  9.  Student Dashboard — welcome banner
+ * 10.  Student Dashboard — course progress cards
+ * 11.  Student Dashboard — certificate card
+ * 12.  Student Dashboard — sidebar navigation
+ * 13.  Global Tutor LMS element resets
+ * 14.  Responsive overrides (≤ 768px)
+ *
+ * @package SpokeTheme
+ */
+
+/* ──────────────────────────────────────────────────────────────────
+   1. CSS CUSTOM-PROPERTY BRIDGE
+   Map theme.json tokens to short aliases used throughout this file.
+   ────────────────────────────────────────────────────────────────── */
+:root {
+	--lms-primary:        var(--wp--preset--color--primary);
+	--lms-accent:         var(--wp--preset--color--accent);
+	--lms-light:          var(--wp--preset--color--light);
+	--lms-dark:           var(--wp--preset--color--dark);
+	--lms-success:        var(--wp--preset--color--success);
+	--lms-surface:        var(--wp--preset--color--surface);
+	--lms-on-surface-var: var(--wp--preset--color--on-surface-variant);
+	--lms-white:          var(--wp--preset--color--white);
+	--lms-error:          var(--wp--preset--color--error);
+
+	--lms-shadow-card:    var(--wp--preset--shadow--card);
+	--lms-shadow-hover:   var(--wp--preset--shadow--card-hover);
+	--lms-shadow-enrol:   var(--wp--preset--shadow--enrol-card);
+
+	--lms-sp-1:  var(--wp--preset--spacing--1);   /* 8px  */
+	--lms-sp-2:  var(--wp--preset--spacing--2);   /* 16px */
+	--lms-sp-3:  var(--wp--preset--spacing--3);   /* 24px */
+	--lms-sp-4:  var(--wp--preset--spacing--4);   /* 32px */
+	--lms-sp-6:  var(--wp--preset--spacing--6);   /* 48px */
+	--lms-sp-8:  var(--wp--preset--spacing--8);   /* 64px */
+	--lms-sp-12: var(--wp--preset--spacing--12);  /* 96px */
+
+	--lms-radius-sm: 4px;
+	--lms-radius:    8px;
+	--lms-radius-lg: 12px;
+
+	--lms-transition: 200ms ease;
+}
+
+
+/* ──────────────────────────────────────────────────────────────────
+   2. COURSE ARCHIVE — FILTER BAR & SIDEBAR
+   ────────────────────────────────────────────────────────────────── */
+
+/* Filter bar container */
+.course-filter-bar__inner {
+	display:         flex;
+	flex-wrap:       wrap;
+	align-items:     center;
+	gap:             var(--lms-sp-2);
+}
+
+/* Search input */
+.course-filter-bar__search {
+	position: relative;
+	flex:     1 1 240px;
+}
+
+.course-filter-bar__search-icon {
+	position:    absolute;
+	left:        12px;
+	top:         50%;
+	transform:   translateY(-50%);
+	color:       var(--lms-on-surface-var);
+	pointer-events: none;
+}
+
+.course-filter-bar__input {
+	width:            100%;
+	height:           44px;
+	padding:          0 var(--lms-sp-2) 0 40px;
+	background:       var(--lms-white);
+	border:           1px solid rgba(0,0,0,0.1);
+	border-radius:    var(--lms-radius);
+	font-family:      var(--wp--preset--font-family--inter);
+	font-size:        var(--wp--preset--font-size--body);
+	color:            var(--wp--custom--color--on-surface, #191c1d);
+	transition:       border-color var(--lms-transition), box-shadow var(--lms-transition);
+}
+.course-filter-bar__input:focus {
+	outline:      none;
+	border-color: var(--lms-accent);
+	box-shadow:   0 0 0 3px rgba(244,167,38,0.15);
+}
+
+/* Category pills */
+.course-filter-bar__pills {
+	display:   flex;
+	flex-wrap: wrap;
+	gap:       var(--lms-sp-1);
+}
+
+.course-filter-pill {
+	height:           34px;
+	padding:          0 var(--lms-sp-2);
+	background:       transparent;
+	border:           1px solid rgba(0,0,0,0.12);
+	border-radius:    var(--lms-radius);
+	font-family:      var(--wp--preset--font-family--inter);
+	font-size:        var(--wp--preset--font-size--small);
+	font-weight:      500;
+	color:            var(--lms-on-surface-var);
+	cursor:           pointer;
+	transition:       background var(--lms-transition), border-color var(--lms-transition), color var(--lms-transition);
+}
+.course-filter-pill:hover {
+	background:   var(--lms-light);
+	border-color: var(--lms-primary);
+	color:        var(--lms-primary);
+}
+.course-filter-pill--active {
+	background:   var(--lms-primary);
+	border-color: var(--lms-primary);
+	color:        var(--lms-white);
+}
+
+/* Sort select */
+.course-filter-bar__select {
+	height:        44px;
+	padding:       0 var(--lms-sp-2);
+	background:    var(--lms-white);
+	border:        1px solid rgba(0,0,0,0.1);
+	border-radius: var(--lms-radius);
+	font-family:   var(--wp--preset--font-family--inter);
+	font-size:     var(--wp--preset--font-size--small);
+	font-weight:   500;
+	color:         var(--lms-on-surface-var);
+	cursor:        pointer;
+	appearance:    none;
+	background-image:    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2343474f' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+	background-repeat:   no-repeat;
+	background-position: right 12px center;
+	padding-right:  36px;
+}
+.course-filter-bar__select:focus {
+	outline:      none;
+	border-color: var(--lms-accent);
+}
+
+/* Trust bar */
+.course-trust-bar__inner {
+	display:         flex;
+	flex-wrap:       wrap;
+	align-items:     center;
+	gap:             var(--lms-sp-3);
+}
+
+.course-trust-badge {
+	display:     flex;
+	align-items: center;
+	gap:         6px;
+	font-size:   var(--wp--preset--font-size--small);
+	font-weight: 600;
+	color:       var(--lms-on-surface-var);
+}
+.course-trust-badge svg {
+	color:       var(--lms-primary);
+	flex-shrink: 0;
+}
+
+/* Sidebar filters */
+.course-archive-sidebar {
+	position: sticky;
+	top:      90px; /* accounts for fixed header */
+}
+
+.course-filter-group__label {
+	color: var(--lms-on-surface-var) !important;
+}
+
+.course-filter-checklist {
+	display:        flex;
+	flex-direction: column;
+	gap:            10px;
+}
+
+.course-filter-check {
+	display:     flex;
+	align-items: center;
+	gap:         8px;
+	font-size:   var(--wp--preset--font-size--small);
+	color:       var(--lms-on-surface-var);
+	cursor:      pointer;
+	transition:  color var(--lms-transition);
+}
+.course-filter-check:hover { color: var(--lms-primary); }
+
+.course-filter-check input[type="checkbox"],
+.course-filter-check input[type="radio"] {
+	width:         16px;
+	height:        16px;
+	accent-color:  var(--lms-primary);
+	flex-shrink:   0;
+	cursor:        pointer;
+}
+
+/* Archive toolbar */
+.course-archive-toolbar {
+	display:         flex;
+	align-items:     center;
+	justify-content: space-between;
+	margin-bottom:   var(--lms-sp-3);
+}
+
+.course-archive-count {
+	font-size:  var(--wp--preset--font-size--small);
+	color:      var(--lms-on-surface-var);
+	margin:     0;
+}
+.course-archive-count strong { color: var(--lms-primary); }
+
+.course-archive-view-toggle {
+	display: flex;
+	gap:     4px;
+}
+.view-toggle-btn {
+	width:         34px;
+	height:        34px;
+	display:       flex;
+	align-items:   center;
+	justify-content: center;
+	background:    transparent;
+	border:        1px solid rgba(0,0,0,0.1);
+	border-radius: var(--lms-radius-sm);
+	color:         var(--lms-on-surface-var);
+	cursor:        pointer;
+	transition:    background var(--lms-transition), color var(--lms-transition);
+}
+.view-toggle-btn--active,
+.view-toggle-btn:hover {
+	background: var(--lms-primary);
+	border-color: var(--lms-primary);
+	color: var(--lms-white);
+}
+
+
+/* ──────────────────────────────────────────────────────────────────
+   3. COURSE ARCHIVE — COURSE CARD GRID
+   Tutor LMS outputs .tutor-course-list and .tutor-course-card-item
+   ────────────────────────────────────────────────────────────────── */
+
+/* Grid wrapper (archive & related courses) */
+.course-grid,
+.related-courses__grid,
+.tutor-course-list {
+	display:               grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap:                   var(--lms-sp-3);
+}
+
+/* Card reset — Tutor LMS */
+.tutor-course-card-item,
+.tutor-course-card {
+	background:    var(--lms-white) !important;
+	border:        none !important;
+	border-radius: var(--lms-radius-lg) !important;
+	box-shadow:    var(--lms-shadow-card) !important;
+	overflow:      hidden !important;
+	display:       flex !important;
+	flex-direction: column !important;
+	transition:    box-shadow var(--lms-transition), transform var(--lms-transition) !important;
+}
+.tutor-course-card-item:hover,
+.tutor-course-card:hover {
+	box-shadow: var(--lms-shadow-hover) !important;
+	transform:  translateY(-3px) !important;
+}
+
+/* Card thumbnail */
+.tutor-course-card-item .tutor-course-thumbnail,
+.tutor-course-card .tutor-course-thumbnail {
+	position:      relative !important;
+	aspect-ratio:  16 / 9 !important;
+	overflow:      hidden !important;
+}
+.tutor-course-card-item .tutor-course-thumbnail img,
+.tutor-course-card .tutor-course-thumbnail img {
+	width:       100% !important;
+	height:      100% !important;
+	object-fit:  cover !important;
+	transition:  transform 400ms ease !important;
+}
+.tutor-course-card-item:hover .tutor-course-thumbnail img,
+.tutor-course-card:hover .tutor-course-thumbnail img {
+	transform: scale(1.05) !important;
+}
+
+/* Accredited badge on thumbnail */
+.tutor-course-card-item .tutor-course-badge,
+.tutor-course-card .tutor-course-badge {
+	position:      absolute !important;
+	top:           12px !important;
+	left:          12px !important;
+	background:    var(--lms-primary) !important;
+	color:         var(--lms-white) !important;
+	font-size:     10px !important;
+	font-weight:   700 !important;
+	letter-spacing: 0.08em !important;
+	text-transform: uppercase !important;
+	padding:       3px 8px !important;
+	border-radius: var(--lms-radius-sm) !important;
+}
+
+/* Card body */
+.tutor-course-card-item .tutor-card-body,
+.tutor-course-card .tutor-card-body {
+	padding:        var(--lms-sp-3) !important;
+	flex:           1 !important;
+	display:        flex !important;
+	flex-direction: column !important;
+}
+
+/* Category */
+.tutor-course-card-item .tutor-course-category,
+.tutor-course-card .tutor-course-category {
+	font-size:      10px !important;
+	font-weight:    700 !important;
+	letter-spacing: 0.1em !important;
+	text-transform: uppercase !important;
+	color:          var(--lms-on-surface-var) !important;
+	margin-bottom:  var(--lms-sp-1) !important;
+}
+
+/* Title */
+.tutor-course-card-item .tutor-course-name a,
+.tutor-course-card .tutor-course-name a {
+	font-size:   var(--wp--preset--font-size--h4) !important;
+	font-weight: 600 !important;
+	line-height: 1.3 !important;
+	color:       var(--lms-primary) !important;
+	text-decoration: none !important;
+	transition:  color var(--lms-transition) !important;
+}
+.tutor-course-card-item .tutor-course-name a:hover,
+.tutor-course-card .tutor-course-name a:hover {
+	color: var(--lms-accent) !important;
+}
+
+/* Instructor */
+.tutor-course-card-item .tutor-course-author,
+.tutor-course-card .tutor-course-author {
+	font-size:     var(--wp--preset--font-size--small) !important;
+	color:         var(--lms-on-surface-var) !important;
+	margin-bottom: var(--lms-sp-2) !important;
+}
+
+/* Star rating */
+.tutor-course-card-item .tutor-rating,
+.tutor-course-card .tutor-rating {
+	display:       flex !important;
+	align-items:   center !important;
+	gap:           4px !important;
+	font-size:     var(--wp--preset--font-size--small) !important;
+	color:         var(--lms-on-surface-var) !important;
+	margin-bottom: var(--lms-sp-2) !important;
+}
+.tutor-course-card-item .tutor-star-rating-group .tutor-icon-star-full,
+.tutor-course-card .tutor-star-rating-group .tutor-icon-star-full {
+	color: var(--lms-accent) !important;
+}
+
+/* Meta row (students · duration) */
+.tutor-course-card-item .tutor-meta,
+.tutor-course-card .tutor-meta {
+	display:     flex !important;
+	gap:         var(--lms-sp-2) !important;
+	font-size:   var(--wp--preset--font-size--small) !important;
+	color:       var(--lms-on-surface-var) !important;
+}
+
+/* Price + CTA row */
+.tutor-course-card-item .tutor-card-footer,
+.tutor-course-card .tutor-card-footer {
+	display:         flex !important;
+	align-items:     center !important;
+	justify-content: space-between !important;
+	padding-top:     var(--lms-sp-2) !important;
+	margin-top:      auto !important;
+	border-top:      1px solid rgba(0,0,0,0.07) !important;
+}
+
+.tutor-course-card-item .tutor-course-price,
+.tutor-course-card .tutor-course-price {
+	font-size:   var(--wp--preset--font-size--h4) !important;
+	font-weight: 700 !important;
+	color:       var(--lms-primary) !important;
+}
+
+/* Enrol now button on card */
+.tutor-course-card-item .tutor-btn,
+.tutor-course-card .tutor-btn,
+.tutor-course-card-item .enroll-btn,
+.tutor-course-card .enroll-btn {
+	height:          40px !important;
+	padding:         0 var(--lms-sp-2) !important;
+	background:      var(--lms-primary) !important;
+	color:           var(--lms-white) !important;
+	border:          none !important;
+	border-radius:   var(--lms-radius) !important;
+	font-family:     var(--wp--preset--font-family--inter) !important;
+	font-size:       var(--wp--preset--font-size--small) !important;
+	font-weight:     700 !important;
+	cursor:          pointer !important;
+	text-decoration: none !important;
+	display:         inline-flex !important;
+	align-items:     center !important;
+	transition:      background var(--lms-transition) !important;
+}
+.tutor-course-card-item .tutor-btn:hover,
+.tutor-course-card .tutor-btn:hover,
+.tutor-course-card-item .enroll-btn:hover,
+.tutor-course-card .enroll-btn:hover {
+	background: var(--lms-accent) !important;
+	color:      var(--lms-dark) !important;
+}
+
+/* Pagination */
+.course-pagination {
+	margin-top: var(--lms-sp-6) !important;
+}
+.wp-block-query-pagination-numbers .page-numbers {
+	display:         inline-flex !important;
+	align-items:     center !important;
+	justify-content: center !important;
+	width:           40px !important;
+	height:          40px !important;
+	border-radius:   var(--lms-radius) !important;
+	font-size:       var(--wp--preset--font-size--small) !important;
+	font-weight:     600 !important;
+	color:           var(--lms-on-surface-var) !important;
+	border:          1px solid rgba(0,0,0,0.1) !important;
+	text-decoration: none !important;
+	transition:      background var(--lms-transition), color var(--lms-transition) !important;
+}
+.wp-block-query-pagination-numbers .page-numbers.current,
+.wp-block-query-pagination-numbers .page-numbers:hover {
+	background:   var(--lms-primary) !important;
+	border-color: var(--lms-primary) !important;
+	color:        var(--lms-white) !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────────────
+   4. SINGLE COURSE — HERO
+   ────────────────────────────────────────────────────────────────── */
+
+.course-hero {
+	position: relative;
+}
+
+.course-hero__layout {
+	align-items: flex-start;
+}
+
+/* Breadcrumb */
+.course-hero__breadcrumb ol {
+	display:         flex;
+	flex-wrap:       wrap;
+	align-items:     center;
+	gap:             6px;
+	list-style:      none;
+	margin:          0 0 var(--lms-sp-2) !important;
+	padding:         0 !important;
+	font-size:       var(--wp--preset--font-size--small);
+}
+.course-hero__breadcrumb li { display: flex; align-items: center; gap: 6px; }
+.course-hero__breadcrumb li:not(:last-child)::after { content: '/'; opacity: 0.4; }
+.course-hero__breadcrumb a {
+	color:           rgba(255,255,255,0.75);
+	text-decoration: none;
+}
+.course-hero__breadcrumb a:hover { color: var(--lms-white); }
+.course-hero__breadcrumb [aria-current="page"] { color: var(--lms-accent); }
+
+/* Badges */
+.course-hero__badges {
+	display:   flex;
+	flex-wrap: wrap;
+	gap:       var(--lms-sp-1);
+	margin-bottom: var(--lms-sp-2);
+}
+
+.course-badge {
+	display:        inline-block;
+	padding:        4px 10px;
+	border-radius:  var(--lms-radius-sm);
+	font-size:      11px;
+	font-weight:    700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+.course-badge--accredited {
+	background: rgba(244,167,38,0.2);
+	color:      var(--lms-accent);
+	border:     1px solid rgba(244,167,38,0.35);
+}
+.course-badge--level,
+.course-badge--duration {
+	background: rgba(255,255,255,0.1);
+	color:      rgba(255,255,255,0.9);
+	border:     1px solid rgba(255,255,255,0.2);
+}
+
+/* Rating row */
+.course-hero__rating {
+	display:     flex;
+	flex-wrap:   wrap;
+	align-items: center;
+	gap:         var(--lms-sp-2);
+	margin-bottom: var(--lms-sp-2);
+}
+
+.course-stars {
+	display:     flex;
+	align-items: center;
+	gap:         6px;
+}
+.course-stars__score {
+	font-weight: 700;
+	color:       var(--lms-accent);
+}
+.course-stars__icons { color: var(--lms-accent); letter-spacing: 1px; }
+.course-stars__count { font-size: var(--wp--preset--font-size--small); color: rgba(255,255,255,0.7); }
+
+.course-hero__separator { color: rgba(255,255,255,0.3); }
+.course-hero__students  { font-size: var(--wp--preset--font-size--small); color: rgba(255,255,255,0.75); }
+
+/* Instructor chip */
+.course-hero__instructor {
+	display:       flex;
+	align-items:   center;
+	gap:           10px;
+	margin-bottom: var(--lms-sp-2);
+}
+.course-hero__instructor-avatar {
+	width:         36px;
+	height:        36px;
+	border-radius: 4px;
+	object-fit:    cover;
+	border:        2px solid rgba(255,255,255,0.3);
+}
+.course-hero__instructor-info {
+	display:        flex;
+	flex-direction: column;
+	gap:            2px;
+}
+.course-hero__instructor-label {
+	font-size: 10px;
+	color:     rgba(255,255,255,0.5);
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+}
+.course-hero__instructor-name {
+	font-size:   var(--wp--preset--font-size--small);
+	font-weight: 600;
+	color:       var(--lms-white);
+}
+
+/* Last updated */
+.course-hero__updated {
+	display:     flex;
+	align-items: center;
+	gap:         6px;
+	font-size:   var(--wp--preset--font-size--small);
+	color:       rgba(255,255,255,0.55);
+	margin:      0;
+}
+.course-hero__updated svg { flex-shrink: 0; }
+
+
+/* ──────────────────────────────────────────────────────────────────
+   5. SINGLE COURSE — ENROLMENT CARD
+   ────────────────────────────────────────────────────────────────── */
+
+.enrol-card {
+	background:    var(--lms-white);
+	border-radius: var(--lms-radius-lg);
+	box-shadow:    var(--lms-shadow-enrol);
+	overflow:      hidden;
+}
+
+/* Card media */
+.enrol-card__media {
+	position:      relative;
+	aspect-ratio:  16 / 9;
+	background:    var(--lms-light);
+	overflow:      hidden;
+}
+.enrol-card__img,
+.enrol-card__media img {
+	width:      100%;
+	height:     100%;
+	object-fit: cover;
+	display:    block;
+}
+
+/* Play button */
+.enrol-card__play-btn {
+	position:        absolute;
+	inset:           0;
+	display:         flex;
+	align-items:     center;
+	justify-content: center;
+	background:      rgba(26,60,110,0.45);
+	border:          none;
+	cursor:          pointer;
+	transition:      background var(--lms-transition);
+}
+.enrol-card__play-btn:hover { background: rgba(26,60,110,0.6); }
+.enrol-card__play-icon {
+	width:         56px;
+	height:        56px;
+	background:    var(--lms-white);
+	border-radius: 50%;
+	display:       flex;
+	align-items:   center;
+	justify-content: center;
+	color:         var(--lms-primary);
+	transition:    transform var(--lms-transition);
+}
+.enrol-card__play-btn:hover .enrol-card__play-icon { transform: scale(1.08); }
+.enrol-card__play-icon svg { width: 24px; height: 24px; margin-left: 3px; }
+
+/* Pricing */
+.enrol-card__pricing {
+	display:     flex;
+	align-items: baseline;
+	flex-wrap:   wrap;
+	gap:         8px;
+	padding:     var(--lms-sp-3) var(--lms-sp-3) 0;
+}
+.enrol-card__price {
+	font-size:   2rem;
+	font-weight: 700;
+	color:       var(--lms-primary);
+	line-height: 1;
+}
+.enrol-card__price-original {
+	font-size:       1rem;
+	color:           var(--lms-on-surface-var);
+	text-decoration: line-through;
+}
+.enrol-card__discount {
+	font-size:   0.75rem;
+	font-weight: 700;
+	color:       var(--lms-error);
+	background:  rgba(186,26,26,0.08);
+	padding:     2px 6px;
+	border-radius: var(--lms-radius-sm);
+}
+
+/* Countdown */
+.enrol-card__countdown {
+	padding:    var(--lms-sp-2) var(--lms-sp-3);
+}
+.enrol-card__countdown-label {
+	font-size:     var(--wp--preset--font-size--small);
+	color:         var(--lms-on-surface-var);
+	margin:        0 0 6px;
+}
+.enrol-card__countdown-timer {
+	display:     flex;
+	align-items: center;
+	gap:         4px;
+}
+.countdown-unit {
+	display:        flex;
+	flex-direction: column;
+	align-items:    center;
+	min-width:      52px;
+	background:     var(--lms-primary);
+	border-radius:  var(--lms-radius-sm);
+	padding:        6px 4px;
+}
+.countdown-num {
+	font-size:   1.25rem;
+	font-weight: 700;
+	color:       var(--lms-white);
+	line-height: 1;
+}
+.countdown-label {
+	font-size:      9px;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color:          rgba(255,255,255,0.65);
+}
+.countdown-sep {
+	font-size:   1.25rem;
+	font-weight: 700;
+	color:       var(--lms-primary);
+}
+
+/* CTA button */
+.enrol-card__cta {
+	display:         block;
+	margin:          var(--lms-sp-2) var(--lms-sp-3);
+	padding:         var(--lms-sp-2) var(--lms-sp-3);
+	background:      var(--lms-accent);
+	color:           var(--lms-dark) !important;
+	border-radius:   var(--lms-radius);
+	font-family:     var(--wp--preset--font-family--inter);
+	font-size:       1.0625rem;
+	font-weight:     700;
+	text-align:      center;
+	text-decoration: none;
+	transition:      filter var(--lms-transition), transform var(--lms-transition);
+}
+.enrol-card__cta:hover {
+	filter:    brightness(1.06);
+	transform: translateY(-1px);
+}
+
+/* Money-back */
+.enrol-card__guarantee {
+	display:         flex;
+	align-items:     center;
+	justify-content: center;
+	gap:             6px;
+	font-size:       var(--wp--preset--font-size--small);
+	font-weight:     600;
+	color:           var(--lms-primary);
+	margin:          0 var(--lms-sp-3) var(--lms-sp-3);
+	padding:         10px var(--lms-sp-2);
+	background:      var(--lms-success);
+	border-radius:   var(--lms-radius);
+}
+.enrol-card__guarantee svg { flex-shrink: 0; }
+
+/* Includes list */
+.enrol-card__includes {
+	list-style:  none;
+	margin:      0 !important;
+	padding:     0 var(--lms-sp-3) var(--lms-sp-3) !important;
+	display:     flex;
+	flex-direction: column;
+	gap:         10px;
+}
+.enrol-card__includes li {
+	display:     flex;
+	align-items: center;
+	gap:         10px;
+	font-size:   var(--wp--preset--font-size--small);
+	color:       var(--lms-on-surface-var);
+}
+.enrol-card__includes svg { color: var(--lms-primary); flex-shrink: 0; }
+
+/* Share / wishlist row */
+.enrol-card__actions {
+	display:         flex;
+	align-items:     center;
+	justify-content: center;
+	gap:             var(--lms-sp-3);
+	padding:         var(--lms-sp-2) var(--lms-sp-3) var(--lms-sp-3);
+	border-top:      1px solid rgba(0,0,0,0.06);
+}
+.enrol-card__action-btn {
+	display:     flex;
+	align-items: center;
+	gap:         6px;
+	background:  none;
+	border:      none;
+	font-family: var(--wp--preset--font-family--inter);
+	font-size:   var(--wp--preset--font-size--small);
+	font-weight: 600;
+	color:       var(--lms-primary);
+	cursor:      pointer;
+	transition:  color var(--lms-transition);
+}
+.enrol-card__action-btn:hover { color: var(--lms-accent); }
+
+/* Sticky enrol card (desktop) */
+.course-sidebar-sticky {
+	position: sticky;
+	top:      90px;
+}
+@media (max-width: 768px) {
+	.course-sidebar-sticky { display: none !important; }
+}
+
+
+/* ──────────────────────────────────────────────────────────────────
+   6. SINGLE COURSE — TABS & CURRICULUM ACCORDION
+   ────────────────────────────────────────────────────────────────── */
+
+/* Tab bar */
+.course-tabs {
+	display:          flex;
+	border-bottom:    2px solid rgba(0,0,0,0.08);
+	margin-bottom:    var(--lms-sp-4);
+	overflow-x:       auto;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width:  none;
+}
+.course-tabs::-webkit-scrollbar { display: none; }
+
+.course-tab {
+	flex-shrink:      0;
+	height:           48px;
+	padding:          0 var(--lms-sp-3);
+	background:       none;
+	border:           none;
+	border-bottom:    2px solid transparent;
+	margin-bottom:    -2px;
+	font-family:      var(--wp--preset--font-family--inter);
+	font-size:        var(--wp--preset--font-size--body);
+	font-weight:      500;
+	color:            var(--lms-on-surface-var);
+	cursor:           pointer;
+	transition:       color var(--lms-transition), border-color var(--lms-transition);
+}
+.course-tab:hover { color: var(--lms-primary); }
+.course-tab--active {
+	color:        var(--lms-primary);
+	font-weight:  700;
+	border-bottom-color: var(--lms-accent);
+}
+
+/* Tab panels */
+.course-tab-panel--hidden { display: none !important; }
+
+/* Section headings inside tabs */
+.course-section-heading {
+	font-size:     var(--wp--preset--font-size--h3);
+	font-weight:   500;
+	color:         var(--lms-primary);
+	margin-top:    0;
+	margin-bottom: var(--lms-sp-3);
+}
+
+/* What you'll learn */
+.course-what-learn {
+	padding: var(--lms-sp-4) !important;
+}
+.course-learn-list {
+	display:               grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap:                   10px;
+	list-style:            none;
+	margin:                0 !important;
+	padding:               0 !important;
+}
+.course-learn-list li {
+	display:     flex;
+	align-items: flex-start;
+	gap:         8px;
+	font-size:   var(--wp--preset--font-size--small);
+	color:       var(--lms-primary);
+}
+.course-learn-list li::before {
+	content:     '✓';
+	color:       var(--lms-primary);
+	font-weight: 700;
+	flex-shrink: 0;
+	margin-top:  1px;
+}
+
+/* Requirements */
+.course-requirements {
+	margin-top: var(--lms-sp-4);
+}
+.course-requirements__list {
+	padding-left: var(--lms-sp-3) !important;
+	margin:       0 !important;
+}
+.course-requirements__list li {
+	font-size:     var(--wp--preset--font-size--small);
+	color:         var(--lms-on-surface-var);
+	margin-bottom: 8px;
+	line-height:   1.6;
+}
+
+/* Curriculum — topic header */
+.tutor-course-content-list {
+	display:        flex;
+	flex-direction: column;
+	gap:            var(--lms-sp-2);
+}
+
+.tutor-course-content-list__topic {
+	border:        1px solid rgba(0,0,0,0.08);
+	border-radius: var(--lms-radius);
+	overflow:      hidden;
+}
+
+.tutor-course-content-list__topic-header {
+	display:         flex;
+	align-items:     center;
+	flex-wrap:       wrap;
+	gap:             8px;
+	padding:         var(--lms-sp-2) var(--lms-sp-3);
+	background:      var(--lms-primary);
+	cursor:          pointer;
+}
+
+.tutor-topic-label {
+	font-size:      10px;
+	font-weight:    700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color:          rgba(255,255,255,0.6);
+	flex-shrink:    0;
+}
+.tutor-topic-title {
+	flex:        1;
+	font-size:   var(--wp--preset--font-size--body);
+	font-weight: 600;
+	color:       var(--lms-white);
+	margin:      0 !important;
+}
+.tutor-topic-meta {
+	font-size:   var(--wp--preset--font-size--small);
+	color:       rgba(255,255,255,0.65);
+	flex-shrink: 0;
+}
+.tutor-topic-toggle {
+	background:  none;
+	border:      none;
+	color:       var(--lms-white);
+	cursor:      pointer;
+	padding:     0;
+	flex-shrink: 0;
+	transition:  transform var(--lms-transition);
+}
+.tutor-topic-toggle[aria-expanded="true"] { transform: rotate(180deg); }
+
+/* Lesson list */
+.tutor-topic-lesson-list {
+	display:  none;
+	list-style: none;
+	margin:   0 !important;
+	padding:  0 !important;
+}
+.tutor-topic-lesson-list.is-open { display: block; }
+
+.tutor-lesson-item {
+	display:         flex;
+	align-items:     center;
+	gap:             10px;
+	padding:         12px var(--lms-sp-3);
+	border-top:      1px solid rgba(0,0,0,0.06);
+	background:      var(--lms-white);
+	transition:      background var(--lms-transition);
+}
+.tutor-lesson-item:hover { background: var(--lms-light); }
+
+.tutor-lesson-icon {
+	color:       var(--lms-primary);
+	flex-shrink: 0;
+}
+.tutor-lesson-title {
+	flex:        1;
+	font-size:   var(--wp--preset--font-size--small);
+	font-weight: 500;
+	color:       var(--lms-on-surface-var);
+}
+.tutor-lesson-meta {
+	font-size:   var(--wp--preset--font-size--small);
+	color:       var(--lms-on-surface-var);
+	flex-shrink: 0;
+	opacity:     0.7;
+}
+.tutor-lesson-lock {
+	color:       var(--lms-on-surface-var);
+	opacity:     0.4;
+	flex-shrink: 0;
+}
+.tutor-lesson-free-badge {
+	font-size:   10px;
+	font-weight: 700;
+	color:       var(--lms-primary);
+	background:  rgba(26,60,110,0.08);
+	padding:     2px 6px;
+	border-radius: var(--lms-radius-sm);
+}
+
+
+/* ──────────────────────────────────────────────────────────────────
+   7. SINGLE COURSE — INSTRUCTOR & REVIEWS
+   ────────────────────────────────────────────────────────────────── */
+
+/* Instructor card */
+.course-instructor-card {
+	display:    flex;
+	flex-wrap:  wrap;
+	gap:        var(--lms-sp-4);
+	background: var(--lms-light);
+	border-radius: var(--lms-radius-lg);
+	padding:    var(--lms-sp-4);
+}
+.course-instructor-card__avatar {
+	width:         120px;
+	height:        120px;
+	border-radius: var(--lms-radius);
+	object-fit:    cover;
+	flex-shrink:   0;
+	box-shadow:    var(--lms-shadow-card);
+}
+.course-instructor-card__info { flex: 1; min-width: 200px; }
+.course-instructor-card__name {
+	font-size:   var(--wp--preset--font-size--h3);
+	font-weight: 500;
+	color:       var(--lms-primary);
+	margin:      0 0 4px;
+}
+.course-instructor-card__title {
+	font-size:   var(--wp--preset--font-size--small);
+	font-weight: 600;
+	color:       var(--lms-accent);
+	margin:      0 0 var(--lms-sp-2);
+}
+.course-instructor-card__stats {
+	display:   flex;
+	flex-wrap: wrap;
+	gap:       var(--lms-sp-2);
+	margin-bottom: var(--lms-sp-2);
+}
+.course-instructor-stat {
+	background:    var(--lms-white);
+	border-radius: var(--lms-radius);
+	padding:       8px var(--lms-sp-2);
+	text-align:    center;
+	box-shadow:    var(--lms-shadow-card);
+}
+.course-instructor-stat strong {
+	display:     block;
+	font-size:   var(--wp--preset--font-size--h4);
+	font-weight: 700;
+	color:       var(--lms-primary);
+}
+.course-instructor-stat span {
+	font-size: 11px;
+	color:     var(--lms-on-surface-var);
+}
+.course-instructor-card__bio {
+	font-size:   var(--wp--preset--font-size--small);
+	color:       var(--lms-on-surface-var);
+	line-height: 1.7;
+	margin:      0;
+}
+
+/* Rating summary */
+.course-rating-summary {
+	display:         flex;
+	flex-wrap:       wrap;
+	align-items:     center;
+	gap:             var(--lms-sp-6);
+	margin-bottom:   var(--lms-sp-4);
+	padding:         var(--lms-sp-4);
+	background:      var(--lms-light);
+	border-radius:   var(--lms-radius-lg);
+}
+.course-rating-summary__score {
+	text-align: center;
+}
+.course-rating-summary__big {
+	display:     block;
+	font-size:   3.5rem;
+	font-weight: 800;
+	color:       var(--lms-accent);
+	line-height: 1;
+}
+.course-rating-summary__stars {
+	display:       block;
+	font-size:     1.25rem;
+	color:         var(--lms-accent);
+	letter-spacing: 2px;
+	margin:        4px 0;
+}
+.course-rating-summary__label {
+	font-size:  var(--wp--preset--font-size--small);
+	font-weight: 600;
+	color:      var(--lms-primary);
+}
+.course-rating-summary__bars {
+	flex:           1;
+	min-width:      200px;
+	display:        flex;
+	flex-direction: column;
+	gap:            8px;
+}
+.course-rating-bar {
+	display:     flex;
+	align-items: center;
+	gap:         var(--lms-sp-2);
+}
+.course-rating-bar__track {
+	flex:              1;
+	height:            8px;
+	background:        rgba(0,0,0,0.08);
+	border-radius:     4px;
+	overflow:          hidden;
+}
+.course-rating-bar__fill {
+	height:         100%;
+	background:     var(--lms-accent);
+	border-radius:  4px;
+	transition:     width 600ms ease;
+}
+.course-rating-bar__pct {
+	width:      36px;
+	text-align: right;
+	font-size:  var(--wp--preset--font-size--small);
+	font-weight: 600;
+	color:      var(--lms-on-surface-var);
+}
+
+/* Review items */
+.tutor-reviews-list {
+	display:        flex;
+	flex-direction: column;
+	gap:            var(--lms-sp-3);
+}
+.tutor-review-item {
+	border-bottom: 1px solid rgba(0,0,0,0.06);
+	padding-bottom: var(--lms-sp-3);
+}
+.tutor-review-item:last-child { border-bottom: none; }
+.tutor-review-item__header {
+	display:     flex;
+	align-items: center;
+	flex-wrap:   wrap;
+	gap:         var(--lms-sp-2);
+	margin-bottom: var(--lms-sp-2);
+}
+.tutor-review-item__avatar {
+	width:         44px;
+	height:        44px;
+	border-radius: 4px;
+	object-fit:    cover;
+	background:    var(--lms-light);
+}
+.tutor-review-item__name {
+	display:   block;
+	font-size: var(--wp--preset--font-size--body);
+	color:     var(--lms-primary);
+}
+.tutor-review-item__role {
+	display:   block;
+	font-size: var(--wp--preset--font-size--small);
+	color:     var(--lms-on-surface-var);
+}
+.tutor-review-item__stars {
+	margin-left:   auto;
+	color:         var(--lms-accent);
+	font-size:     0.875rem;
+	letter-spacing: 1px;
+}
+.tutor-review-item__body {
+	font-size:   var(--wp--preset--font-size--body);
+	color:       var(--lms-on-surface-var);
+	line-height: 1.7;
+	margin:      0;
+	font-style:  normal;
+	border-left: 3px solid var(--lms-accent);
+	padding-left: var(--lms-sp-2);
+}
+
+
+/* ──────────────────────────────────────────────────────────────────
+   8. STUDENT DASHBOARD — LAYOUT SHELL
+   Tutor LMS dashboard outputs .tutor-dashboard, .tutor-dashboard-nav
+   and .tutor-dashboard-content
+   ────────────────────────────────────────────────────────────────── */
+
+.tutor-dashboard {
+	display:    flex;
+	min-height: 100vh;
+	background: var(--lms-light) !important;
+}
+
+/* Sidebar */
+.tutor-dashboard-nav,
+.tutor-student-dashboard-nav {
+	width:          280px !important;
+	flex-shrink:    0 !important;
+	background:     var(--lms-white) !important;
+	border-right:   1px solid rgba(0,0,0,0.06) !important;
+	padding:        var(--lms-sp-4) 0 !important;
+	position:       sticky !important;
+	top:            72px !important;
+	height:         calc(100vh - 72px) !important;
+	overflow-y:     auto !important;
+	scrollbar-width: thin;
+}
+
+/* Dashboard main content */
+.tutor-dashboard-content,
+.tutor-student-dashboard-content {
+	flex:       1 !important;
+	padding:    var(--lms-sp-6) var(--lms-sp-4) var(--lms-sp-12) !important;
+	min-width:  0 !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────────────
+   9. STUDENT DASHBOARD — SIDEBAR NAVIGATION
+   ────────────────────────────────────────────────────────────────── */
+
+/* Nav group */
+.tutor-dashboard-nav ul,
+.tutor-student-dashboard-nav ul {
+	list-style: none !important;
+	margin:     0 !important;
+	padding:    0 !important;
+}
+
+/* Nav items */
+.tutor-dashboard-nav li a,
+.tutor-student-dashboard-nav li a {
+	display:         flex !important;
+	align-items:     center !important;
+	gap:             12px !important;
+	padding:         12px var(--lms-sp-3) !important;
+	font-family:     var(--wp--preset--font-family--inter) !important;
+	font-size:       var(--wp--preset--font-size--body) !important;
+	font-weight:     500 !important;
+	color:           var(--lms-on-surface-var) !important;
+	text-decoration: none !important;
+	border-left:     3px solid transparent !important;
+	transition:      background var(--lms-transition), color var(--lms-transition), border-color var(--lms-transition) !important;
+}
+.tutor-dashboard-nav li a:hover,
+.tutor-student-dashboard-nav li a:hover {
+	background:   var(--lms-light) !important;
+	color:        var(--lms-primary) !important;
+	border-left-color: var(--lms-accent) !important;
+}
+.tutor-dashboard-nav li.active a,
+.tutor-student-dashboard-nav li.current a,
+.tutor-dashboard-nav li a.active,
+.tutor-student-dashboard-nav li a.current {
+	background:         var(--lms-primary) !important;
+	color:              var(--lms-white) !important;
+	border-left-color:  var(--lms-accent) !important;
+	font-weight:        700 !important;
+}
+
+/* Avatar / profile block at sidebar top */
+.tutor-dashboard-profile {
+	padding:         var(--lms-sp-3) var(--lms-sp-3) var(--lms-sp-4) !important;
+	border-bottom:   1px solid rgba(0,0,0,0.06) !important;
+	margin-bottom:   var(--lms-sp-2) !important;
+}
+.tutor-dashboard-profile img {
+	width:         48px !important;
+	height:        48px !important;
+	border-radius: var(--lms-radius) !important;
+	object-fit:    cover !important;
+	margin-bottom: 10px !important;
+}
+.tutor-dashboard-profile__name {
+	font-size:   var(--wp--preset--font-size--body) !important;
+	font-weight: 700 !important;
+	color:       var(--lms-primary) !important;
+	margin:      0 0 2px !important;
+}
+.tutor-dashboard-profile__meta {
+	font-size: var(--wp--preset--font-size--small) !important;
+	color:     var(--lms-on-surface-var) !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────────────
+   10. STUDENT DASHBOARD — WELCOME BANNER
+   ────────────────────────────────────────────────────────────────── */
+
+.tutor-dashboard-welcome,
+.dashboard-welcome-banner {
+	background:    var(--lms-primary) !important;
+	border-radius: var(--lms-radius-lg) !important;
+	padding:       var(--lms-sp-6) var(--lms-sp-6) !important;
+	margin-bottom: var(--lms-sp-6) !important;
+	position:      relative !important;
+	overflow:      hidden !important;
+}
+
+/* Decorative orb */
+.tutor-dashboard-welcome::after,
+.dashboard-welcome-banner::after {
+	content:       '';
+	position:      absolute;
+	top:           -40px;
+	right:         -40px;
+	width:         200px;
+	height:        200px;
+	background:    rgba(244,167,38,0.08);
+	border-radius: 50%;
+	pointer-events: none;
+}
+
+.tutor-dashboard-welcome h1,
+.tutor-dashboard-welcome h2,
+.dashboard-welcome-banner h1,
+.dashboard-welcome-banner h2 {
+	font-size:   clamp(1.5rem, 3vw, 2.5rem) !important;
+	font-weight: 500 !important;
+	color:       var(--lms-white) !important;
+	margin:      0 0 var(--lms-sp-2) !important;
+}
+.tutor-dashboard-welcome p,
+.dashboard-welcome-banner p {
+	color:   rgba(255,255,255,0.75) !important;
+	margin:  0 !important;
+}
+
+/* Stats chips */
+.dashboard-stat-chips {
+	display:   flex;
+	flex-wrap: wrap;
+	gap:       var(--lms-sp-2);
+	margin-top: var(--lms-sp-3);
+}
+.dashboard-stat-chip {
+	display:     flex;
+	align-items: center;
+	gap:         8px;
+	background:  rgba(255,255,255,0.1);
+	border:      1px solid rgba(255,255,255,0.15);
+	border-radius: var(--lms-radius-lg);
+	padding:     6px var(--lms-sp-2);
+}
+.dashboard-stat-chip strong {
+	font-size:   1.125rem;
+	font-weight: 700;
+	color:       var(--lms-accent);
+}
+.dashboard-stat-chip span {
+	font-size:      10px;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color:          rgba(255,255,255,0.65);
+}
+
+
+/* ──────────────────────────────────────────────────────────────────
+   11. STUDENT DASHBOARD — COURSE PROGRESS CARDS
+   Tutor LMS outputs .tutor-course-stats-box or similar.
+   ────────────────────────────────────────────────────────────────── */
+
+.tutor-course-stats-wrap,
+.dashboard-course-grid {
+	display:               grid !important;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+	gap:                   var(--lms-sp-3) !important;
+	margin-top:            var(--lms-sp-4) !important;
+}
+
+/* Progress card */
+.tutor-course-stats-box,
+.dashboard-progress-card {
+	background:    var(--lms-white) !important;
+	border-radius: var(--lms-radius-lg) !important;
+	box-shadow:    var(--lms-shadow-card) !important;
+	overflow:      hidden !important;
+	transition:    box-shadow var(--lms-transition) !important;
+}
+.tutor-course-stats-box:hover,
+.dashboard-progress-card:hover {
+	box-shadow: var(--lms-shadow-hover) !important;
+}
+
+/* Thumbnail */
+.tutor-course-stats-box .tutor-course-thumbnail img,
+.dashboard-progress-card__thumb {
+	width:       100% !important;
+	aspect-ratio: 16 / 9 !important;
+	object-fit:  cover !important;
+}
+
+/* Body */
+.tutor-course-stats-box .tutor-course-stats-body,
+.dashboard-progress-card__body {
+	padding: var(--lms-sp-3) !important;
+}
+
+/* Course title */
+.tutor-course-stats-box .tutor-course-name,
+.dashboard-progress-card__title {
+	font-size:   var(--wp--preset--font-size--h4) !important;
+	font-weight: 600 !important;
+	color:       var(--lms-primary) !important;
+	margin:      0 0 var(--lms-sp-1) !important;
+}
+
+/* Last accessed */
+.tutor-course-stats-box .tutor-last-accessed,
+.dashboard-progress-card__last-access {
+	font-size:     var(--wp--preset--font-size--small) !important;
+	color:         var(--lms-on-surface-var) !important;
+	margin-bottom: var(--lms-sp-2) !important;
+}
+
+/* Progress bar */
+.tutor-course-stats-box .tutor-progress-bar,
+.dashboard-progress-bar {
+	height:        8px !important;
+	background:    rgba(0,0,0,0.07) !important;
+	border-radius: 4px !important;
+	overflow:      hidden !important;
+	margin-bottom: 6px !important;
+}
+.tutor-course-stats-box .tutor-progress-bar-inner,
+.dashboard-progress-bar__fill {
+	height:        100% !important;
+	background:    var(--lms-accent) !important;
+	border-radius: 4px !important;
+	transition:    width 600ms ease !important;
+}
+.tutor-course-stats-box .tutor-progress-value,
+.dashboard-progress-pct {
+	font-size:   var(--wp--preset--font-size--small) !important;
+	font-weight: 700 !important;
+	color:       var(--lms-primary) !important;
+}
+
+/* Continue button */
+.tutor-course-stats-box .tutor-continue-btn,
+.dashboard-progress-card__cta {
+	display:          block !important;
+	margin-top:       var(--lms-sp-2) !important;
+	padding:          10px var(--lms-sp-2) !important;
+	background:       var(--lms-accent) !important;
+	color:            var(--lms-dark) !important;
+	border-radius:    var(--lms-radius) !important;
+	font-family:      var(--wp--preset--font-family--inter) !important;
+	font-size:        var(--wp--preset--font-size--small) !important;
+	font-weight:      700 !important;
+	text-align:       center !important;
+	text-decoration:  none !important;
+	transition:       filter var(--lms-transition) !important;
+}
+.tutor-course-stats-box .tutor-continue-btn:hover,
+.dashboard-progress-card__cta:hover {
+	filter: brightness(1.06) !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────────────
+   12. STUDENT DASHBOARD — CERTIFICATE CARD
+   ────────────────────────────────────────────────────────────────── */
+
+.tutor-certificate-wrap,
+.dashboard-certificate-card {
+	background:    var(--lms-white) !important;
+	border-radius: var(--lms-radius-lg) !important;
+	box-shadow:    var(--lms-shadow-card) !important;
+	padding:       var(--lms-sp-4) !important;
+	border-left:   4px solid var(--lms-accent) !important;
+}
+.tutor-certificate-name,
+.dashboard-certificate-card__title {
+	font-size:   var(--wp--preset--font-size--h4) !important;
+	font-weight: 600 !important;
+	color:       var(--lms-primary) !important;
+	margin:      0 0 4px !important;
+}
+.tutor-certificate-date,
+.dashboard-certificate-card__date {
+	font-size:     var(--wp--preset--font-size--small) !important;
+	color:         var(--lms-on-surface-var) !important;
+	margin-bottom: var(--lms-sp-3) !important;
+	font-style:    italic !important;
+}
+
+/* Download / share buttons */
+.tutor-certificate-wrap .tutor-btn,
+.dashboard-certificate-card .cert-btn {
+	display:         inline-flex !important;
+	align-items:     center !important;
+	gap:             8px !important;
+	padding:         10px var(--lms-sp-3) !important;
+	border-radius:   var(--lms-radius) !important;
+	font-family:     var(--wp--preset--font-family--inter) !important;
+	font-size:       var(--wp--preset--font-size--small) !important;
+	font-weight:     700 !important;
+	text-decoration: none !important;
+	cursor:          pointer !important;
+	transition:      filter var(--lms-transition) !important;
+}
+.tutor-certificate-wrap .tutor-btn-primary,
+.dashboard-certificate-card .cert-btn--primary {
+	background: var(--lms-primary) !important;
+	color:      var(--lms-white) !important;
+}
+.tutor-certificate-wrap .tutor-btn-outline,
+.dashboard-certificate-card .cert-btn--outline {
+	background:  transparent !important;
+	color:       var(--lms-primary) !important;
+	border:      2px solid var(--lms-primary) !important;
+}
+.tutor-certificate-wrap .tutor-btn:hover,
+.dashboard-certificate-card .cert-btn:hover {
+	filter: brightness(1.07) !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────────────
+   13. GLOBAL TUTOR LMS ELEMENT RESETS
+   Overrides default Tutor styling that conflicts with Spoke Design.
+   ────────────────────────────────────────────────────────────────── */
+
+/* Remove Tutor's default box shadows & borders that clash */
+.tutor-wrap *,
+.tutor-dashboard *,
+.tutor-student-dashboard * {
+	box-sizing: border-box;
+}
+
+/* Tutor global btn reset → Spoke primary style */
+.tutor-btn,
+.tutor-button {
+	font-family:  var(--wp--preset--font-family--inter) !important;
+	border-radius: var(--lms-radius) !important;
+}
+
+/* Tutor alert/notice */
+.tutor-alert,
+.tutor-notice {
+	border-radius: var(--lms-radius) !important;
+	border-left:   4px solid var(--lms-primary) !important;
+}
+.tutor-alert-success { border-left-color: #2e7d32 !important; }
+.tutor-alert-error   { border-left-color: var(--lms-error) !important; }
+
+/* Tutor modal */
+.tutor-modal {
+	border-radius: var(--lms-radius-lg) !important;
+}
+.tutor-modal__header {
+	background:    var(--lms-primary) !important;
+	color:         var(--lms-white) !important;
+	border-radius: var(--lms-radius-lg) var(--lms-radius-lg) 0 0 !important;
+}
+.tutor-modal__close {
+	color: rgba(255,255,255,0.7) !important;
+}
+.tutor-modal__close:hover { color: var(--lms-white) !important; }
+
+/* Hide Tutor branding / powered-by in free tier */
+.tutor-powered-by { display: none !important; }
+
+/* WooCommerce enrol button inside Tutor single course */
+.tutor-single-course-btn .woocommerce-button.button,
+.single-course-enroll-btn,
+.tutor-enroll-btn {
+	background:      var(--lms-accent) !important;
+	color:           var(--lms-dark) !important;
+	border:          none !important;
+	border-radius:   var(--lms-radius) !important;
+	font-family:     var(--wp--preset--font-family--inter) !important;
+	font-size:       1.0625rem !important;
+	font-weight:     700 !important;
+	padding:         var(--lms-sp-2) var(--lms-sp-4) !important;
+	width:           100% !important;
+	text-align:      center !important;
+	cursor:          pointer !important;
+	transition:      filter var(--lms-transition) !important;
+}
+.tutor-single-course-btn .woocommerce-button.button:hover,
+.single-course-enroll-btn:hover,
+.tutor-enroll-btn:hover {
+	filter: brightness(1.06) !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────────────
+   14. RESPONSIVE OVERRIDES (≤ 768px)
+   ────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+
+	/* Archive: stack layout */
+	.course-archive-layout {
+		flex-direction: column !important;
+	}
+	.course-archive-sidebar {
+		position: static !important;
+		width:    100% !important;
+		order:    2;
+	}
+	.course-archive-main { order: 1; }
+
+	/* Filter bar stacks */
+	.course-filter-bar__inner {
+		flex-direction: column;
+		align-items:    stretch;
+	}
+	.course-filter-bar__search { flex: none; }
+	.course-filter-bar__pills { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
+
+	/* Trust bar: 2-col on mobile */
+	.course-trust-bar__inner {
+		display:               grid;
+		grid-template-columns: 1fr 1fr;
+		gap:                   var(--lms-sp-2);
+	}
+
+	/* Course grid: single column */
+	.course-grid,
+	.related-courses__grid,
+	.tutor-course-list {
+		grid-template-columns: 1fr !important;
+	}
+
+	/* Single course hero: stack columns */
+	.course-hero__layout {
+		flex-direction: column !important;
+	}
+	.course-hero__meta,
+	.course-hero__enrol-col {
+		flex-basis: 100% !important;
+		width:      100% !important;
+	}
+	.course-hero__enrol-col {
+		order: -1; /* enrol card above content on mobile */
+	}
+
+	/* Single course content: stack */
+	.course-content__layout {
+		flex-direction: column !important;
+	}
+	.course-content__main {
+		flex-basis: 100% !important;
+		width:      100% !important;
+	}
+
+	/* Curriculum list horizontal scroll for module header meta */
+	.tutor-course-content-list__topic-header {
+		flex-wrap: nowrap !important;
+	}
+
+	/* Dashboard: stack sidebar above */
+	.tutor-dashboard {
+		flex-direction: column !important;
+	}
+	.tutor-dashboard-nav,
+	.tutor-student-dashboard-nav {
+		width:    100% !important;
+		position: static !important;
+		height:   auto !important;
+		border-right: none !important;
+		border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+	}
+	.tutor-dashboard-content,
+	.tutor-student-dashboard-content {
+		padding: var(--lms-sp-3) var(--lms-sp-2) var(--lms-sp-8) !important;
+	}
+
+	/* Dashboard course grid: single column */
+	.tutor-course-stats-wrap,
+	.dashboard-course-grid {
+		grid-template-columns: 1fr !important;
+	}
+
+	/* Instructor card: stack */
+	.course-instructor-card {
+		flex-direction: column !important;
+	}
+	.course-instructor-card__avatar {
+		width:  80px !important;
+		height: 80px !important;
+	}
+
+	/* Rating summary: stack */
+	.course-rating-summary {
+		flex-direction: column !important;
+		align-items:    flex-start !important;
+	}
+
+	/* What you'll learn: single col */
+	.course-learn-list {
+		grid-template-columns: 1fr !important;
+	}
+}

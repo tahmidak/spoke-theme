@@ -1,0 +1,512 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SINGLE COURSE — single-course.html
+     Spoke Theme · Phase 3
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- COURSE HERO ─────────────────────────────────────────────────── -->
+<!-- wp:group {"tagName":"section","className":"course-hero","style":{"background":{"gradient":"var(--wp--preset--gradient--hero-navy)"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--8)","bottom":"var(--wp--preset--spacing--8)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}},"layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section class="wp-block-group course-hero" style="background:var(--wp--preset--gradient--hero-navy);">
+
+	<!-- wp:columns {"className":"course-hero__layout","style":{"spacing":{"blockGap":{"left":"var(--wp--preset--spacing--8)"}}}} -->
+	<div class="wp-block-columns course-hero__layout">
+
+		<!-- ── Left: Course Meta (65%) ── -->
+		<!-- wp:column {"width":"65%","className":"course-hero__meta"} -->
+		<div class="wp-block-column course-hero__meta" style="flex-basis:65%">
+
+			<!-- Breadcrumb -->
+			<!-- wp:html -->
+			<nav class="course-hero__breadcrumb" aria-label="Breadcrumb">
+				<ol>
+					<li><a href="/">Home</a></li>
+					<li><a href="/courses/">Courses</a></li>
+					<li aria-current="page">Course Title</li>
+				</ol>
+			</nav>
+			<!-- /wp:html -->
+
+			<!-- Badges row -->
+			<!-- wp:html -->
+			<div class="course-hero__badges">
+				<span class="course-badge course-badge--accredited">CPD Accredited</span>
+				<span class="course-badge course-badge--level">Advanced Level</span>
+				<span class="course-badge course-badge--duration">12 Weeks</span>
+			</div>
+			<!-- /wp:html -->
+
+			<!-- Title -->
+			<!-- wp:post-title {"level":1,"textColor":"white","className":"course-hero__title","style":{"typography":{"fontSize":"clamp(1.75rem,4vw,2.75rem)","fontWeight":"500","lineHeight":"1.2","letterSpacing":"-0.02em"},"spacing":{"margin":{"top":"var(--wp--preset--spacing--2)","bottom":"var(--wp--preset--spacing--3)"}}}} /-->
+
+			<!-- Rating row -->
+			<!-- wp:html -->
+			<div class="course-hero__rating">
+				<div class="course-stars" aria-label="4.9 out of 5 stars">
+					<span class="course-stars__score">4.9</span>
+					<span class="course-stars__icons" aria-hidden="true">★★★★★</span>
+					<span class="course-stars__count">(1,240 reviews)</span>
+				</div>
+				<span class="course-hero__separator" aria-hidden="true">·</span>
+				<span class="course-hero__students">3,500+ students enrolled</span>
+			</div>
+			<!-- /wp:html -->
+
+			<!-- Instructor -->
+			<!-- wp:html -->
+			<div class="course-hero__instructor">
+				<img
+					src=""
+					alt="Instructor photo"
+					class="course-hero__instructor-avatar"
+					width="36"
+					height="36"
+					loading="lazy"
+				/>
+				<div class="course-hero__instructor-info">
+					<span class="course-hero__instructor-label">Instructor</span>
+					<span class="course-hero__instructor-name">Dr. Sarah Jenkins</span>
+				</div>
+			</div>
+			<!-- /wp:html -->
+
+			<!-- Last updated -->
+			<!-- wp:html -->
+			<p class="course-hero__updated">
+				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+				Last updated <time>October 2024</time>
+			</p>
+			<!-- /wp:html -->
+
+		</div>
+		<!-- /wp:column -->
+
+		<!-- ── Right: Enrolment Card (35%) ── -->
+		<!-- wp:column {"width":"35%","className":"course-hero__enrol-col"} -->
+		<div class="wp-block-column course-hero__enrol-col" style="flex-basis:35%">
+
+			<!-- wp:html -->
+			<div class="enrol-card" id="enrol-card">
+
+				<!-- Course preview image / video -->
+				<div class="enrol-card__media">
+					<!-- wp:post-featured-image {"className":"enrol-card__img","isLink":false} /-->
+					<button class="enrol-card__play-btn" aria-label="Watch course preview">
+						<span class="enrol-card__play-icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+						</span>
+					</button>
+				</div>
+
+				<!-- Price -->
+				<div class="enrol-card__pricing">
+					<span class="enrol-card__price">£299</span>
+					<span class="enrol-card__price-original">£450</span>
+					<span class="enrol-card__discount">33% OFF</span>
+				</div>
+
+				<!-- Countdown (conditionally shown via functions.php) -->
+				<div class="enrol-card__countdown" aria-label="Offer expires in">
+					<p class="enrol-card__countdown-label">Offer ends in</p>
+					<div class="enrol-card__countdown-timer" data-end="2024-12-31T23:59:59">
+						<div class="countdown-unit"><span class="countdown-num" data-unit="hours">00</span><span class="countdown-label">hrs</span></div>
+						<div class="countdown-sep" aria-hidden="true">:</div>
+						<div class="countdown-unit"><span class="countdown-num" data-unit="minutes">00</span><span class="countdown-label">min</span></div>
+						<div class="countdown-sep" aria-hidden="true">:</div>
+						<div class="countdown-unit"><span class="countdown-num" data-unit="seconds">00</span><span class="countdown-label">sec</span></div>
+					</div>
+				</div>
+
+				<!-- CTA -->
+				<a href="?add-to-cart=PRODUCT_ID" class="enrol-card__cta">Enrol Now</a>
+
+				<!-- Money-back -->
+				<p class="enrol-card__guarantee">
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+					30-Day Money-Back Guarantee
+				</p>
+
+				<!-- Course includes -->
+				<ul class="enrol-card__includes">
+					<li>
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="9 9 10 17 12 13 14 17 15 9"/></svg>
+						Lifetime access to all materials
+					</li>
+					<li>
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+						24 downloadable resources
+					</li>
+					<li>
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+						Mobile &amp; tablet friendly
+					</li>
+					<li>
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" width="16" height="16" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+						Accredited certificate on completion
+					</li>
+				</ul>
+
+				<!-- Share / wishlist -->
+				<div class="enrol-card__actions">
+					<button class="enrol-card__action-btn" aria-label="Add to wishlist">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+						Wishlist
+					</button>
+					<button class="enrol-card__action-btn" aria-label="Share this course">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+						Share
+					</button>
+				</div>
+
+			</div>
+			<!-- /wp:html -->
+
+		</div>
+		<!-- /wp:column -->
+
+	</div>
+	<!-- /wp:columns -->
+
+</section>
+<!-- /wp:group -->
+
+<!-- COURSE CONTENT ──────────────────────────────────────────────── -->
+<!-- wp:group {"tagName":"section","className":"course-content","style":{"spacing":{"padding":{"top":"var(--wp--preset--spacing--8)","bottom":"var(--wp--preset--spacing--12)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}},"layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section class="wp-block-group course-content">
+
+	<!-- wp:columns {"className":"course-content__layout","style":{"spacing":{"blockGap":{"left":"var(--wp--preset--spacing--8)"}}}} -->
+	<div class="wp-block-columns course-content__layout">
+
+		<!-- ── Main content (65%) ── -->
+		<!-- wp:column {"width":"65%","className":"course-content__main"} -->
+		<div class="wp-block-column course-content__main" style="flex-basis:65%">
+
+			<!-- Tab navigation -->
+			<!-- wp:html -->
+			<nav class="course-tabs" aria-label="Course sections">
+				<button class="course-tab course-tab--active" data-tab="overview" aria-selected="true">Overview</button>
+				<button class="course-tab" data-tab="curriculum" aria-selected="false">Curriculum</button>
+				<button class="course-tab" data-tab="instructor" aria-selected="false">Instructor</button>
+				<button class="course-tab" data-tab="reviews" aria-selected="false">Reviews</button>
+			</nav>
+			<!-- /wp:html -->
+
+			<!-- ─── Tab: Overview ─── -->
+			<!-- wp:html -->
+			<div class="course-tab-panel" id="tab-overview" role="tabpanel" aria-labelledby="tab-overview-btn">
+			<!-- /wp:html -->
+
+				<!-- What you'll learn -->
+				<!-- wp:group {"className":"course-what-learn","style":{"spacing":{"margin":{"top":"var(--wp--preset--spacing--4)","bottom":"var(--wp--preset--spacing--6)"}},"border":{"radius":"8px"},"backgroundColor":"success"}} -->
+				<div class="wp-block-group course-what-learn has-success-background-color has-background" style="border-radius:8px;margin-top:var(--wp--preset--spacing--4);margin-bottom:var(--wp--preset--spacing--6);">
+
+					<!-- wp:heading {"level":2,"style":{"typography":{"fontSize":"1.25rem","fontWeight":"600"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--3)"}}}} -->
+					<h2 class="wp-block-heading" style="font-size:1.25rem;font-weight:600;margin-top:0;margin-bottom:var(--wp--preset--spacing--3);">What you'll learn</h2>
+					<!-- /wp:heading -->
+
+					<!-- wp:html -->
+					<ul class="course-learn-list">
+						<li>Design and implement digital transformation frameworks across organisations</li>
+						<li>Master stakeholder management in complex, changing environments</li>
+						<li>Utilise data analytics to drive strategic decision-making</li>
+						<li>Build and lead high-performance agile teams</li>
+						<li>Earn an accredited certificate recognised by UK employers</li>
+						<li>Access CPD hours for professional development portfolios</li>
+					</ul>
+					<!-- /wp:html -->
+
+				</div>
+				<!-- /wp:group -->
+
+				<!-- Description -->
+				<!-- wp:group {"className":"course-description"} -->
+				<div class="wp-block-group course-description">
+					<!-- wp:heading {"level":2,"style":{"typography":{"fontSize":"1.25rem","fontWeight":"600"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--3)"}}}} -->
+					<h2 class="wp-block-heading" style="font-size:1.25rem;font-weight:600;margin-top:0;margin-bottom:var(--wp--preset--spacing--3);">Course Description</h2>
+					<!-- /wp:heading -->
+					<!-- wp:post-content {"className":"course-description__body"} /-->
+				</div>
+				<!-- /wp:group -->
+
+				<!-- Requirements -->
+				<!-- wp:html -->
+				<div class="course-requirements">
+					<h2 class="course-section-heading">Requirements</h2>
+					<ul class="course-requirements__list">
+						<li>No prior certification required — suitable for professionals with 2+ years of work experience</li>
+						<li>A device with internet access (desktop or mobile)</li>
+						<li>Approximately 4–6 hours per week commitment</li>
+					</ul>
+				</div>
+				<!-- /wp:html -->
+
+			<!-- wp:html -->
+			</div><!-- end tab-overview -->
+			<!-- /wp:html -->
+
+			<!-- ─── Tab: Curriculum ─── -->
+			<!-- wp:html -->
+			<div class="course-tab-panel course-tab-panel--hidden" id="tab-curriculum" role="tabpanel" aria-labelledby="tab-curriculum-btn">
+
+				<h2 class="course-section-heading">Course Curriculum</h2>
+
+				<!--
+					Tutor LMS renders the curriculum accordion automatically
+					when it detects a single course template. The class names
+					below allow lms-overrides.css to re-skin the Tutor output.
+
+					The following placeholder shows the expected markup shape:
+				-->
+				<div class="tutor-course-content-list">
+					<div class="tutor-course-content-list__topic">
+						<div class="tutor-course-content-list__topic-header">
+							<span class="tutor-topic-label">Module 01</span>
+							<h3 class="tutor-topic-title">Foundations of Strategic Leadership</h3>
+							<span class="tutor-topic-meta">4 Lessons · 45 min</span>
+							<button class="tutor-topic-toggle" aria-expanded="true" aria-label="Toggle module">
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+							</button>
+						</div>
+						<ul class="tutor-topic-lesson-list">
+							<li class="tutor-lesson-item tutor-lesson-item--free">
+								<svg class="tutor-lesson-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+								<span class="tutor-lesson-title">Welcome &amp; Course Orientation</span>
+								<span class="tutor-lesson-meta">5 min</span>
+								<span class="tutor-lesson-free-badge">Free Preview</span>
+							</li>
+							<li class="tutor-lesson-item">
+								<svg class="tutor-lesson-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+								<span class="tutor-lesson-title">History of Strategic Management</span>
+								<span class="tutor-lesson-meta">12 min</span>
+								<svg class="tutor-lesson-lock" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+							</li>
+							<li class="tutor-lesson-item">
+								<svg class="tutor-lesson-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+								<span class="tutor-lesson-title">Reading: Core Frameworks PDF</span>
+								<span class="tutor-lesson-meta">PDF</span>
+								<svg class="tutor-lesson-lock" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+							</li>
+							<li class="tutor-lesson-item">
+								<svg class="tutor-lesson-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+								<span class="tutor-lesson-title">Quiz: Strategy Foundations</span>
+								<span class="tutor-lesson-meta">10 questions</span>
+								<svg class="tutor-lesson-lock" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+							</li>
+						</ul>
+					</div>
+
+					<div class="tutor-course-content-list__topic">
+						<div class="tutor-course-content-list__topic-header">
+							<span class="tutor-topic-label">Module 02</span>
+							<h3 class="tutor-topic-title">Leadership in a Volatile World</h3>
+							<span class="tutor-topic-meta">6 Lessons · 1h 20 min</span>
+							<button class="tutor-topic-toggle" aria-expanded="false" aria-label="Toggle module">
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+							</button>
+						</div>
+					</div>
+
+					<div class="tutor-course-content-list__topic">
+						<div class="tutor-course-content-list__topic-header">
+							<span class="tutor-topic-label">Module 03</span>
+							<h3 class="tutor-topic-title">Data-Driven Decision Making</h3>
+							<span class="tutor-topic-meta">5 Lessons · 55 min</span>
+							<button class="tutor-topic-toggle" aria-expanded="false" aria-label="Toggle module">
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+							</button>
+						</div>
+					</div>
+				</div>
+
+			</div><!-- end tab-curriculum -->
+			<!-- /wp:html -->
+
+			<!-- ─── Tab: Instructor ─── -->
+			<!-- wp:html -->
+			<div class="course-tab-panel course-tab-panel--hidden" id="tab-instructor" role="tabpanel" aria-labelledby="tab-instructor-btn">
+
+				<h2 class="course-section-heading">Your Instructor</h2>
+
+				<div class="course-instructor-card">
+					<img src="" alt="Instructor portrait" class="course-instructor-card__avatar" width="120" height="120" loading="lazy" />
+					<div class="course-instructor-card__info">
+						<h3 class="course-instructor-card__name">Dr. Sarah Jenkins</h3>
+						<p class="course-instructor-card__title">PhD in Organisational Leadership · Ex-McKinsey Senior Partner</p>
+						<div class="course-instructor-card__stats">
+							<div class="course-instructor-stat"><strong>12,400+</strong><span>Students</span></div>
+							<div class="course-instructor-stat"><strong>8</strong><span>Courses</span></div>
+							<div class="course-instructor-stat"><strong>4.9</strong><span>Avg Rating</span></div>
+						</div>
+						<p class="course-instructor-card__bio">With over 20 years in management consulting and executive coaching, Dr. Jenkins has helped FTSE 100 companies navigate digital transformation. She specialises in behavioural economics and evidence-based strategic planning.</p>
+					</div>
+				</div>
+
+			</div><!-- end tab-instructor -->
+			<!-- /wp:html -->
+
+			<!-- ─── Tab: Reviews ─── -->
+			<!-- wp:html -->
+			<div class="course-tab-panel course-tab-panel--hidden" id="tab-reviews" role="tabpanel" aria-labelledby="tab-reviews-btn">
+
+				<h2 class="course-section-heading">Student Reviews</h2>
+
+				<!-- Rating summary -->
+				<div class="course-rating-summary">
+					<div class="course-rating-summary__score">
+						<span class="course-rating-summary__big">4.9</span>
+						<span class="course-rating-summary__stars" aria-hidden="true">★★★★★</span>
+						<span class="course-rating-summary__label">Course Rating</span>
+					</div>
+					<div class="course-rating-summary__bars">
+						<div class="course-rating-bar">
+							<div class="course-rating-bar__track"><div class="course-rating-bar__fill" style="width:92%"></div></div>
+							<span class="course-rating-bar__pct">92%</span>
+						</div>
+						<div class="course-rating-bar">
+							<div class="course-rating-bar__track"><div class="course-rating-bar__fill" style="width:6%"></div></div>
+							<span class="course-rating-bar__pct">6%</span>
+						</div>
+						<div class="course-rating-bar">
+							<div class="course-rating-bar__track"><div class="course-rating-bar__fill" style="width:2%"></div></div>
+							<span class="course-rating-bar__pct">2%</span>
+						</div>
+						<div class="course-rating-bar">
+							<div class="course-rating-bar__track"><div class="course-rating-bar__fill" style="width:0%"></div></div>
+							<span class="course-rating-bar__pct">0%</span>
+						</div>
+						<div class="course-rating-bar">
+							<div class="course-rating-bar__track"><div class="course-rating-bar__fill" style="width:0%"></div></div>
+							<span class="course-rating-bar__pct">0%</span>
+						</div>
+					</div>
+				</div>
+
+				<!--
+					Tutor LMS renders the actual review list here.
+					lms-overrides.css targets .tutor-reviews-list, etc.
+				-->
+				<div class="tutor-reviews-list">
+					<article class="tutor-review-item">
+						<div class="tutor-review-item__header">
+							<img src="" alt="" class="tutor-review-item__avatar" width="44" height="44" loading="lazy" />
+							<div>
+								<strong class="tutor-review-item__name">James Whitaker</strong>
+								<span class="tutor-review-item__role">Senior Project Manager</span>
+							</div>
+							<span class="tutor-review-item__stars" aria-label="5 stars">★★★★★</span>
+						</div>
+						<blockquote class="tutor-review-item__body">Within three months of completing this course I secured a promotion to Senior level. Truly a career-changing platform. The curriculum is incredibly thorough and the instructor's real-world experience shows in every lesson.</blockquote>
+					</article>
+					<article class="tutor-review-item">
+						<div class="tutor-review-item__header">
+							<img src="" alt="" class="tutor-review-item__avatar" width="44" height="44" loading="lazy" />
+							<div>
+								<strong class="tutor-review-item__name">Emily Chen</strong>
+								<span class="tutor-review-item__role">Operations Lead</span>
+							</div>
+							<span class="tutor-review-item__stars" aria-label="5 stars">★★★★★</span>
+						</div>
+						<blockquote class="tutor-review-item__body">As a busy professional, I needed flexibility without sacrificing quality. StudyMate Central provided both. The accreditation is respected everywhere in the UK market.</blockquote>
+					</article>
+				</div>
+
+			</div><!-- end tab-reviews -->
+			<!-- /wp:html -->
+
+		</div>
+		<!-- /wp:column -->
+
+		<!-- ── Sticky sidebar (35%) — desktop only ── -->
+		<!-- wp:column {"width":"35%","className":"course-content__sidebar"} -->
+		<div class="wp-block-column course-content__sidebar" style="flex-basis:35%">
+			<!-- Sticky enrol card clone (desktop) — hidden on mobile -->
+			<!-- wp:html -->
+			<div class="course-sidebar-sticky" aria-hidden="true">
+				<!-- JS clones #enrol-card here on scroll past hero on desktop -->
+			</div>
+			<!-- /wp:html -->
+		</div>
+		<!-- /wp:column -->
+
+	</div>
+	<!-- /wp:columns -->
+
+</section>
+<!-- /wp:group -->
+
+<!-- RELATED COURSES ─────────────────────────────────────────────── -->
+<!-- wp:group {"tagName":"section","className":"related-courses","backgroundColor":"light","style":{"spacing":{"padding":{"top":"var(--wp--preset--spacing--8)","bottom":"var(--wp--preset--spacing--8)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}},"layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section class="wp-block-group related-courses has-light-background-color has-background">
+
+	<!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","alignItems":"flex-end"},"style":{"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--4)"}}}} -->
+	<div class="wp-block-group" style="margin-bottom:var(--wp--preset--spacing--4);">
+		<!-- wp:heading {"level":2,"style":{"typography":{"fontSize":"1.5rem","fontWeight":"500"},"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
+		<h2 class="wp-block-heading" style="font-size:1.5rem;font-weight:500;margin-top:0;margin-bottom:0;">Continue Your Learning</h2>
+		<!-- /wp:heading -->
+		<!-- wp:paragraph {"style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
+		<p style="margin-top:0;margin-bottom:0;"><a href="/courses/">View all courses →</a></p>
+		<!-- /wp:paragraph -->
+	</div>
+	<!-- /wp:group -->
+
+	<!-- Related course cards — Tutor LMS shortcode -->
+	<!-- wp:html -->
+	<div class="related-courses__grid">
+		<?php
+		if ( function_exists( 'do_shortcode' ) ) {
+			echo do_shortcode( '[tutor_course id="" exclude_ids="" category="" tag="" orderby="rating" order="DESC" count="3"]' );
+		}
+		?>
+	</div>
+	<!-- /wp:html -->
+
+</section>
+<!-- /wp:group -->
+
+<!-- TAB SWITCHER JS ─────────────────────────────────────────────── -->
+<!-- wp:html -->
+<script>
+( function () {
+	'use strict';
+
+	var tabs    = document.querySelectorAll( '.course-tab' );
+	var panels  = document.querySelectorAll( '.course-tab-panel' );
+
+	if ( ! tabs.length ) return;
+
+	tabs.forEach( function ( tab ) {
+		tab.addEventListener( 'click', function () {
+			var target = this.dataset.tab;
+
+			tabs.forEach( function ( t ) {
+				t.classList.remove( 'course-tab--active' );
+				t.setAttribute( 'aria-selected', 'false' );
+			} );
+			panels.forEach( function ( p ) {
+				p.classList.add( 'course-tab-panel--hidden' );
+			} );
+
+			this.classList.add( 'course-tab--active' );
+			this.setAttribute( 'aria-selected', 'true' );
+
+			var panel = document.getElementById( 'tab-' + target );
+			if ( panel ) panel.classList.remove( 'course-tab-panel--hidden' );
+		} );
+	} );
+
+	// Curriculum topic accordion
+	document.querySelectorAll( '.tutor-topic-toggle' ).forEach( function ( btn ) {
+		btn.addEventListener( 'click', function () {
+			var expanded = this.getAttribute( 'aria-expanded' ) === 'true';
+			var header   = this.closest( '.tutor-course-content-list__topic' );
+			var list     = header && header.querySelector( '.tutor-topic-lesson-list' );
+
+			this.setAttribute( 'aria-expanded', String( ! expanded ) );
+			if ( list ) list.classList.toggle( 'is-open', ! expanded );
+		} );
+	} );
+} )();
+</script>
+<!-- /wp:html -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

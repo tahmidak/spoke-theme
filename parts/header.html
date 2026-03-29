@@ -1,32 +1,193 @@
-/**
- * header-scroll.js — Spoke Theme
- *
- * Adds/removes the `.is-scrolled` class on `.site-header`
- * as the user scrolls. Used by global.css to apply the
- * subtle box-shadow on scroll.
- *
- * No dependencies. Enqueued in the footer via functions.php.
- *
- * @package SpokeTheme
- */
-( function () {
-	'use strict';
+<!-- wp:group {"tagName":"header","className":"site-header","style":{"position":{"type":"sticky","top":"0px"},"spacing":{"padding":{"top":"0","bottom":"0","left":"0","right":"0"}},"zIndex":50},"backgroundColor":"white","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<header class="wp-block-group site-header has-white-background-color has-background">
 
-	var header = document.querySelector( '.site-header' );
-	if ( ! header ) return;
+	<!-- wp:group {"className":"site-header__inner","style":{"spacing":{"padding":{"top":"0","bottom":"0","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","alignItems":"center"}} -->
+	<div class="wp-block-group site-header__inner">
 
-	var THRESHOLD = 8; // px scrolled before class is added
+		<!-- ── Logo / Site Title ── -->
+		<!-- wp:site-title {"level":0,"isLink":true,"className":"site-header__logo","style":{"typography":{"fontSize":"1.25rem","fontWeight":"700","letterSpacing":"-0.02em","textDecoration":"none"},"elements":{"link":{"color":{"text":"var(--wp--preset--color--primary)"},":hover":{"color":{"text":"var(--wp--preset--color--accent)"}}}}}} /-->
 
-	function onScroll() {
-		if ( window.scrollY > THRESHOLD ) {
-			header.classList.add( 'is-scrolled' );
-		} else {
-			header.classList.remove( 'is-scrolled' );
-		}
+		<!-- ── Desktop Navigation ── -->
+		<!-- wp:navigation {"className":"site-header__nav","overlayMenu":"mobile","style":{"typography":{"fontWeight":"500","fontSize":"var(--wp--preset--font-size--body)"},"spacing":{"blockGap":"var(--wp--preset--spacing--4)"}},"layout":{"type":"flex","justifyContent":"flex-start","flexWrap":"nowrap"}} -->
+			<!-- wp:navigation-link {"label":"Home","url":"/","isTopLevelLink":true} /-->
+			<!-- wp:navigation-link {"label":"Courses","url":"/courses/","isTopLevelLink":true} /-->
+			<!-- wp:navigation-link {"label":"Hot Deals","url":"/hot-deals/","isTopLevelLink":true} /-->
+			<!-- wp:navigation-link {"label":"About","url":"/about/","isTopLevelLink":true} /-->
+			<!-- wp:navigation-link {"label":"Contact","url":"/contact/","isTopLevelLink":true} /-->
+		<!-- /wp:navigation -->
+
+		<!-- ── Right: CTA + Account ── -->
+		<!-- wp:group {"className":"site-header__actions","layout":{"type":"flex","flexWrap":"nowrap","alignItems":"center","gap":"var(--wp--preset--spacing--2)"}} -->
+		<div class="wp-block-group site-header__actions">
+
+			<!-- My Dashboard (shown when logged in — controlled via CSS) -->
+			<!-- wp:html -->
+			<a href="/dashboard/" class="site-header__dashboard-link">My Dashboard</a>
+			<!-- /wp:html -->
+
+			<!-- Browse Courses CTA button -->
+			<!-- wp:buttons -->
+			<div class="wp-block-buttons">
+				<!-- wp:button {"backgroundColor":"accent","textColor":"primary","className":"site-header__cta","style":{"border":{"radius":"8px"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--1)","bottom":"var(--wp--preset--spacing--1)","left":"var(--wp--preset--spacing--3)","right":"var(--wp--preset--spacing--3)"}},"typography":{"fontWeight":"700","fontSize":"var(--wp--preset--font-size--body)"}}} -->
+				<div class="wp-block-button site-header__cta">
+					<a class="wp-block-button__link has-accent-background-color has-primary-color has-background has-text-color" href="/courses/" style="border-radius:8px;padding:var(--wp--preset--spacing--1) var(--wp--preset--spacing--3);font-weight:700;">Browse Courses</a>
+				</div>
+				<!-- /wp:button -->
+			</div>
+			<!-- /wp:buttons -->
+
+		</div>
+		<!-- /wp:group -->
+
+	</div>
+	<!-- /wp:group -->
+
+</header>
+<!-- /wp:group -->
+
+<!-- HEADER STYLES ───────────────────────────────────────────────
+     Scoped header CSS. Handles sticky shadow, active nav state,
+     mobile hamburger, and the logged-in dashboard link toggle.
+     ──────────────────────────────────────────────────────────── -->
+<!-- wp:html -->
+<style>
+/* ── Shell ── */
+.site-header {
+	position:   sticky;
+	top:        0;
+	z-index:    50;
+	background: var(--wp--preset--color--white);
+	transition: box-shadow 200ms ease;
+}
+
+/* Shadow added by header-scroll.js when user scrolls > 8px */
+.site-header.is-scrolled {
+	box-shadow: 0 2px 12px rgba(26,60,110,0.08);
+}
+
+/* ── Inner row: fixed height, no vertical padding ── */
+.site-header__inner {
+	height:          72px;
+	display:         flex;
+	align-items:     center;
+	justify-content: space-between;
+	gap:             var(--wp--preset--spacing--4);
+}
+
+/* ── Logo ── */
+.site-header__logo a {
+	font-size:       1.25rem !important;
+	font-weight:     700 !important;
+	letter-spacing:  -0.02em !important;
+	color:           var(--wp--preset--color--primary) !important;
+	text-decoration: none !important;
+	white-space:     nowrap;
+}
+.site-header__logo a:hover {
+	color: var(--wp--preset--color--accent) !important;
+}
+
+/* ── Desktop navigation ── */
+.site-header__nav {
+	display: flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--4);
+}
+.site-header__nav .wp-block-navigation__container {
+	display:     flex !important;
+	align-items: center;
+	gap:         var(--wp--preset--spacing--4);
+}
+.site-header__nav a.wp-block-navigation-item__content {
+	color:           var(--wp--preset--color--on-surface-variant) !important;
+	font-size:       var(--wp--preset--font-size--body);
+	font-weight:     500;
+	text-decoration: none;
+	padding:         4px 0;
+	border-bottom:   2px solid transparent;
+	transition:      color 200ms ease, border-color 200ms ease;
+}
+.site-header__nav a.wp-block-navigation-item__content:hover {
+	color:        var(--wp--preset--color--primary) !important;
+	border-color: var(--wp--preset--color--accent);
+}
+/* Active page link */
+.site-header__nav .current-menu-item > a.wp-block-navigation-item__content {
+	color:        var(--wp--preset--color--primary) !important;
+	border-color: var(--wp--preset--color--accent);
+	font-weight:  700;
+}
+
+/* ── Actions area ── */
+.site-header__actions {
+	display:     flex;
+	align-items: center;
+	gap:         var(--wp--preset--spacing--2);
+	flex-shrink: 0;
+}
+
+/* ── My Dashboard link — only show when .logged-in body class present ── */
+.site-header__dashboard-link {
+	display:         none;
+	align-items:     center;
+	font-size:       var(--wp--preset--font-size--small);
+	font-weight:     600;
+	color:           var(--wp--preset--color--primary);
+	text-decoration: none;
+	padding:         6px var(--wp--preset--spacing--2);
+	border:          1px solid rgba(26,60,110,0.15);
+	border-radius:   8px;
+	transition:      background 200ms ease, border-color 200ms ease;
+	white-space:     nowrap;
+}
+.site-header__dashboard-link:hover {
+	background:   var(--wp--preset--color--light);
+	border-color: var(--wp--preset--color--primary);
+}
+/* Show only when WordPress has added .logged-in to <body> */
+body.logged-in .site-header__dashboard-link {
+	display: flex;
+}
+
+/* ── CTA button ── */
+.site-header__cta .wp-block-button__link {
+	font-size:   var(--wp--preset--font-size--body) !important;
+	font-weight: 700 !important;
+	white-space: nowrap;
+}
+
+/* ── Mobile hamburger / overlay nav ──
+   WordPress Navigation block adds .wp-block-navigation__responsive-container
+   and .wp-block-navigation__responsive-container-open button automatically. ── */
+@media (max-width: 781px) {
+	.site-header__nav .wp-block-navigation__container {
+		display: none !important; /* WP block handles this via its own overlay */
 	}
+	.site-header__dashboard-link {
+		display: none !important; /* too cramped on mobile */
+	}
+}
 
-	// Run once on load in case page is already scrolled
-	onScroll();
-
-	window.addEventListener( 'scroll', onScroll, { passive: true } );
-} )();
+/* ── Mobile overlay panel styling ── */
+.wp-block-navigation__responsive-container.is-menu-open {
+	background: var(--wp--preset--color--primary) !important;
+	padding:    var(--wp--preset--spacing--6) var(--wp--preset--spacing--4);
+}
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content {
+	color:       rgba(255,255,255,0.9) !important;
+	font-size:   var(--wp--preset--font-size--h3) !important;
+	font-weight: 500 !important;
+}
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content:hover {
+	color: var(--wp--preset--color--accent) !important;
+}
+/* Close button */
+.wp-block-navigation__responsive-container-close {
+	color: var(--wp--preset--color--white) !important;
+}
+/* Hamburger icon */
+.wp-block-navigation__responsive-container-open {
+	color: var(--wp--preset--color--primary) !important;
+}
+</style>
+<!-- /wp:html -->
