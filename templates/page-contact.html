@@ -1,0 +1,304 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CONTACT — page-contact.html
+     Spoke Theme · Phase 5  |  Tailwind CDN via functions.php
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- wp:html -->
+<style>
+  .cf-input, .cf-select, .cf-textarea {
+    width:100%; background:#f3f4f5; border:1px solid rgba(0,0,0,0.12);
+    border-radius:8px; font-family:inherit; font-size:16px; color:#191c1d;
+    transition:border-color 200ms,box-shadow 200ms;
+    appearance:none; -webkit-appearance:none;
+  }
+  .cf-input, .cf-select { height:50px; padding:0 16px; }
+  .cf-textarea { padding:14px 16px; min-height:130px; resize:vertical; height:auto; }
+  .cf-input:focus, .cf-select:focus, .cf-textarea:focus {
+    outline:none; border-color:#F4A726; box-shadow:0 0 0 3px rgba(244,167,38,0.15);
+  }
+  details summary { list-style:none; }
+  details summary::-webkit-details-marker { display:none; }
+  details[open] .faq-chevron { transform:rotate(180deg); }
+  .faq-chevron { transition:transform 250ms ease; }
+</style>
+<!-- /wp:html -->
+
+<!-- ══ HERO ══════════════════════════════════════════════════════ -->
+<!-- wp:html -->
+<section class="py-16 lg:py-20 px-4" style="background:linear-gradient(135deg,#1A3C6E 0%,#1A1A2E 100%)">
+  <div class="max-w-[1280px] mx-auto flex flex-col items-center text-center gap-5">
+
+    <span class="text-[11px] font-bold uppercase tracking-[0.8px] px-4 py-1.5 rounded-full border"
+          style="background:rgba(244,167,38,0.15);border-color:rgba(244,167,38,0.35);color:#F4A726">
+      Get In Touch
+    </span>
+
+    <h1 class="font-bold leading-tight tracking-[-1.5px] m-0" style="font-size:clamp(2rem,4vw,3rem);color:#fff">
+      We're Here to Help
+    </h1>
+
+    <p class="leading-relaxed max-w-xl m-0" style="font-size:17px;color:rgba(255,255,255,0.7)">
+      Have a question about our courses, accreditation, or corporate training? Our expert team responds within 2 business hours, Monday to Friday.
+    </p>
+
+    <div class="flex flex-wrap justify-center gap-3 mt-2">
+      <span class="text-[13px] font-semibold px-4 py-2 rounded-full" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.75)">📧 support@studymatecentral.org.uk</span>
+      <span class="text-[13px] font-semibold px-4 py-2 rounded-full" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.75)">📞 +44 20 7946 0123</span>
+      <span class="text-[13px] font-semibold px-4 py-2 rounded-full" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.75)">🕐 Mon–Fri · 9am–6pm GMT</span>
+    </div>
+
+  </div>
+</section>
+<!-- /wp:html -->
+
+<!-- ══ MAIN CONTENT ═══════════════════════════════════════════════ -->
+<!-- wp:html -->
+<main class="max-w-[1280px] mx-auto px-4 sm:px-8 py-14 lg:py-20">
+  <div class="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-10">
+
+    <!-- ── FORM COL ── -->
+    <div class="bg-white rounded-xl p-6 sm:p-8" style="box-shadow:0 2px 8px rgba(0,0,0,0.08)">
+
+      <h2 class="font-bold text-[24px] m-0 mb-1" style="color:#1A3C6E">Send Us a Message</h2>
+      <p class="text-[14px] mb-6 m-0" style="color:#43474f">Average response time: under 2 hours during business days.</p>
+
+      <!-- [fluentform id="1"] — add shortcode here when form ID is known -->
+
+      <form id="cf-form" novalidate class="flex flex-col gap-5">
+
+        <!-- Name row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div class="flex flex-col gap-1.5">
+            <label for="cf-fname" class="text-[11px] font-bold uppercase tracking-[0.8px]" style="color:#43474f">
+              First Name <span style="color:#F4A726">*</span>
+            </label>
+            <input type="text" id="cf-fname" name="first_name" class="cf-input" placeholder="John" required autocomplete="given-name" />
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label for="cf-lname" class="text-[11px] font-bold uppercase tracking-[0.8px]" style="color:#43474f">
+              Last Name <span style="color:#F4A726">*</span>
+            </label>
+            <input type="text" id="cf-lname" name="last_name" class="cf-input" placeholder="Smith" required autocomplete="family-name" />
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="flex flex-col gap-1.5">
+          <label for="cf-email" class="text-[11px] font-bold uppercase tracking-[0.8px]" style="color:#43474f">
+            Email Address <span style="color:#F4A726">*</span>
+          </label>
+          <input type="email" id="cf-email" name="email" class="cf-input" placeholder="john@example.co.uk" required autocomplete="email" />
+        </div>
+
+        <!-- Phone -->
+        <div class="flex flex-col gap-1.5">
+          <label for="cf-phone" class="text-[11px] font-bold uppercase tracking-[0.8px]" style="color:#43474f">
+            Phone Number <span class="font-normal normal-case tracking-normal" style="color:#43474f">(optional)</span>
+          </label>
+          <input type="tel" id="cf-phone" name="phone" class="cf-input" placeholder="+44 7700 000000" autocomplete="tel" />
+        </div>
+
+        <!-- Subject -->
+        <div class="flex flex-col gap-1.5">
+          <label for="cf-subject" class="text-[11px] font-bold uppercase tracking-[0.8px]" style="color:#43474f">
+            Enquiry Type <span style="color:#F4A726">*</span>
+          </label>
+          <div class="relative">
+            <select id="cf-subject" name="subject" class="cf-select pr-10" required>
+              <option value="" disabled selected>Please select…</option>
+              <option value="course">Course Enquiry</option>
+              <option value="accreditation">Accreditation Question</option>
+              <option value="corporate">Corporate / Group Training</option>
+              <option value="technical">Technical Support</option>
+              <option value="billing">Billing &amp; Payments</option>
+              <option value="other">Other</option>
+            </select>
+            <svg class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none w-4 h-4" style="color:#43474f"
+                 fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Message -->
+        <div class="flex flex-col gap-1.5">
+          <label for="cf-message" class="text-[11px] font-bold uppercase tracking-[0.8px]" style="color:#43474f">
+            Message <span style="color:#F4A726">*</span>
+          </label>
+          <textarea id="cf-message" name="message" class="cf-textarea" rows="5"
+                    placeholder="Tell us how we can help…" required></textarea>
+        </div>
+
+        <!-- Consent -->
+        <label class="flex items-start gap-3 cursor-pointer">
+          <input type="checkbox" name="consent" required
+                 class="mt-0.5 w-4 h-4 rounded flex-shrink-0"
+                 style="accent-color:#1A3C6E" />
+          <span class="text-[13px]" style="color:#43474f">
+            I agree to StudyMate Central's
+            <a href="/privacy-policy/" class="font-semibold underline" style="color:#1A3C6E">Privacy Policy</a>.
+          </span>
+        </label>
+
+        <!-- Error -->
+        <div class="hidden rounded-lg px-4 py-3 text-[13px] font-semibold" id="cf-error" role="alert"
+             style="background:rgba(186,26,26,0.08);color:#BA1A1A">
+          ❌ Please fill in all required fields and agree to the privacy policy.
+        </div>
+
+        <!-- Submit -->
+        <button type="submit"
+                class="w-full h-[52px] rounded-lg font-bold text-[17px] transition-all hover:brightness-105 hover:-translate-y-0.5"
+                style="background:#F4A726;color:#6b4500">
+          Send Message
+        </button>
+
+        <!-- Success -->
+        <div class="hidden rounded-lg px-4 py-3 text-[13px] font-semibold" id="cf-success" role="alert"
+             style="background:#E8F4EC;color:#1b5e20">
+          ✅ Message sent! We'll be in touch within 2 business hours.
+        </div>
+
+      </form>
+    </div>
+
+    <!-- ── INFO COL ── -->
+    <div class="flex flex-col gap-5">
+
+      <!-- Contact info card -->
+      <div class="bg-white rounded-xl p-6" style="box-shadow:0 2px 8px rgba(0,0,0,0.08)">
+        <h3 class="font-bold text-[18px] mb-4 pb-3 m-0" style="color:#1A3C6E;border-bottom:1px solid rgba(0,0,0,0.07)">
+          Office Information
+        </h3>
+        <div class="flex flex-col gap-0 divide-y" style="border-color:rgba(0,0,0,0.05)">
+          <div class="flex items-start gap-3 py-3">
+            <span class="text-xl leading-none mt-0.5 flex-shrink-0">📍</span>
+            <div>
+              <strong class="block text-[13px] font-bold mb-1" style="color:#1A3C6E">London Office</strong>
+              <p class="text-[13px] leading-relaxed m-0" style="color:#43474f">71-75 Shelton Street<br/>Covent Garden, London<br/>WC2H 9JQ, United Kingdom</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 py-3">
+            <span class="text-xl leading-none mt-0.5 flex-shrink-0">📞</span>
+            <div>
+              <strong class="block text-[13px] font-bold mb-1" style="color:#1A3C6E">Telephone</strong>
+              <a href="tel:+442079460123" class="text-[13px] font-medium underline" style="color:#1A3C6E">+44 20 7946 0123</a>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 py-3">
+            <span class="text-xl leading-none mt-0.5 flex-shrink-0">📧</span>
+            <div>
+              <strong class="block text-[13px] font-bold mb-1" style="color:#1A3C6E">Email</strong>
+              <a href="mailto:support@studymatecentral.org.uk" class="text-[13px] font-medium underline break-all" style="color:#1A3C6E">support@studymatecentral.org.uk</a>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 py-3">
+            <span class="text-xl leading-none mt-0.5 flex-shrink-0">🕐</span>
+            <div>
+              <strong class="block text-[13px] font-bold mb-1" style="color:#1A3C6E">Support Hours</strong>
+              <p class="text-[13px] leading-relaxed m-0" style="color:#43474f">Monday – Friday<br/>9:00 AM – 6:00 PM GMT</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ accordion card -->
+      <div class="bg-white rounded-xl p-6" style="box-shadow:0 2px 8px rgba(0,0,0,0.08)">
+        <h3 class="font-bold text-[18px] mb-4 pb-3 m-0" style="color:#1A3C6E;border-bottom:1px solid rgba(0,0,0,0.07)">
+          Frequently Asked
+        </h3>
+        <div class="flex flex-col">
+
+          <details class="group" style="border-bottom:1px solid rgba(0,0,0,0.06)">
+            <summary class="flex items-center justify-between gap-3 py-3 cursor-pointer font-semibold text-[14px]" style="color:#1A3C6E;list-style:none">
+              Are your courses fully accredited?
+              <svg class="faq-chevron w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <p class="text-[13px] leading-relaxed pb-3 m-0" style="color:#43474f">Yes. Every course on StudyMate Central carries independent accreditation from CPD UK, ATHE, ILM, or City &amp; Guilds — recognised by employers across the UK.</p>
+          </details>
+
+          <details class="group" style="border-bottom:1px solid rgba(0,0,0,0.06)">
+            <summary class="flex items-center justify-between gap-3 py-3 cursor-pointer font-semibold text-[14px]" style="color:#1A3C6E;list-style:none">
+              How long do I have access after enrolling?
+              <svg class="faq-chevron w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <p class="text-[13px] leading-relaxed pb-3 m-0" style="color:#43474f">Lifetime access. Once you enrol, the course materials, videos, and downloads are yours forever, including any future updates.</p>
+          </details>
+
+          <details class="group" style="border-bottom:1px solid rgba(0,0,0,0.06)">
+            <summary class="flex items-center justify-between gap-3 py-3 cursor-pointer font-semibold text-[14px]" style="color:#1A3C6E;list-style:none">
+              Do you offer corporate group pricing?
+              <svg class="faq-chevron w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <p class="text-[13px] leading-relaxed pb-3 m-0" style="color:#43474f">Absolutely. We provide tailored group packages for 5+ employees including bulk discounts and a dedicated account manager. Contact us to discuss.</p>
+          </details>
+
+          <details class="group" style="border-bottom:1px solid rgba(0,0,0,0.06)">
+            <summary class="flex items-center justify-between gap-3 py-3 cursor-pointer font-semibold text-[14px]" style="color:#1A3C6E;list-style:none">
+              What is your refund policy?
+              <svg class="faq-chevron w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <p class="text-[13px] leading-relaxed pb-3 m-0" style="color:#43474f">We offer a full 30-day money-back guarantee on all courses. Contact us within 30 days of purchase and we'll issue a complete refund.</p>
+          </details>
+
+          <details class="group">
+            <summary class="flex items-center justify-between gap-3 py-3 cursor-pointer font-semibold text-[14px]" style="color:#1A3C6E;list-style:none">
+              Can I study on my mobile device?
+              <svg class="faq-chevron w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <p class="text-[13px] leading-relaxed pb-0 m-0" style="color:#43474f;padding-bottom:12px">Yes. All courses are fully optimised for mobile, tablet, and desktop. You can pick up exactly where you left off on any device.</p>
+          </details>
+
+        </div>
+      </div>
+
+    </div><!-- /info col -->
+
+  </div>
+</main>
+<!-- /wp:html -->
+
+<!-- ══ JS ════════════════════════════════════════════════════════ -->
+<!-- wp:html -->
+<script>
+(function () {
+  'use strict';
+  var form    = document.getElementById('cf-form');
+  var success = document.getElementById('cf-success');
+  var error   = document.getElementById('cf-error');
+  if (!form) return;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    error.classList.add('hidden');
+    success.classList.add('hidden');
+
+    var fname   = document.getElementById('cf-fname').value.trim();
+    var lname   = document.getElementById('cf-lname').value.trim();
+    var email   = document.getElementById('cf-email').value.trim();
+    var subject = document.getElementById('cf-subject').value;
+    var message = document.getElementById('cf-message').value.trim();
+    var consent = form.querySelector('[name="consent"]').checked;
+
+    if (!fname || !lname || !email || !subject || !message || !consent) {
+      error.classList.remove('hidden');
+      return;
+    }
+
+    var btn = form.querySelector('button[type="submit"]');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+    setTimeout(function () {
+      success.classList.remove('hidden');
+      form.reset();
+      btn.textContent = 'Send Message';
+      btn.disabled = false;
+    }, 1200);
+  });
+})();
+</script>
+<!-- /wp:html -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

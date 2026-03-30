@@ -1,193 +1,169 @@
-<!-- wp:group {"tagName":"header","className":"site-header","style":{"position":{"type":"sticky","top":"0px"},"spacing":{"padding":{"top":"0","bottom":"0","left":"0","right":"0"}},"zIndex":50},"backgroundColor":"white","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<header class="wp-block-group site-header has-white-background-color has-background">
+<!-- wp:html -->
+<header id="site-header" class="bg-primary sticky top-0 z-50">
 
-	<!-- wp:group {"className":"site-header__inner","style":{"spacing":{"padding":{"top":"0","bottom":"0","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","alignItems":"center"}} -->
-	<div class="wp-block-group site-header__inner">
+  <!-- ── Main nav row ── -->
+  <div class="max-w-site mx-auto px-6 lg:px-8 h-[72px] flex items-center justify-between gap-4">
 
-		<!-- ── Logo / Site Title ── -->
-		<!-- wp:site-title {"level":0,"isLink":true,"className":"site-header__logo","style":{"typography":{"fontSize":"1.25rem","fontWeight":"700","letterSpacing":"-0.02em","textDecoration":"none"},"elements":{"link":{"color":{"text":"var(--wp--preset--color--primary)"},":hover":{"color":{"text":"var(--wp--preset--color--accent)"}}}}}} /-->
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-2 shrink-0 no-underline" aria-label="StudyMate Central – Home">
+      <div class="w-8 h-8 bg-accent rounded-md flex items-center justify-center flex-shrink-0">
+        <svg viewBox="0 0 24 24" class="w-5 h-5 text-accent-dark" fill="currentColor" aria-hidden="true">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <span class="text-white font-bold text-[18px] tracking-tight leading-none whitespace-nowrap">
+        StudyMate <span class="text-accent">Central</span>
+      </span>
+    </a>
 
-		<!-- ── Desktop Navigation ── -->
-		<!-- wp:navigation {"className":"site-header__nav","overlayMenu":"mobile","style":{"typography":{"fontWeight":"500","fontSize":"var(--wp--preset--font-size--body)"},"spacing":{"blockGap":"var(--wp--preset--spacing--4)"}},"layout":{"type":"flex","justifyContent":"flex-start","flexWrap":"nowrap"}} -->
-			<!-- wp:navigation-link {"label":"Home","url":"/","isTopLevelLink":true} /-->
-			<!-- wp:navigation-link {"label":"Courses","url":"/courses/","isTopLevelLink":true} /-->
-			<!-- wp:navigation-link {"label":"Hot Deals","url":"/hot-deals/","isTopLevelLink":true} /-->
-			<!-- wp:navigation-link {"label":"About","url":"/about/","isTopLevelLink":true} /-->
-			<!-- wp:navigation-link {"label":"Contact","url":"/contact/","isTopLevelLink":true} /-->
-		<!-- /wp:navigation -->
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center gap-1" aria-label="Primary navigation">
+      <a href="/courses/"
+         class="text-white/75 hover:text-white text-[15px] font-medium px-4 py-2 rounded-lg hover:bg-white/10 transition-colors duration-200">
+        Courses
+      </a>
+      <a href="/hot-deals/"
+         class="text-white/75 hover:text-white text-[15px] font-medium px-4 py-2 rounded-lg hover:bg-white/10 transition-colors duration-200">
+        Hot Deals
+      </a>
+      <a href="/about/"
+         class="text-white/75 hover:text-white text-[15px] font-medium px-4 py-2 rounded-lg hover:bg-white/10 transition-colors duration-200">
+        About
+      </a>
+      <a href="/contact/"
+         class="text-white/75 hover:text-white text-[15px] font-medium px-4 py-2 rounded-lg hover:bg-white/10 transition-colors duration-200">
+        Contact
+      </a>
+    </nav>
 
-		<!-- ── Right: CTA + Account ── -->
-		<!-- wp:group {"className":"site-header__actions","layout":{"type":"flex","flexWrap":"nowrap","alignItems":"center","gap":"var(--wp--preset--spacing--2)"}} -->
-		<div class="wp-block-group site-header__actions">
+    <!-- Right: Auth + CTA -->
+    <div class="hidden md:flex items-center gap-3 flex-shrink-0">
+      <!-- My Dashboard — only visible when logged in (WP adds .logged-in to <body>) -->
+      <a href="/dashboard/"
+         class="spoke-dashboard-link text-white/75 hover:text-white text-[14px] font-medium border border-white/20
+                px-3 py-1.5 rounded-lg hover:bg-white/10 transition duration-200 hidden whitespace-nowrap">
+        My Dashboard
+      </a>
 
-			<!-- My Dashboard (shown when logged in — controlled via CSS) -->
-			<!-- wp:html -->
-			<a href="/dashboard/" class="site-header__dashboard-link">My Dashboard</a>
-			<!-- /wp:html -->
+      <a href="/login/"
+         class="spoke-login-link text-white/75 hover:text-white text-[14px] font-medium transition-colors duration-200">
+        Log in
+      </a>
 
-			<!-- Browse Courses CTA button -->
-			<!-- wp:buttons -->
-			<div class="wp-block-buttons">
-				<!-- wp:button {"backgroundColor":"accent","textColor":"primary","className":"site-header__cta","style":{"border":{"radius":"8px"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--1)","bottom":"var(--wp--preset--spacing--1)","left":"var(--wp--preset--spacing--3)","right":"var(--wp--preset--spacing--3)"}},"typography":{"fontWeight":"700","fontSize":"var(--wp--preset--font-size--body)"}}} -->
-				<div class="wp-block-button site-header__cta">
-					<a class="wp-block-button__link has-accent-background-color has-primary-color has-background has-text-color" href="/courses/" style="border-radius:8px;padding:var(--wp--preset--spacing--1) var(--wp--preset--spacing--3);font-weight:700;">Browse Courses</a>
-				</div>
-				<!-- /wp:button -->
-			</div>
-			<!-- /wp:buttons -->
+      <a href="/courses/"
+         class="bg-accent text-accent-dark font-bold text-[14px] px-5 py-2 rounded-lg
+                hover:brightness-105 transition duration-200 whitespace-nowrap shadow-sm">
+        Browse Courses
+      </a>
+    </div>
 
-		</div>
-		<!-- /wp:group -->
+    <!-- Mobile Hamburger -->
+    <button id="spoke-ham-btn"
+            class="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition duration-200 flex-shrink-0"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+            aria-controls="spoke-mobile-menu">
+      <svg id="spoke-ham-open" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+      <svg id="spoke-ham-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
 
-	</div>
-	<!-- /wp:group -->
+  </div>
+
+  <!-- Mobile Drawer -->
+  <div id="spoke-mobile-menu"
+       class="hidden md:hidden bg-primary border-t border-white/10"
+       aria-label="Mobile navigation">
+    <nav class="max-w-site mx-auto px-6 pb-5 flex flex-col gap-1 pt-3">
+
+      <a href="/courses/"
+         class="text-white/80 hover:text-white text-[15px] font-medium py-2.5 px-3 rounded-lg hover:bg-white/8 transition-colors">
+        Courses
+      </a>
+      <a href="/hot-deals/"
+         class="text-white/80 hover:text-white text-[15px] font-medium py-2.5 px-3 rounded-lg hover:bg-white/8 transition-colors">
+        Hot Deals
+      </a>
+      <a href="/about/"
+         class="text-white/80 hover:text-white text-[15px] font-medium py-2.5 px-3 rounded-lg hover:bg-white/8 transition-colors">
+        About
+      </a>
+      <a href="/contact/"
+         class="text-white/80 hover:text-white text-[15px] font-medium py-2.5 px-3 rounded-lg hover:bg-white/8 transition-colors">
+        Contact
+      </a>
+
+      <div class="border-t border-white/10 mt-2 pt-4 flex gap-3">
+        <a href="/login/"
+           class="border border-white/30 text-white text-[14px] font-bold px-4 py-2.5 rounded-lg hover:bg-white/10 transition flex-1 text-center">
+          Log in
+        </a>
+        <a href="/courses/"
+           class="bg-accent text-accent-dark font-bold text-[14px] px-4 py-2.5 rounded-lg hover:brightness-105 transition flex-1 text-center">
+          Browse Courses
+        </a>
+      </div>
+
+    </nav>
+  </div>
 
 </header>
-<!-- /wp:group -->
 
-<!-- HEADER STYLES ───────────────────────────────────────────────
-     Scoped header CSS. Handles sticky shadow, active nav state,
-     mobile hamburger, and the logged-in dashboard link toggle.
-     ──────────────────────────────────────────────────────────── -->
-<!-- wp:html -->
-<style>
-/* ── Shell ── */
-.site-header {
-	position:   sticky;
-	top:        0;
-	z-index:    50;
-	background: var(--wp--preset--color--white);
-	transition: box-shadow 200ms ease;
-}
+<script>
+(function () {
+  'use strict';
 
-/* Shadow added by header-scroll.js when user scrolls > 8px */
-.site-header.is-scrolled {
-	box-shadow: 0 2px 12px rgba(26,60,110,0.08);
-}
+  var header    = document.getElementById('site-header');
+  var btn       = document.getElementById('spoke-ham-btn');
+  var menu      = document.getElementById('spoke-mobile-menu');
+  var icOpen    = document.getElementById('spoke-ham-open');
+  var icClose   = document.getElementById('spoke-ham-close');
+  var dashLink  = document.querySelector('.spoke-dashboard-link');
+  var loginLink = document.querySelector('.spoke-login-link');
+  var isOpen    = false;
 
-/* ── Inner row: fixed height, no vertical padding ── */
-.site-header__inner {
-	height:          72px;
-	display:         flex;
-	align-items:     center;
-	justify-content: space-between;
-	gap:             var(--wp--preset--spacing--4);
-}
+  if (!btn || !header) return;
 
-/* ── Logo ── */
-.site-header__logo a {
-	font-size:       1.25rem !important;
-	font-weight:     700 !important;
-	letter-spacing:  -0.02em !important;
-	color:           var(--wp--preset--color--primary) !important;
-	text-decoration: none !important;
-	white-space:     nowrap;
-}
-.site-header__logo a:hover {
-	color: var(--wp--preset--color--accent) !important;
-}
+  // ── Mobile drawer toggle ──────────────────────────────────────
+  btn.addEventListener('click', function () {
+    isOpen = !isOpen;
+    menu.classList.toggle('hidden', !isOpen);
+    icOpen.classList.toggle('hidden', isOpen);
+    icClose.classList.toggle('hidden', !isOpen);
+    btn.setAttribute('aria-expanded', String(isOpen));
+  });
 
-/* ── Desktop navigation ── */
-.site-header__nav {
-	display: flex;
-	align-items: center;
-	gap: var(--wp--preset--spacing--4);
-}
-.site-header__nav .wp-block-navigation__container {
-	display:     flex !important;
-	align-items: center;
-	gap:         var(--wp--preset--spacing--4);
-}
-.site-header__nav a.wp-block-navigation-item__content {
-	color:           var(--wp--preset--color--on-surface-variant) !important;
-	font-size:       var(--wp--preset--font-size--body);
-	font-weight:     500;
-	text-decoration: none;
-	padding:         4px 0;
-	border-bottom:   2px solid transparent;
-	transition:      color 200ms ease, border-color 200ms ease;
-}
-.site-header__nav a.wp-block-navigation-item__content:hover {
-	color:        var(--wp--preset--color--primary) !important;
-	border-color: var(--wp--preset--color--accent);
-}
-/* Active page link */
-.site-header__nav .current-menu-item > a.wp-block-navigation-item__content {
-	color:        var(--wp--preset--color--primary) !important;
-	border-color: var(--wp--preset--color--accent);
-	font-weight:  700;
-}
+  // Close drawer on resize to desktop
+  window.addEventListener('resize', function () {
+    if (window.innerWidth >= 768 && isOpen) {
+      isOpen = false;
+      menu.classList.add('hidden');
+      icOpen.classList.remove('hidden');
+      icClose.classList.add('hidden');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  }, { passive: true });
 
-/* ── Actions area ── */
-.site-header__actions {
-	display:     flex;
-	align-items: center;
-	gap:         var(--wp--preset--spacing--2);
-	flex-shrink: 0;
-}
+  // ── Scroll shadow ─────────────────────────────────────────────
+  function onScroll() {
+    if (window.scrollY > 8) {
+      header.classList.add('shadow-nav');
+    } else {
+      header.classList.remove('shadow-nav');
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
 
-/* ── My Dashboard link — only show when .logged-in body class present ── */
-.site-header__dashboard-link {
-	display:         none;
-	align-items:     center;
-	font-size:       var(--wp--preset--font-size--small);
-	font-weight:     600;
-	color:           var(--wp--preset--color--primary);
-	text-decoration: none;
-	padding:         6px var(--wp--preset--spacing--2);
-	border:          1px solid rgba(26,60,110,0.15);
-	border-radius:   8px;
-	transition:      background 200ms ease, border-color 200ms ease;
-	white-space:     nowrap;
-}
-.site-header__dashboard-link:hover {
-	background:   var(--wp--preset--color--light);
-	border-color: var(--wp--preset--color--primary);
-}
-/* Show only when WordPress has added .logged-in to <body> */
-body.logged-in .site-header__dashboard-link {
-	display: flex;
-}
+  // ── Logged-in state ───────────────────────────────────────────
+  // WordPress adds .logged-in to <body> — show/hide nav links accordingly.
+  if (document.body.classList.contains('logged-in')) {
+    if (dashLink)  dashLink.classList.remove('hidden');
+    if (loginLink) loginLink.style.display = 'none';
+  }
 
-/* ── CTA button ── */
-.site-header__cta .wp-block-button__link {
-	font-size:   var(--wp--preset--font-size--body) !important;
-	font-weight: 700 !important;
-	white-space: nowrap;
-}
-
-/* ── Mobile hamburger / overlay nav ──
-   WordPress Navigation block adds .wp-block-navigation__responsive-container
-   and .wp-block-navigation__responsive-container-open button automatically. ── */
-@media (max-width: 781px) {
-	.site-header__nav .wp-block-navigation__container {
-		display: none !important; /* WP block handles this via its own overlay */
-	}
-	.site-header__dashboard-link {
-		display: none !important; /* too cramped on mobile */
-	}
-}
-
-/* ── Mobile overlay panel styling ── */
-.wp-block-navigation__responsive-container.is-menu-open {
-	background: var(--wp--preset--color--primary) !important;
-	padding:    var(--wp--preset--spacing--6) var(--wp--preset--spacing--4);
-}
-.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content {
-	color:       rgba(255,255,255,0.9) !important;
-	font-size:   var(--wp--preset--font-size--h3) !important;
-	font-weight: 500 !important;
-}
-.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content:hover {
-	color: var(--wp--preset--color--accent) !important;
-}
-/* Close button */
-.wp-block-navigation__responsive-container-close {
-	color: var(--wp--preset--color--white) !important;
-}
-/* Hamburger icon */
-.wp-block-navigation__responsive-container-open {
-	color: var(--wp--preset--color--primary) !important;
-}
-</style>
+})();
+</script>
 <!-- /wp:html -->

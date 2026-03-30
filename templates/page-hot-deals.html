@@ -1,0 +1,449 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- ═══════════════════════════════════════════════════════════════
+     HOT DEALS — page-hot-deals.html
+     Spoke Theme · Phase 5  |  Tailwind CDN via functions.php
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- wp:html -->
+<style>
+  @keyframes ticker { 0%{transform:translateX(0)}100%{transform:translateX(-50%)} }
+  .ticker-track { animation: ticker 35s linear infinite; }
+  .timer-digit  { font-variant-numeric: tabular-nums; }
+  .hd-tab-active { background:#1A3C6E !important; color:#fff !important; }
+</style>
+<!-- /wp:html -->
+
+<!-- ══ HERO ══════════════════════════════════════════════════════ -->
+<!-- wp:html -->
+<section class="relative overflow-hidden py-20 lg:py-28 px-4"
+         style="background:linear-gradient(135deg,#1A3C6E 0%,#1A1A2E 100%)">
+
+  <div class="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-white/5 translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
+  <div class="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full pointer-events-none" style="background:rgba(244,167,38,0.05);transform:translate(-33%,33%)"></div>
+
+  <div class="relative max-w-[1280px] mx-auto flex flex-col items-center text-center gap-7">
+
+    <!-- Eyebrow -->
+    <span class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.8px] px-4 py-1.5 rounded-full border"
+          style="background:rgba(244,167,38,0.2);border-color:rgba(244,167,38,0.4);color:#F4A726">
+      🔥 Flash Sale — Limited Time Only
+    </span>
+
+    <h1 class="text-white font-bold leading-[1.1] tracking-[-1.5px] max-w-3xl"
+        style="font-size:clamp(2rem,5vw,3.5rem)">
+      Save Up to <span style="color:#F4A726">70%</span> on Accredited Courses
+    </h1>
+
+    <p class="leading-relaxed max-w-xl" style="font-size:17px;color:rgba(255,255,255,0.7)">
+      Professional certifications at prices that make career progression impossible to ignore. Sale ends when the timer hits zero.
+    </p>
+
+    <!-- Countdown -->
+    <div class="flex items-center gap-3 sm:gap-5 rounded-2xl px-6 sm:px-10 py-5"
+         style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15)"
+         aria-label="Sale ends in">
+      <div class="flex flex-col items-center gap-1" style="min-width:60px">
+        <span class="font-bold leading-none timer-digit" id="hd-days" style="font-size:2.75rem;color:#F4A726">02</span>
+        <span class="text-[10px] font-bold uppercase tracking-[0.8px]" style="color:rgba(255,255,255,0.45)">Days</span>
+      </div>
+      <span class="font-bold mb-4" style="font-size:2rem;color:rgba(244,167,38,0.5)" aria-hidden="true">:</span>
+      <div class="flex flex-col items-center gap-1" style="min-width:60px">
+        <span class="font-bold leading-none timer-digit" id="hd-hours" style="font-size:2.75rem;color:#F4A726">14</span>
+        <span class="text-[10px] font-bold uppercase tracking-[0.8px]" style="color:rgba(255,255,255,0.45)">Hours</span>
+      </div>
+      <span class="font-bold mb-4" style="font-size:2rem;color:rgba(244,167,38,0.5)" aria-hidden="true">:</span>
+      <div class="flex flex-col items-center gap-1" style="min-width:60px">
+        <span class="font-bold leading-none timer-digit" id="hd-mins" style="font-size:2.75rem;color:#F4A726">33</span>
+        <span class="text-[10px] font-bold uppercase tracking-[0.8px]" style="color:rgba(255,255,255,0.45)">Mins</span>
+      </div>
+      <span class="font-bold mb-4" style="font-size:2rem;color:rgba(244,167,38,0.5)" aria-hidden="true">:</span>
+      <div class="flex flex-col items-center gap-1" style="min-width:60px">
+        <span class="font-bold leading-none timer-digit" id="hd-secs" style="font-size:2.75rem;color:#F4A726">07</span>
+        <span class="text-[10px] font-bold uppercase tracking-[0.8px]" style="color:rgba(255,255,255,0.45)">Secs</span>
+      </div>
+    </div>
+
+    <!-- Trust strip -->
+    <div class="flex flex-wrap items-center justify-center gap-4 text-[13px] font-semibold"
+         style="color:rgba(255,255,255,0.6)">
+      <span>🔒 Stripe Secure</span>
+      <span style="color:rgba(255,255,255,0.2)">·</span>
+      <span>✓ CPD Accredited</span>
+      <span style="color:rgba(255,255,255,0.2)">·</span>
+      <span>↩ 30-Day Guarantee</span>
+      <span style="color:rgba(255,255,255,0.2)">·</span>
+      <span>👁 <span id="hd-viewers" style="color:rgba(255,255,255,0.85)">147</span> viewing now</span>
+    </div>
+
+  </div>
+</section>
+<!-- /wp:html -->
+
+<!-- ══ TICKER ════════════════════════════════════════════════════ -->
+<!-- wp:html -->
+<div class="overflow-hidden py-2.5" style="background:#E8F4EC;border-top:1px solid #c8e6c9;border-bottom:1px solid #c8e6c9" aria-hidden="true">
+  <div class="ticker-track inline-flex whitespace-nowrap">
+    <span class="text-[13px] font-medium px-8" style="color:#1A3C6E">🎉 James W. from Manchester just enrolled in Executive Leadership</span>
+    <span class="px-2" style="color:rgba(26,60,110,0.3)">•</span>
+    <span class="text-[13px] font-medium px-8" style="color:#1A3C6E">🎉 Emily C. from London just enrolled in Financial Risk Management</span>
+    <span class="px-2" style="color:rgba(26,60,110,0.3)">•</span>
+    <span class="text-[13px] font-medium px-8" style="color:#1A3C6E">🎉 Robert H. from Birmingham just enrolled in Digital Transformation</span>
+    <span class="px-2" style="color:rgba(26,60,110,0.3)">•</span>
+    <span class="text-[13px] font-medium px-8" style="color:#1A3C6E">🎉 Sarah K. from Leeds just enrolled in Project Management (PRINCE2)</span>
+    <span class="px-2" style="color:rgba(26,60,110,0.3)">•</span>
+    <span class="text-[13px] font-medium px-8" style="color:#1A3C6E">🎉 Marcus T. from Bristol just enrolled in Advanced Data Analytics</span>
+    <span class="px-2" style="color:rgba(26,60,110,0.3)">•</span>
+    <!-- Duplicate for loop -->
+    <span class="text-[13px] font-medium px-8" style="color:#1A3C6E">🎉 James W. from Manchester just enrolled in Executive Leadership</span>
+    <span class="px-2" style="color:rgba(26,60,110,0.3)">•</span>
+    <span class="text-[13px] font-medium px-8" style="color:#1A3C6E">🎉 Emily C. from London just enrolled in Financial Risk Management</span>
+    <span class="px-2" style="color:rgba(26,60,110,0.3)">•</span>
+    <span class="text-[13px] font-medium px-8" style="color:#1A3C6E">🎉 Robert H. from Birmingham just enrolled in Digital Transformation</span>
+    <span class="px-2" style="color:rgba(26,60,110,0.3)">•</span>
+    <span class="text-[13px] font-medium px-8" style="color:#1A3C6E">🎉 Sarah K. from Leeds just enrolled in PRINCE2</span>
+    <span class="px-2" style="color:rgba(26,60,110,0.3)">•</span>
+    <span class="text-[13px] font-medium px-8" style="color:#1A3C6E">🎉 Marcus T. from Bristol just enrolled in Advanced Data Analytics</span>
+    <span class="px-2" style="color:rgba(26,60,110,0.3)">•</span>
+  </div>
+</div>
+<!-- /wp:html -->
+
+<!-- ══ FILTER TABS ════════════════════════════════════════════════ -->
+<!-- wp:html -->
+<div class="bg-white sticky top-[72px] z-30" style="border-bottom:1px solid rgba(196,198,208,0.25)">
+  <div class="max-w-[1280px] mx-auto px-4 sm:px-8 py-3 flex gap-2 overflow-x-auto"
+       role="tablist" aria-label="Deal categories">
+    <button class="hd-tab hd-tab-active shrink-0 h-[38px] px-5 rounded-lg text-[13px] font-semibold transition-all"
+            data-filter="all" role="tab" aria-selected="true">All Deals</button>
+    <button class="hd-tab shrink-0 h-[38px] px-5 rounded-lg text-[13px] font-medium transition-all"
+            style="color:#43474f" data-filter="management" role="tab" aria-selected="false">Leadership</button>
+    <button class="hd-tab shrink-0 h-[38px] px-5 rounded-lg text-[13px] font-medium transition-all"
+            style="color:#43474f" data-filter="finance" role="tab" aria-selected="false">Finance</button>
+    <button class="hd-tab shrink-0 h-[38px] px-5 rounded-lg text-[13px] font-medium transition-all"
+            style="color:#43474f" data-filter="tech" role="tab" aria-selected="false">Digital &amp; Tech</button>
+    <button class="hd-tab shrink-0 h-[38px] px-5 rounded-lg text-[13px] font-medium transition-all"
+            style="color:#43474f" data-filter="hr" role="tab" aria-selected="false">HR &amp; People</button>
+  </div>
+</div>
+<!-- /wp:html -->
+
+<!-- ══ CARDS GRID ════════════════════════════════════════════════ -->
+<!-- wp:html -->
+<main class="max-w-[1280px] mx-auto px-4 sm:px-8 py-12">
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6" id="deals-grid">
+
+    <!-- Card 1 -->
+    <article class="hd-card bg-white rounded-xl overflow-hidden flex flex-col relative transition-all duration-200"
+             style="box-shadow:0 2px 8px rgba(0,0,0,0.08)" data-category="management">
+      <span class="absolute top-3 left-3 z-10 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded"
+            style="background:#BA1A1A">🔥 Best Seller</span>
+      <div class="relative h-40 flex items-center justify-center" style="background:linear-gradient(135deg,#1A3C6E 0%,#1A1A2E 100%)">
+        <span class="text-5xl">📊</span>
+        <span class="absolute bottom-2.5 right-2.5 text-white text-[11px] font-bold px-2.5 py-1 rounded" style="background:#BA1A1A">65% OFF</span>
+      </div>
+      <div class="p-5 flex flex-col gap-2.5 flex-1">
+        <span class="text-[10px] font-bold uppercase tracking-[0.8px]" style="color:#43474f">Leadership &amp; Management</span>
+        <h3 class="font-bold text-[17px] leading-snug m-0" style="color:#1A3C6E">Executive Leadership &amp; Strategic Management</h3>
+        <div class="flex flex-wrap gap-2 text-[12px]" style="color:#43474f">
+          <span style="color:#F4A726;font-weight:700">★ 4.9</span>
+          <span>3,500+ students</span>
+          <span>12 weeks</span>
+        </div>
+        <span class="self-start text-[11px] font-bold px-2 py-0.5 rounded" style="background:rgba(26,60,110,0.07);color:#1A3C6E">✓ CPD Accredited</span>
+        <div class="flex flex-col gap-1">
+          <div class="h-1.5 rounded-full overflow-hidden" style="background:rgba(0,0,0,0.08)">
+            <div class="h-full rounded-full" style="width:78%;background:#F4A726"></div>
+          </div>
+          <p class="text-[11px] m-0" style="color:#43474f">78% claimed — <strong>only 22 spots left</strong></p>
+        </div>
+        <div class="flex items-center justify-between pt-2.5 mt-auto" style="border-top:1px solid rgba(0,0,0,0.07)">
+          <div>
+            <span class="font-bold text-[22px]" style="color:#1A3C6E">£104</span>
+            <span class="text-sm line-through ml-1.5" style="color:#43474f">£299</span>
+          </div>
+          <a href="/courses/executive-leadership/"
+             class="inline-flex items-center h-10 px-4 font-bold text-[13px] rounded-lg transition-all hover:brightness-105"
+             style="background:#F4A726;color:#6b4500">Enrol Now</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 2 -->
+    <article class="hd-card bg-white rounded-xl overflow-hidden flex flex-col relative transition-all duration-200"
+             style="box-shadow:0 2px 8px rgba(0,0,0,0.08)" data-category="finance">
+      <span class="absolute top-3 left-3 z-10 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded"
+            style="background:#1A3C6E">⚡ New</span>
+      <div class="relative h-40 flex items-center justify-center" style="background:linear-gradient(135deg,#F4A726 0%,#e67e00 100%)">
+        <span class="text-5xl">💹</span>
+        <span class="absolute bottom-2.5 right-2.5 text-white text-[11px] font-bold px-2.5 py-1 rounded" style="background:#BA1A1A">50% OFF</span>
+      </div>
+      <div class="p-5 flex flex-col gap-2.5 flex-1">
+        <span class="text-[10px] font-bold uppercase tracking-[0.8px]" style="color:#43474f">Finance &amp; Accounting</span>
+        <h3 class="font-bold text-[17px] leading-snug m-0" style="color:#1A3C6E">Advanced Financial Risk Management</h3>
+        <div class="flex flex-wrap gap-2 text-[12px]" style="color:#43474f">
+          <span style="color:#F4A726;font-weight:700">★ 4.8</span>
+          <span>1,200+ students</span>
+          <span>10 weeks</span>
+        </div>
+        <span class="self-start text-[11px] font-bold px-2 py-0.5 rounded" style="background:rgba(26,60,110,0.07);color:#1A3C6E">✓ ATHE Accredited</span>
+        <div class="flex flex-col gap-1">
+          <div class="h-1.5 rounded-full overflow-hidden" style="background:rgba(0,0,0,0.08)">
+            <div class="h-full rounded-full" style="width:55%;background:#F4A726"></div>
+          </div>
+          <p class="text-[11px] m-0" style="color:#43474f">55% claimed — <strong>45 spots left</strong></p>
+        </div>
+        <div class="flex items-center justify-between pt-2.5 mt-auto" style="border-top:1px solid rgba(0,0,0,0.07)">
+          <div>
+            <span class="font-bold text-[22px]" style="color:#1A3C6E">£247</span>
+            <span class="text-sm line-through ml-1.5" style="color:#43474f">£495</span>
+          </div>
+          <a href="/courses/financial-risk/"
+             class="inline-flex items-center h-10 px-4 font-bold text-[13px] rounded-lg transition-all hover:brightness-105"
+             style="background:#F4A726;color:#6b4500">Enrol Now</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 3 -->
+    <article class="hd-card bg-white rounded-xl overflow-hidden flex flex-col relative transition-all duration-200"
+             style="box-shadow:0 2px 8px rgba(0,0,0,0.08)" data-category="tech">
+      <div class="relative h-40 flex items-center justify-center" style="background:linear-gradient(135deg,#0d7377 0%,#14a085 100%)">
+        <span class="text-5xl">💻</span>
+        <span class="absolute bottom-2.5 right-2.5 text-white text-[11px] font-bold px-2.5 py-1 rounded" style="background:#BA1A1A">60% OFF</span>
+      </div>
+      <div class="p-5 flex flex-col gap-2.5 flex-1">
+        <span class="text-[10px] font-bold uppercase tracking-[0.8px]" style="color:#43474f">Digital &amp; Technology</span>
+        <h3 class="font-bold text-[17px] leading-snug m-0" style="color:#1A3C6E">Digital Transformation &amp; Innovation Leadership</h3>
+        <div class="flex flex-wrap gap-2 text-[12px]" style="color:#43474f">
+          <span style="color:#F4A726;font-weight:700">★ 4.9</span>
+          <span>2,100+ students</span>
+          <span>8 weeks</span>
+        </div>
+        <span class="self-start text-[11px] font-bold px-2 py-0.5 rounded" style="background:rgba(26,60,110,0.07);color:#1A3C6E">✓ CPD Accredited</span>
+        <div class="flex flex-col gap-1">
+          <div class="h-1.5 rounded-full overflow-hidden" style="background:rgba(0,0,0,0.08)">
+            <div class="h-full rounded-full" style="width:62%;background:#F4A726"></div>
+          </div>
+          <p class="text-[11px] m-0" style="color:#43474f">62% claimed — <strong>38 spots left</strong></p>
+        </div>
+        <div class="flex items-center justify-between pt-2.5 mt-auto" style="border-top:1px solid rgba(0,0,0,0.07)">
+          <div>
+            <span class="font-bold text-[22px]" style="color:#1A3C6E">£76</span>
+            <span class="text-sm line-through ml-1.5" style="color:#43474f">£189</span>
+          </div>
+          <a href="/courses/digital-transformation/"
+             class="inline-flex items-center h-10 px-4 font-bold text-[13px] rounded-lg transition-all hover:brightness-105"
+             style="background:#F4A726;color:#6b4500">Enrol Now</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 4 -->
+    <article class="hd-card bg-white rounded-xl overflow-hidden flex flex-col relative transition-all duration-200"
+             style="box-shadow:0 2px 8px rgba(0,0,0,0.08)" data-category="management">
+      <span class="absolute top-3 left-3 z-10 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded"
+            style="background:#BA1A1A">🔥 Popular</span>
+      <div class="relative h-40 flex items-center justify-center" style="background:linear-gradient(135deg,#6c3483 0%,#9b59b6 100%)">
+        <span class="text-5xl">🏆</span>
+        <span class="absolute bottom-2.5 right-2.5 text-white text-[11px] font-bold px-2.5 py-1 rounded" style="background:#BA1A1A">55% OFF</span>
+      </div>
+      <div class="p-5 flex flex-col gap-2.5 flex-1">
+        <span class="text-[10px] font-bold uppercase tracking-[0.8px]" style="color:#43474f">Project Management</span>
+        <h3 class="font-bold text-[17px] leading-snug m-0" style="color:#1A3C6E">Advanced Project Management (PRINCE2)</h3>
+        <div class="flex flex-wrap gap-2 text-[12px]" style="color:#43474f">
+          <span style="color:#F4A726;font-weight:700">★ 5.0</span>
+          <span>5,800+ students</span>
+          <span>12 weeks</span>
+        </div>
+        <span class="self-start text-[11px] font-bold px-2 py-0.5 rounded" style="background:rgba(26,60,110,0.07);color:#1A3C6E">✓ ILM Approved</span>
+        <div class="flex flex-col gap-1">
+          <div class="h-1.5 rounded-full overflow-hidden" style="background:rgba(0,0,0,0.08)">
+            <div class="h-full rounded-full" style="width:88%;background:#F4A726"></div>
+          </div>
+          <p class="text-[11px] font-semibold m-0" style="color:#BA1A1A">88% claimed — <strong>only 12 left!</strong></p>
+        </div>
+        <div class="flex items-center justify-between pt-2.5 mt-auto" style="border-top:1px solid rgba(0,0,0,0.07)">
+          <div>
+            <span class="font-bold text-[22px]" style="color:#1A3C6E">£202</span>
+            <span class="text-sm line-through ml-1.5" style="color:#43474f">£450</span>
+          </div>
+          <a href="/courses/prince2/"
+             class="inline-flex items-center h-10 px-4 font-bold text-[13px] rounded-lg transition-all hover:brightness-105"
+             style="background:#F4A726;color:#6b4500">Enrol Now</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 5 -->
+    <article class="hd-card bg-white rounded-xl overflow-hidden flex flex-col relative transition-all duration-200"
+             style="box-shadow:0 2px 8px rgba(0,0,0,0.08)" data-category="hr">
+      <div class="relative h-40 flex items-center justify-center" style="background:linear-gradient(135deg,#27ae60 0%,#2ecc71 100%)">
+        <span class="text-5xl">👥</span>
+        <span class="absolute bottom-2.5 right-2.5 text-white text-[11px] font-bold px-2.5 py-1 rounded" style="background:#BA1A1A">45% OFF</span>
+      </div>
+      <div class="p-5 flex flex-col gap-2.5 flex-1">
+        <span class="text-[10px] font-bold uppercase tracking-[0.8px]" style="color:#43474f">HR &amp; People Management</span>
+        <h3 class="font-bold text-[17px] leading-snug m-0" style="color:#1A3C6E">Human Resource Management Professional</h3>
+        <div class="flex flex-wrap gap-2 text-[12px]" style="color:#43474f">
+          <span style="color:#F4A726;font-weight:700">★ 4.9</span>
+          <span>540+ students</span>
+          <span>8 weeks</span>
+        </div>
+        <span class="self-start text-[11px] font-bold px-2 py-0.5 rounded" style="background:rgba(26,60,110,0.07);color:#1A3C6E">✓ CPD Accredited</span>
+        <div class="flex flex-col gap-1">
+          <div class="h-1.5 rounded-full overflow-hidden" style="background:rgba(0,0,0,0.08)">
+            <div class="h-full rounded-full" style="width:40%;background:#F4A726"></div>
+          </div>
+          <p class="text-[11px] m-0" style="color:#43474f">40% claimed — <strong>60 spots left</strong></p>
+        </div>
+        <div class="flex items-center justify-between pt-2.5 mt-auto" style="border-top:1px solid rgba(0,0,0,0.07)">
+          <div>
+            <span class="font-bold text-[22px]" style="color:#1A3C6E">£104</span>
+            <span class="text-sm line-through ml-1.5" style="color:#43474f">£189</span>
+          </div>
+          <a href="/courses/hr-management/"
+             class="inline-flex items-center h-10 px-4 font-bold text-[13px] rounded-lg transition-all hover:brightness-105"
+             style="background:#F4A726;color:#6b4500">Enrol Now</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 6 -->
+    <article class="hd-card bg-white rounded-xl overflow-hidden flex flex-col relative transition-all duration-200"
+             style="box-shadow:0 2px 8px rgba(0,0,0,0.08)" data-category="finance">
+      <span class="absolute top-3 left-3 z-10 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded"
+            style="background:#1A3C6E">⚡ Limited</span>
+      <div class="relative h-40 flex items-center justify-center" style="background:linear-gradient(135deg,#e67e22 0%,#f39c12 100%)">
+        <span class="text-5xl">📈</span>
+        <span class="absolute bottom-2.5 right-2.5 text-white text-[11px] font-bold px-2.5 py-1 rounded" style="background:#BA1A1A">70% OFF</span>
+      </div>
+      <div class="p-5 flex flex-col gap-2.5 flex-1">
+        <span class="text-[10px] font-bold uppercase tracking-[0.8px]" style="color:#43474f">Finance &amp; Accounting</span>
+        <h3 class="font-bold text-[17px] leading-snug m-0" style="color:#1A3C6E">Financial Modelling for Investment Banking</h3>
+        <div class="flex flex-wrap gap-2 text-[12px]" style="color:#43474f">
+          <span style="color:#F4A726;font-weight:700">★ 5.0</span>
+          <span>112+ students</span>
+          <span>10 weeks</span>
+        </div>
+        <span class="self-start text-[11px] font-bold px-2 py-0.5 rounded" style="background:rgba(26,60,110,0.07);color:#1A3C6E">✓ City &amp; Guilds</span>
+        <div class="flex flex-col gap-1">
+          <div class="h-1.5 rounded-full overflow-hidden" style="background:rgba(0,0,0,0.08)">
+            <div class="h-full rounded-full" style="width:91%;background:#F4A726"></div>
+          </div>
+          <p class="text-[11px] font-semibold m-0" style="color:#BA1A1A">91% claimed — <strong>only 9 left!</strong></p>
+        </div>
+        <div class="flex items-center justify-between pt-2.5 mt-auto" style="border-top:1px solid rgba(0,0,0,0.07)">
+          <div>
+            <span class="font-bold text-[22px]" style="color:#1A3C6E">£255</span>
+            <span class="text-sm line-through ml-1.5" style="color:#43474f">£850</span>
+          </div>
+          <a href="/courses/financial-modelling/"
+             class="inline-flex items-center h-10 px-4 font-bold text-[13px] rounded-lg transition-all hover:brightness-105"
+             style="background:#F4A726;color:#6b4500">Enrol Now</a>
+        </div>
+      </div>
+    </article>
+
+  </div><!-- /grid -->
+
+  <!-- Empty state -->
+  <div class="hidden text-center py-20 text-[#43474f]" id="hd-empty">
+    <p class="text-lg font-medium">No deals in this category right now — check back soon!</p>
+  </div>
+
+</main>
+<!-- /wp:html -->
+
+<!-- ══ GUARANTEE STRIP ═══════════════════════════════════════════ -->
+<!-- wp:html -->
+<section class="py-10 px-4" style="background:#f3f4f5;border-top:1px solid rgba(196,198,208,0.2)">
+  <div class="max-w-[1280px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="flex items-start gap-4">
+      <span class="text-2xl leading-none mt-0.5 flex-shrink-0">🔒</span>
+      <div>
+        <strong class="block text-[14px] font-bold mb-1" style="color:#1A3C6E">Stripe Secure Payment</strong>
+        <p class="text-[13px] leading-relaxed m-0" style="color:#43474f">256-bit SSL encryption. We never store card details.</p>
+      </div>
+    </div>
+    <div class="flex items-start gap-4">
+      <span class="text-2xl leading-none mt-0.5 flex-shrink-0">↩</span>
+      <div>
+        <strong class="block text-[14px] font-bold mb-1" style="color:#1A3C6E">30-Day Money-Back</strong>
+        <p class="text-[13px] leading-relaxed m-0" style="color:#43474f">Not satisfied? Full refund, no questions asked.</p>
+      </div>
+    </div>
+    <div class="flex items-start gap-4">
+      <span class="text-2xl leading-none mt-0.5 flex-shrink-0">✓</span>
+      <div>
+        <strong class="block text-[14px] font-bold mb-1" style="color:#1A3C6E">Industry Recognised</strong>
+        <p class="text-[13px] leading-relaxed m-0" style="color:#43474f">CPD, ATHE, ILM and City &amp; Guilds accreditation.</p>
+      </div>
+    </div>
+    <div class="flex items-start gap-4">
+      <span class="text-2xl leading-none mt-0.5 flex-shrink-0">🎓</span>
+      <div>
+        <strong class="block text-[14px] font-bold mb-1" style="color:#1A3C6E">Immediate Access</strong>
+        <p class="text-[13px] leading-relaxed m-0" style="color:#43474f">Start learning the moment you enrol.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /wp:html -->
+
+<!-- ══ JS ════════════════════════════════════════════════════════ -->
+<!-- wp:html -->
+<script>
+(function () {
+  'use strict';
+  /* Countdown */
+  var end = new Date();
+  end.setDate(end.getDate() + 2);
+  end.setHours(14, 33, 7, 0);
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function tick() {
+    var d = Math.max(0, Math.floor((end - new Date()) / 1000));
+    document.getElementById('hd-days').textContent  = pad(Math.floor(d / 86400));
+    document.getElementById('hd-hours').textContent = pad(Math.floor((d % 86400) / 3600));
+    document.getElementById('hd-mins').textContent  = pad(Math.floor((d % 3600) / 60));
+    document.getElementById('hd-secs').textContent  = pad(d % 60);
+    if (d > 0) setTimeout(tick, 1000);
+  }
+  tick();
+
+  /* Filter tabs */
+  var tabs  = document.querySelectorAll('.hd-tab');
+  var cards = document.querySelectorAll('.hd-card');
+  var empty = document.getElementById('hd-empty');
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (t) { t.classList.remove('hd-tab-active'); t.style.color = '#43474f'; });
+      this.classList.add('hd-tab-active');
+      this.style.color = '';
+      var f = this.dataset.filter, v = 0;
+      cards.forEach(function (c) {
+        var show = f === 'all' || c.dataset.category === f;
+        c.style.display = show ? '' : 'none';
+        if (show) v++;
+      });
+      empty.classList.toggle('hidden', v > 0);
+    });
+  });
+
+  /* Hover lift for cards */
+  cards.forEach(function (c) {
+    c.addEventListener('mouseenter', function () { this.style.boxShadow = '0 8px 32px rgba(26,60,110,0.12)'; this.style.transform = 'translateY(-3px)'; });
+    c.addEventListener('mouseleave', function () { this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)'; this.style.transform = ''; });
+  });
+
+  /* Live viewer count */
+  var vEl = document.getElementById('hd-viewers');
+  if (vEl) setInterval(function () {
+    vEl.textContent = Math.max(80, Math.min(250, parseInt(vEl.textContent, 10) + Math.floor(Math.random() * 5) - 2));
+  }, 4000);
+})();
+</script>
+<!-- /wp:html -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /--> 

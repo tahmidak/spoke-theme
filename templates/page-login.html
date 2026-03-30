@@ -1,250 +1,283 @@
 <!-- wp:template-part {"slug":"header","tagName":"header"} /-->
 
 <!-- ═══════════════════════════════════════════════════════════════
-     LOGIN PAGE — page-login.html
-     Spoke Theme · Phase 4
-     Serves [tutor_login] shortcode.
-     WooCommerce login is redirected here via functions.php.
+     LOGIN — page-login.html
+     Spoke Theme · Phase 5  |  Tailwind CDN via functions.php
      ═══════════════════════════════════════════════════════════════ -->
 
-<!-- wp:group {"tagName":"main","className":"login-page","style":{"spacing":{"padding":{"top":"var(--wp--preset--spacing--12)","bottom":"var(--wp--preset--spacing--12)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}},"minHeight":"100vh","backgroundColor":"light"},"layout":{"type":"constrained","contentSize":"480px"}} -->
-<main class="wp-block-group login-page has-light-background-color has-background">
-
-	<!-- Card wrapper -->
-	<!-- wp:group {"className":"login-card","style":{"border":{"radius":"12px"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--6)","bottom":"var(--wp--preset--spacing--6)","left":"var(--wp--preset--spacing--6)","right":"var(--wp--preset--spacing--6)"}},"shadow":"var(--wp--preset--shadow--enrol-card)","backgroundColor":"white"}} -->
-	<div class="wp-block-group login-card has-white-background-color has-background" style="border-radius:12px;padding:var(--wp--preset--spacing--6);box-shadow:var(--wp--preset--shadow--enrol-card);">
-
-		<!-- Logo / site name -->
-		<!-- wp:site-title {"level":0,"isLink":true,"className":"login-card__logo","style":{"typography":{"fontSize":"1.5rem","fontWeight":"700","letterSpacing":"-0.02em","textDecoration":"none","textAlign":"center"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--1)"}},"elements":{"link":{"color":{"text":"var(--wp--preset--color--primary)"},":hover":{"color":{"text":"var(--wp--preset--color--accent)"}}}}}} /-->
-
-		<!-- Welcome heading -->
-		<!-- wp:heading {"level":2,"textAlign":"center","className":"login-card__heading","style":{"typography":{"fontSize":"1.75rem","fontWeight":"500","lineHeight":"1.2"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--1)"}},"color":{"text":"var(--wp--preset--color--primary)"}}} -->
-		<h2 class="wp-block-heading has-text-align-center login-card__heading has-primary-color has-text-color" style="font-size:1.75rem;font-weight:500;line-height:1.2;margin-top:0;margin-bottom:var(--wp--preset--spacing--1);">Welcome Back</h2>
-		<!-- /wp:heading -->
-
-		<!-- Sub-text -->
-		<!-- wp:paragraph {"textAlign":"center","className":"login-card__sub","style":{"typography":{"fontSize":"0.9375rem"},"color":{"text":"var(--wp--preset--color--on-surface-variant)"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--4)"}}}} -->
-		<p class="has-text-align-center login-card__sub" style="font-size:0.9375rem;color:var(--wp--preset--color--on-surface-variant);margin-top:0;margin-bottom:var(--wp--preset--spacing--4);">Access your learning dashboard</p>
-		<!-- /wp:paragraph -->
-
-		<!-- Tutor LMS login shortcode -->
-		<!-- wp:shortcode -->
-		[tutor_login]
-		<!-- /wp:shortcode -->
-
-		<!-- Divider -->
-		<!-- wp:html -->
-		<div class="login-card__divider" aria-hidden="true">
-			<span>or</span>
-		</div>
-		<!-- /wp:html -->
-
-		<!-- Social login placeholder (activated when WooCommerce Social Login is installed) -->
-		<!-- wp:html -->
-		<div class="login-card__social">
-			<p class="login-card__social-hint">Don't have an account? <a href="/courses/">Browse our courses</a></p>
-		</div>
-		<!-- /wp:html -->
-
-	</div>
-	<!-- /wp:group -->
-
-	<!-- Trust strip below card -->
-	<!-- wp:html -->
-	<div class="login-trust-strip">
-		<span>🔒 SSL Secured</span>
-		<span>·</span>
-		<span>✓ CPD Certified Platform</span>
-		<span>·</span>
-		<span>↩ 30-Day Guarantee</span>
-	</div>
-	<!-- /wp:html -->
-
-</main>
-<!-- /wp:group -->
-
-<!-- LOGIN PAGE STYLES ────────────────────────────────────────────
-     Scoped to this template only. Lives here rather than in global.css
-     because the login page is the only place that needs them.
-     ─────────────────────────────────────────────────────────────── -->
 <!-- wp:html -->
 <style>
-/* ── Login card shell ── */
-.login-page {
-	display:         flex;
-	flex-direction:  column;
-	align-items:     center;
-	justify-content: center;
-}
-
-/* ── Tutor LMS form reset inside the card ── */
-.login-card .tutor-login-form,
-.login-card .woocommerce-form-login {
-	width:   100%;
-	margin:  0;
-	padding: 0;
-}
-
-/* Labels */
-.login-card .tutor-form-group label,
-.login-card .woocommerce-form__label {
-	display:        block;
-	font-size:      11px;
-	font-weight:    700;
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-	color:          var(--wp--preset--color--on-surface-variant);
-	margin-bottom:  6px;
-}
-
-/* Input fields */
-.login-card .tutor-form-control,
-.login-card input[type="text"],
-.login-card input[type="email"],
-.login-card input[type="password"] {
-	width:         100%;
-	height:        48px;
-	padding:       0 var(--wp--preset--spacing--2);
-	background:    var(--wp--preset--color--light);
-	border:        1px solid rgba(0,0,0,0.1);
-	border-radius: 8px;
-	font-family:   var(--wp--preset--font-family--inter);
-	font-size:     var(--wp--preset--font-size--body);
-	color:         #191c1d;
-	transition:    border-color 200ms ease, box-shadow 200ms ease;
-	margin-bottom: var(--wp--preset--spacing--3);
-}
-.login-card input[type="text"]:focus,
-.login-card input[type="email"]:focus,
-.login-card input[type="password"]:focus {
-	outline:      none;
-	border-color: var(--wp--preset--color--accent);
-	box-shadow:   0 0 0 3px rgba(244,167,38,0.15);
-}
-
-/* Remember me */
-.login-card .tutor-form-check,
-.login-card .woocommerce-form__label-for-checkbox {
-	display:     flex;
-	align-items: center;
-	gap:         8px;
-	font-size:   var(--wp--preset--font-size--small);
-	color:       var(--wp--preset--color--on-surface-variant);
-	margin-bottom: var(--wp--preset--spacing--3);
-	cursor:      pointer;
-}
-.login-card input[type="checkbox"] {
-	width:        16px;
-	height:       16px;
-	accent-color: var(--wp--preset--color--primary);
-}
-
-/* Submit button */
-.login-card .tutor-btn-primary,
-.login-card input[type="submit"],
-.login-card button[type="submit"] {
-	width:           100%;
-	height:          52px;
-	background:      var(--wp--preset--color--primary);
-	color:           #ffffff;
-	border:          none;
-	border-radius:   8px;
-	font-family:     var(--wp--preset--font-family--inter);
-	font-size:       1.0625rem;
-	font-weight:     700;
-	cursor:          pointer;
-	transition:      filter 200ms ease, transform 200ms ease;
-	margin-top:      var(--wp--preset--spacing--1);
-}
-.login-card .tutor-btn-primary:hover,
-.login-card input[type="submit"]:hover,
-.login-card button[type="submit"]:hover {
-	filter:    brightness(1.1);
-	transform: translateY(-1px);
-}
-
-/* Lost password link */
-.login-card .tutor-lost-password,
-.login-card .woocommerce-LostPassword a,
-.login-card a[href*="lost-password"] {
-	display:         block;
-	text-align:      center;
-	font-size:       var(--wp--preset--font-size--small);
-	font-weight:     600;
-	color:           var(--wp--preset--color--primary);
-	text-decoration: none;
-	margin-top:      var(--wp--preset--spacing--2);
-}
-.login-card .tutor-lost-password:hover,
-.login-card a[href*="lost-password"]:hover {
-	text-decoration: underline;
-	color:           var(--wp--preset--color--accent);
-}
-
-/* Error messages */
-.login-card .tutor-notice,
-.login-card .woocommerce-error {
-	background:    rgba(186,26,26,0.06);
-	border-left:   4px solid var(--wp--preset--color--error);
-	border-radius: 8px;
-	padding:       var(--wp--preset--spacing--2);
-	font-size:     var(--wp--preset--font-size--small);
-	color:         var(--wp--preset--color--error);
-	margin-bottom: var(--wp--preset--spacing--3);
-}
-
-/* ── Divider ── */
-.login-card__divider {
-	display:         flex;
-	align-items:     center;
-	gap:             var(--wp--preset--spacing--2);
-	margin:          var(--wp--preset--spacing--3) 0;
-}
-.login-card__divider::before,
-.login-card__divider::after {
-	content:    '';
-	flex:       1;
-	height:     1px;
-	background: rgba(0,0,0,0.1);
-}
-.login-card__divider span {
-	font-size:  var(--wp--preset--font-size--small);
-	color:      var(--wp--preset--color--on-surface-variant);
-	flex-shrink: 0;
-}
-
-/* ── Social hint ── */
-.login-card__social-hint {
-	text-align: center;
-	font-size:  var(--wp--preset--font-size--small);
-	color:      var(--wp--preset--color--on-surface-variant);
-	margin:     0;
-}
-.login-card__social-hint a {
-	font-weight:     700;
-	color:           var(--wp--preset--color--primary);
-	text-decoration: none;
-}
-.login-card__social-hint a:hover {
-	text-decoration: underline;
-}
-
-/* ── Trust strip ── */
-.login-trust-strip {
-	display:     flex;
-	flex-wrap:   wrap;
-	align-items: center;
-	justify-content: center;
-	gap:         10px;
-	margin-top:  var(--wp--preset--spacing--4);
-	font-size:   11px;
-	font-weight: 700;
-	letter-spacing: 0.06em;
-	text-transform: uppercase;
-	color:       var(--wp--preset--color--on-surface-variant);
-	opacity:     0.7;
-}
+  .lf-input {
+    width:100%; height:50px; padding:0 44px;
+    background:#f3f4f5; border:1px solid rgba(0,0,0,0.12);
+    border-radius:8px; font-family:inherit; font-size:16px; color:#191c1d;
+    transition:border-color 200ms, box-shadow 200ms;
+  }
+  .lf-input:focus {
+    outline:none; border-color:#F4A726;
+    box-shadow:0 0 0 3px rgba(244,167,38,0.15);
+  }
+  .lf-input::placeholder { color:#6b7280; }
 </style>
+<!-- /wp:html -->
+
+<!-- wp:html -->
+<div class="min-h-[calc(100vh-72px)] flex items-center justify-center px-4 py-12" style="background:#f3f4f5">
+  <div class="w-full max-w-[1100px] grid grid-cols-1 lg:grid-cols-[480px_1fr] gap-8 items-center">
+
+    <!-- ── LOGIN CARD ── -->
+    <div class="bg-white rounded-2xl p-7 sm:p-10 flex flex-col gap-6"
+         style="box-shadow:0 20px 60px rgba(26,60,110,0.12)">
+
+      <!-- Brand -->
+      <div class="flex justify-center">
+        <a href="/" class="flex items-center gap-2 no-underline" aria-label="StudyMate Central — Home">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+               style="background:#1A3C6E">
+            <svg viewBox="0 0 24 24" class="w-5 h-5 text-white" fill="currentColor" aria-hidden="true">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <span class="font-bold text-[18px] tracking-tight" style="color:#1A3C6E">
+            StudyMate <span style="color:#F4A726">Central</span>
+          </span>
+        </a>
+      </div>
+
+      <div class="text-center">
+        <h1 class="font-bold text-[28px] tracking-[-0.8px] m-0 mb-1" style="color:#1A3C6E">Welcome Back</h1>
+        <p class="text-[14px] m-0" style="color:#43474f">Access your learning dashboard to continue your professional journey.</p>
+      </div>
+
+      <!-- ★ Tutor LMS shortcode goes here in production ★ -->
+      <!-- [tutor_login] -->
+
+      <!-- Fallback form (posts to wp-login.php) -->
+      <form id="lf-form" method="post" action="<?php echo esc_url( wp_login_url() ); ?>" novalidate
+            class="flex flex-col gap-4">
+
+        <!-- Email -->
+        <div class="flex flex-col gap-1.5">
+          <label for="lf-email" class="text-[11px] font-bold uppercase tracking-[0.8px]" style="color:#43474f">
+            Email Address <span style="color:#F4A726">*</span>
+          </label>
+          <div class="relative">
+            <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style="color:#43474f"
+                 fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <input type="email" id="lf-email" name="log" class="lf-input"
+                   placeholder="your@email.co.uk" required autocomplete="username email" />
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="flex flex-col gap-1.5">
+          <div class="flex items-center justify-between gap-2">
+            <label for="lf-pwd" class="text-[11px] font-bold uppercase tracking-[0.8px]" style="color:#43474f">
+              Password <span style="color:#F4A726">*</span>
+            </label>
+            <a href="/wp-login.php?action=lostpassword" class="text-[12px] font-semibold underline" style="color:#1A3C6E">
+              Forgot password?
+            </a>
+          </div>
+          <div class="relative">
+            <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style="color:#43474f"
+                 fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+            </svg>
+            <input type="password" id="lf-pwd" name="pwd" class="lf-input pr-12"
+                   placeholder="••••••••" required autocomplete="current-password" />
+            <button type="button" id="lf-pw-toggle" aria-label="Toggle password visibility"
+                    class="absolute right-3.5 top-1/2 -translate-y-1/2 flex items-center justify-center p-1"
+                    style="color:#43474f;background:none;border:none;cursor:pointer">
+              <svg id="lf-eye-show" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+              </svg>
+              <svg id="lf-eye-hide" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Remember me -->
+        <label class="flex items-center gap-2.5 cursor-pointer">
+          <input type="checkbox" name="rememberme" value="forever"
+                 class="w-4 h-4 rounded flex-shrink-0" style="accent-color:#1A3C6E" />
+          <span class="text-[13px]" style="color:#43474f">Remember me for 30 days</span>
+        </label>
+
+        <input type="hidden" name="redirect_to" value="/dashboard/" />
+        <input type="hidden" name="testcookie" value="1" />
+
+        <!-- Error state -->
+        <div class="hidden rounded-lg px-4 py-3 text-[13px] font-semibold" id="lf-error" role="alert"
+             style="background:rgba(186,26,26,0.08);color:#BA1A1A">
+          Incorrect email or password. Please try again.
+        </div>
+
+        <!-- Submit -->
+        <button type="submit"
+                class="w-full h-[52px] rounded-lg font-bold text-[17px] transition-all hover:brightness-110 hover:-translate-y-0.5"
+                style="background:#1A3C6E;color:#fff">
+          Sign In to Dashboard
+        </button>
+
+        <!-- Divider -->
+        <div class="relative flex items-center gap-3">
+          <div class="flex-1 h-px" style="background:rgba(0,0,0,0.1)"></div>
+          <span class="text-[12px]" style="color:#43474f">or continue with</span>
+          <div class="flex-1 h-px" style="background:rgba(0,0,0,0.1)"></div>
+        </div>
+
+        <!-- Social buttons -->
+        <div class="grid grid-cols-2 gap-3">
+          <button type="button" aria-label="Continue with Google"
+                  class="flex items-center justify-center gap-2 h-11 rounded-lg border font-semibold text-[13px] transition-all hover:brightness-95"
+                  style="border-color:rgba(0,0,0,0.12);color:#1A3C6E;background:#fff">
+            <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            Google
+          </button>
+          <button type="button" aria-label="Continue with LinkedIn"
+                  class="flex items-center justify-center gap-2 h-11 rounded-lg border font-semibold text-[13px] transition-all hover:brightness-95"
+                  style="border-color:rgba(0,0,0,0.12);color:#1A3C6E;background:#fff">
+            <svg width="18" height="18" fill="#0A66C2" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+            LinkedIn
+          </button>
+        </div>
+
+      </form>
+
+      <!-- Register link -->
+      <p class="text-center text-[13px] m-0" style="color:#43474f">
+        New to StudyMate Central?
+        <a href="/courses/" class="font-semibold underline" style="color:#1A3C6E">Browse our courses →</a>
+      </p>
+
+      <!-- Trust strip -->
+      <div class="flex flex-wrap items-center justify-center gap-4 pt-4 text-[12px] font-semibold"
+           style="color:#43474f;border-top:1px solid rgba(0,0,0,0.07)">
+        <span>🔒 Secure</span>
+        <span>🎓 10,000+ learners</span>
+        <span>✓ CPD Accredited</span>
+      </div>
+
+    </div><!-- /login card -->
+
+    <!-- ── PROMO PANEL (desktop only) ── -->
+    <div class="hidden lg:block rounded-2xl p-10 flex flex-col gap-7"
+         style="background:linear-gradient(135deg,#1A3C6E 0%,#1A1A2E 100%)"
+         aria-hidden="true">
+
+      <h2 class="font-bold text-[clamp(1.5rem,2.5vw,2rem)] leading-tight tracking-[-0.8px] m-0" style="color:#fff">
+        Continue Your Professional Journey
+      </h2>
+      <p class="text-[16px] leading-relaxed m-0" style="color:rgba(255,255,255,0.7)">
+        Access your accredited courses, track your progress, and download your certificates — all in one place.
+      </p>
+
+      <ul class="list-none m-0 p-0 flex flex-col gap-4">
+        <li class="flex items-start gap-3">
+          <span class="w-[22px] h-[22px] rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0 mt-0.5"
+                style="background:rgba(244,167,38,0.2);border:1px solid rgba(244,167,38,0.4);color:#F4A726">✓</span>
+          <div>
+            <strong class="block text-[14px] font-bold text-white mb-0.5">Your Progress, Saved</strong>
+            <p class="text-[13px] m-0" style="color:rgba(255,255,255,0.55)">Pick up exactly where you left off, on any device.</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="w-[22px] h-[22px] rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0 mt-0.5"
+                style="background:rgba(244,167,38,0.2);border:1px solid rgba(244,167,38,0.4);color:#F4A726">✓</span>
+          <div>
+            <strong class="block text-[14px] font-bold text-white mb-0.5">Certificates &amp; Records</strong>
+            <p class="text-[13px] m-0" style="color:rgba(255,255,255,0.55)">Download and share your accredited certificates instantly.</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="w-[22px] h-[22px] rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0 mt-0.5"
+                style="background:rgba(244,167,38,0.2);border:1px solid rgba(244,167,38,0.4);color:#F4A726">✓</span>
+          <div>
+            <strong class="block text-[14px] font-bold text-white mb-0.5">Exclusive Member Deals</strong>
+            <p class="text-[13px] m-0" style="color:rgba(255,255,255,0.55)">Exclusive pricing on new courses — available only when logged in.</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="w-[22px] h-[22px] rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0 mt-0.5"
+                style="background:rgba(244,167,38,0.2);border:1px solid rgba(244,167,38,0.4);color:#F4A726">✓</span>
+          <div>
+            <strong class="block text-[14px] font-bold text-white mb-0.5">Instructor Q&amp;A Access</strong>
+            <p class="text-[13px] m-0" style="color:rgba(255,255,255,0.55)">Direct access to your course instructors for expert guidance.</p>
+          </div>
+        </li>
+      </ul>
+
+      <!-- Testimonial -->
+      <div class="rounded-xl p-5 flex flex-col gap-3"
+           style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1)">
+        <div style="color:#F4A726;font-size:1rem;letter-spacing:2px">★★★★★</div>
+        <blockquote class="text-[15px] italic leading-[1.65] m-0 p-0" style="color:rgba(255,255,255,0.85);border:none">
+          "Within three months of completing my Strategic Management course, I secured a promotion to Senior level."
+        </blockquote>
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center text-[12px] font-bold flex-shrink-0"
+               style="background:#F4A726;color:#6b4500">JW</div>
+          <div>
+            <strong class="block text-white text-[13px] font-bold">James Whitaker</strong>
+            <span class="text-[12px]" style="color:rgba(255,255,255,0.55)">Senior Project Manager</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /promo panel -->
+
+  </div>
+</div>
+<!-- /wp:html -->
+
+<!-- ══ JS ════════════════════════════════════════════════════════ -->
+<!-- wp:html -->
+<script>
+(function () {
+  'use strict';
+
+  /* Password toggle */
+  var toggle  = document.getElementById('lf-pw-toggle');
+  var pwd     = document.getElementById('lf-pwd');
+  var eyeShow = document.getElementById('lf-eye-show');
+  var eyeHide = document.getElementById('lf-eye-hide');
+  if (toggle && pwd) {
+    toggle.addEventListener('click', function () {
+      var isHidden = pwd.type === 'password';
+      pwd.type = isHidden ? 'text' : 'password';
+      eyeShow.classList.toggle('hidden', isHidden);
+      eyeHide.classList.toggle('hidden', !isHidden);
+    });
+  }
+
+  /* Basic client-side guard (real auth happens server-side via wp-login.php) */
+  var form  = document.getElementById('lf-form');
+  var error = document.getElementById('lf-error');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      var email = document.getElementById('lf-email').value.trim();
+      var pass  = document.getElementById('lf-pwd').value;
+      if (!email || !pass) {
+        e.preventDefault();
+        error.classList.remove('hidden');
+      }
+    });
+  }
+})();
+</script>
 <!-- /wp:html -->
 
 <!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

@@ -1,0 +1,301 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ABOUT — page-about.html
+     Spoke Theme · Phase 5  |  Tailwind CDN via functions.php
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- wp:html -->
+<style>
+  .pillar-card {
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    background: rgba(58,58,80,0.30);
+    border-left: 4px solid #F4A726;
+  }
+  .team-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(26,60,110,0.10); }
+  .value-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(26,60,110,0.08); }
+  .accred-badge:hover { transform: translateY(-2px); }
+</style>
+<!-- /wp:html -->
+
+<!-- ══ HERO ══════════════════════════════════════════════════════ -->
+<!-- wp:html -->
+<section class="relative overflow-hidden py-24 lg:py-32 px-4"
+         style="background:linear-gradient(135deg,#1A3C6E 0%,#1A1A2E 100%)">
+
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(circle at 30% 20%,rgba(244,167,38,0.15) 0%,transparent 60%)"></div>
+  <div class="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-white/5 translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
+
+  <div class="relative max-w-[1280px] mx-auto flex flex-col gap-12">
+
+    <!-- Headline -->
+    <div class="flex flex-col gap-6 max-w-2xl">
+      <span class="self-start text-[11px] font-bold uppercase tracking-[0.8px] px-4 py-1.5 rounded-full border"
+            style="background:rgba(244,167,38,0.15);border-color:rgba(244,167,38,0.35);color:#F4A726">
+        Our Story
+      </span>
+      <h1 class="text-white font-bold leading-tight tracking-[-1.5px]" style="font-size:clamp(2rem,5vw,3.5rem)">
+        Empowering UK Professionals Since 2020
+      </h1>
+      <p class="text-lg sm:text-xl leading-[1.65]" style="color:#8aa8e0">
+        We bridge the gap between traditional academic excellence and the fast-paced demands of modern British industry. Our mission is to provide accessible, high-calibre professional development for the next generation of UK leaders.
+      </p>
+    </div>
+
+    <!-- Stats row -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="rounded-xl p-5 text-center" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12)">
+        <strong class="block text-[2rem] font-bold leading-none mb-1" style="color:#F4A726">10,000+</strong>
+        <span class="text-[13px]" style="color:rgba(255,255,255,0.55)">Professionals Trained</span>
+      </div>
+      <div class="rounded-xl p-5 text-center" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12)">
+        <strong class="block text-[2rem] font-bold leading-none mb-1" style="color:#F4A726">150+</strong>
+        <span class="text-[13px]" style="color:rgba(255,255,255,0.55)">Accredited Courses</span>
+      </div>
+      <div class="rounded-xl p-5 text-center" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12)">
+        <strong class="block text-[2rem] font-bold leading-none mb-1" style="color:#F4A726">4.9/5</strong>
+        <span class="text-[13px]" style="color:rgba(255,255,255,0.55)">Average Rating</span>
+      </div>
+      <div class="rounded-xl p-5 text-center" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12)">
+        <strong class="block text-[2rem] font-bold leading-none mb-1" style="color:#F4A726">8,500+</strong>
+        <span class="text-[13px]" style="color:rgba(255,255,255,0.55)">Graduates</span>
+      </div>
+    </div>
+
+    <!-- Value pillars -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="pillar-card rounded-xl p-8">
+        <div class="mb-5 w-8 h-8 flex items-center justify-center">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F4A726" stroke-width="2" class="w-7 h-7">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+          </svg>
+        </div>
+        <h3 class="text-white font-bold text-xl mb-3">Accredited Excellence</h3>
+        <p class="text-sm leading-relaxed m-0" style="color:#a6a4be">Every course carries nationally recognised accreditation — CPD, ATHE, ILM, or City &amp; Guilds. We never compromise on academic rigour.</p>
+      </div>
+      <div class="pillar-card rounded-xl p-8">
+        <div class="mb-5 w-8 h-8 flex items-center justify-center">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F4A726" stroke-width="2" class="w-7 h-7">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.63 48.63 0 0 1 12 20.904a48.63 48.63 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342"/>
+          </svg>
+        </div>
+        <h3 class="text-white font-bold text-xl mb-3">Expert-Led Teaching</h3>
+        <p class="text-sm leading-relaxed m-0" style="color:#a6a4be">Learn from industry veterans and PhD-level academics who bring real-world insights to every module — not just theory.</p>
+      </div>
+      <div class="pillar-card rounded-xl p-8 sm:col-span-2 lg:col-span-1">
+        <div class="mb-5 w-8 h-8 flex items-center justify-center">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F4A726" stroke-width="2" class="w-7 h-7">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/>
+          </svg>
+        </div>
+        <h3 class="text-white font-bold text-xl mb-3">Career-First Design</h3>
+        <p class="text-sm leading-relaxed m-0" style="color:#a6a4be">Programmes built backwards from employer expectations. We consult FTSE 100 HR directors to ensure every module delivers immediate workplace impact.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- /wp:html -->
+
+<!-- ══ TEAM ══════════════════════════════════════════════════════ -->
+<!-- wp:html -->
+<section class="py-20 lg:py-24 px-4" style="background:#f8f9fa">
+  <div class="max-w-[1280px] mx-auto flex flex-col gap-12">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+      <div class="flex flex-col gap-2">
+        <h2 class="font-bold text-[clamp(1.75rem,3vw,2.5rem)] tracking-[-1px] m-0" style="color:#1A3C6E">Meet the Leadership Team</h2>
+        <p class="text-[16px] m-0" style="color:#43474f">Industry veterans, academics, and educators united by a single purpose.</p>
+      </div>
+      <a href="/contact/" class="inline-flex items-center gap-2 font-semibold text-[15px] hover:underline self-start sm:self-auto" style="color:#1A3C6E">
+        Join our mission
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 16 16"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+    </div>
+
+    <!-- Team grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <!-- Team card template -->
+      <article class="team-card bg-white rounded-xl overflow-hidden transition-all duration-200" style="box-shadow:0 2px 8px rgba(0,0,0,0.06)">
+        <div class="h-48 flex items-center justify-center" style="background:linear-gradient(135deg,#1A3C6E 0%,#1A1A2E 100%)">
+          <span class="text-white text-[3rem] font-bold">SJ</span>
+        </div>
+        <div class="p-5 flex flex-col gap-1">
+          <h3 class="font-bold text-[18px] m-0" style="color:#1A3C6E">Dr. Sarah Jenkins</h3>
+          <p class="text-[13px] font-semibold m-0" style="color:#F4A726">Academic Director &amp; Co-Founder</p>
+          <p class="text-[13px] leading-relaxed mt-2 mb-3" style="color:#43474f">PhD in Organisational Leadership. Former McKinsey Senior Partner with 20+ years in executive coaching.</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="text-[11px] font-bold px-2 py-0.5 rounded" style="background:rgba(26,60,110,0.07);color:#1A3C6E">12,400+ students</span>
+            <span class="text-[11px] font-bold px-2 py-0.5 rounded" style="background:rgba(26,60,110,0.07);color:#1A3C6E">★ 4.9</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="team-card bg-white rounded-xl overflow-hidden transition-all duration-200" style="box-shadow:0 2px 8px rgba(0,0,0,0.06)">
+        <div class="h-48 flex items-center justify-center" style="background:linear-gradient(135deg,#F4A726 0%,#e67e00 100%)">
+          <span class="text-white text-[3rem] font-bold">DT</span>
+        </div>
+        <div class="p-5 flex flex-col gap-1">
+          <h3 class="font-bold text-[18px] m-0" style="color:#1A3C6E">David Thorne</h3>
+          <p class="text-[13px] font-semibold m-0" style="color:#F4A726">Head of Industry Partnerships</p>
+          <p class="text-[13px] leading-relaxed mt-2 mb-3" style="color:#43474f">Former VP at HSBC and Barclays. 15 years building financial literacy programmes for UK's leading banks.</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="text-[11px] font-bold px-2 py-0.5 rounded" style="background:rgba(26,60,110,0.07);color:#1A3C6E">8,200+ students</span>
+            <span class="text-[11px] font-bold px-2 py-0.5 rounded" style="background:rgba(26,60,110,0.07);color:#1A3C6E">★ 4.8</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="team-card bg-white rounded-xl overflow-hidden transition-all duration-200" style="box-shadow:0 2px 8px rgba(0,0,0,0.06)">
+        <div class="h-48 flex items-center justify-center" style="background:linear-gradient(135deg,#0d7377 0%,#14a085 100%)">
+          <span class="text-white text-[3rem] font-bold">AO</span>
+        </div>
+        <div class="p-5 flex flex-col gap-1">
+          <h3 class="font-bold text-[18px] m-0" style="color:#1A3C6E">Amara Okafor</h3>
+          <p class="text-[13px] font-semibold m-0" style="color:#F4A726">Student Success Manager</p>
+          <p class="text-[13px] leading-relaxed mt-2 mb-3" style="color:#43474f">MSc in Educational Psychology from UCL. Designed learner support frameworks for 50+ UK institutions.</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="text-[11px] font-bold px-2 py-0.5 rounded" style="background:rgba(26,60,110,0.07);color:#1A3C6E">4,900+ students</span>
+            <span class="text-[11px] font-bold px-2 py-0.5 rounded" style="background:rgba(26,60,110,0.07);color:#1A3C6E">★ 4.9</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="team-card bg-white rounded-xl overflow-hidden transition-all duration-200" style="box-shadow:0 2px 8px rgba(0,0,0,0.06)">
+        <div class="h-48 flex items-center justify-center" style="background:linear-gradient(135deg,#6c3483 0%,#9b59b6 100%)">
+          <span class="text-white text-[3rem] font-bold">MR</span>
+        </div>
+        <div class="p-5 flex flex-col gap-1">
+          <h3 class="font-bold text-[18px] m-0" style="color:#1A3C6E">Marcus Richardson</h3>
+          <p class="text-[13px] font-semibold m-0" style="color:#F4A726">Head of Technology</p>
+          <p class="text-[13px] leading-relaxed mt-2 mb-3" style="color:#43474f">CISO background spanning NHS, financial services and government. CISSP with 18 years frontline experience.</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="text-[11px] font-bold px-2 py-0.5 rounded" style="background:rgba(26,60,110,0.07);color:#1A3C6E">5,600+ students</span>
+            <span class="text-[11px] font-bold px-2 py-0.5 rounded" style="background:rgba(26,60,110,0.07);color:#1A3C6E">★ 4.7</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+<!-- /wp:html -->
+
+<!-- ══ ACCREDITATION ══════════════════════════════════════════════ -->
+<!-- wp:html -->
+<section class="py-20 lg:py-24 px-4 bg-white">
+  <div class="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+    <!-- Text -->
+    <div class="flex flex-col gap-5">
+      <span class="self-start text-[11px] font-bold uppercase tracking-[0.8px] px-4 py-1.5 rounded-full border"
+            style="background:rgba(244,167,38,0.15);border-color:rgba(244,167,38,0.35);color:#F4A726">
+        Quality Assurance
+      </span>
+      <h2 class="font-bold text-[clamp(1.75rem,3vw,2.25rem)] tracking-[-1px] m-0" style="color:#1A3C6E">
+        Our Accreditation Partners
+      </h2>
+      <p class="text-[16px] leading-relaxed m-0" style="color:#43474f">
+        Every StudyMate Central qualification is independently verified by one of the UK's leading awarding bodies, recognised by employers across all major UK sectors — from NHS Trusts to FTSE 100 boardrooms.
+      </p>
+      <ul class="flex flex-col gap-3 list-none m-0 p-0">
+        <li class="flex items-center gap-3 text-[15px]" style="color:#43474f">
+          <span class="font-bold" style="color:#1A3C6E">✓</span> CPD UK Certified — continuous professional development recognition
+        </li>
+        <li class="flex items-center gap-3 text-[15px]" style="color:#43474f">
+          <span class="font-bold" style="color:#1A3C6E">✓</span> ATHE — Awards for Training &amp; Higher Education
+        </li>
+        <li class="flex items-center gap-3 text-[15px]" style="color:#43474f">
+          <span class="font-bold" style="color:#1A3C6E">✓</span> ILM — Institute of Leadership &amp; Management
+        </li>
+        <li class="flex items-center gap-3 text-[15px]" style="color:#43474f">
+          <span class="font-bold" style="color:#1A3C6E">✓</span> City &amp; Guilds — vocational and technical excellence
+        </li>
+      </ul>
+      <div>
+        <a href="/courses/"
+           class="inline-flex items-center h-12 px-6 rounded-lg font-bold text-[16px] transition-all hover:brightness-105"
+           style="background:#F4A726;color:#6b4500">
+          Browse Accredited Courses
+        </a>
+      </div>
+    </div>
+
+    <!-- Badge grid -->
+    <div class="grid grid-cols-2 gap-4">
+      <div class="accred-badge bg-white rounded-xl p-6 flex flex-col items-center text-center gap-2 transition-all duration-200" style="box-shadow:0 2px 8px rgba(0,0,0,0.06)">
+        <span class="text-[2rem]">🎓</span>
+        <strong class="text-[16px] font-bold" style="color:#1A3C6E">CPD UK</strong>
+        <span class="text-[13px]" style="color:#43474f">Certified</span>
+      </div>
+      <div class="accred-badge bg-white rounded-xl p-6 flex flex-col items-center text-center gap-2 transition-all duration-200" style="box-shadow:0 2px 8px rgba(0,0,0,0.06)">
+        <span class="text-[2rem]">🏛️</span>
+        <strong class="text-[16px] font-bold" style="color:#1A3C6E">ATHE</strong>
+        <span class="text-[13px]" style="color:#43474f">Accredited</span>
+      </div>
+      <div class="accred-badge bg-white rounded-xl p-6 flex flex-col items-center text-center gap-2 transition-all duration-200" style="box-shadow:0 2px 8px rgba(0,0,0,0.06)">
+        <span class="text-[2rem]">🌟</span>
+        <strong class="text-[16px] font-bold" style="color:#1A3C6E">ILM</strong>
+        <span class="text-[13px]" style="color:#43474f">Approved</span>
+      </div>
+      <div class="accred-badge bg-white rounded-xl p-6 flex flex-col items-center text-center gap-2 transition-all duration-200" style="box-shadow:0 2px 8px rgba(0,0,0,0.06)">
+        <span class="text-[2rem]">⚙️</span>
+        <strong class="text-[16px] font-bold" style="color:#1A3C6E">City &amp; Guilds</strong>
+        <span class="text-[13px]" style="color:#43474f">Partner</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- /wp:html -->
+
+<!-- ══ QUOTE ══════════════════════════════════════════════════════ -->
+<!-- wp:html -->
+<section class="py-16 px-4" style="background:linear-gradient(135deg,#1A3C6E 0%,#1A1A2E 100%)">
+  <div class="max-w-[760px] mx-auto text-center flex flex-col items-center gap-6">
+    <blockquote class="text-[clamp(1.125rem,2.5vw,1.375rem)] font-medium leading-[1.65] italic m-0 p-0"
+                style="color:rgba(255,255,255,0.9);border:none">
+      "StudyMate Central didn't just give me a certificate — they gave me the confidence and frameworks to lead a 200-person transformation programme at my company. The ROI was immediate."
+    </blockquote>
+    <div class="flex items-center gap-3">
+      <div class="w-12 h-12 rounded-lg flex items-center justify-center text-[14px] font-bold flex-shrink-0"
+           style="background:#F4A726;color:#6b4500">JW</div>
+      <div class="text-left">
+        <strong class="block text-white text-[14px] font-bold">James Whitaker</strong>
+        <span class="text-[13px]" style="color:rgba(255,255,255,0.55)">Senior Project Manager, KPMG London</span>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /wp:html -->
+
+<!-- ══ CTA ═══════════════════════════════════════════════════════ -->
+<!-- wp:html -->
+<section class="py-20 px-4" style="background:#f3f4f5">
+  <div class="max-w-[600px] mx-auto text-center flex flex-col items-center gap-5">
+    <h2 class="font-bold text-[clamp(1.75rem,3vw,2.25rem)] tracking-[-1px] m-0" style="color:#1A3C6E">
+      Ready to Advance Your Career?
+    </h2>
+    <p class="text-[16px] leading-relaxed m-0" style="color:#43474f">
+      Join over 10,000 UK professionals who have already transformed their careers with our accredited programmes.
+    </p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="/courses/"
+         class="inline-flex items-center h-13 px-7 rounded-lg font-bold text-[17px] transition-all hover:brightness-105 hover:-translate-y-0.5"
+         style="background:#F4A726;color:#6b4500;height:52px">
+        Browse All Courses
+      </a>
+      <a href="/contact/"
+         class="inline-flex items-center h-13 px-7 rounded-lg font-bold text-[17px] border-2 transition-all hover:-translate-y-0.5"
+         style="border-color:#1A3C6E;color:#1A3C6E;height:52px">
+        Talk to Our Team
+      </a>
+    </div>
+  </div>
+</section>
+<!-- /wp:html -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

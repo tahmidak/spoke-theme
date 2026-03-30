@@ -1,312 +1,94 @@
 /*
  * global.css — Spoke Theme
  *
- * Purpose : Theme-wide structural styles that are NOT specific to
- *           Tutor LMS (→ lms-overrides.css) or WooCommerce
- *           (→ woocommerce-overrides.css).
+ * PURPOSE: WordPress-specific base fixes only.
+ * Tailwind CDN (loaded via functions.php wp_head) handles:
+ *   - CSS reset (Preflight)
+ *   - All layout / typography utilities
  *
- * Rules   : No hardcoded hex values. Use var(--wp--preset--color--*)
- *           or var(--wp--preset--spacing--*) only.
+ * LMS overrides    → lms-overrides.css
+ * WooCommerce      → woocommerce-overrides.css
  *
- * @package SpokeTheme
- * @version 1.0.0
+ * COLOUR RULE: never hardcode hex here — use Tailwind config tokens
+ * (bg-primary, text-accent …) in templates, or
+ * var(--wp--preset--color--*) in the two override CSS files.
  */
 
-/* ============================================================
-   0. RESETS / BASE
-   ============================================================ */
 
-/* Remove default list bullets in footer nav lists */
-.site-footer__link-list {
-	list-style: none;
-	margin: 0;
-	padding: 0;
+/* ── Universal box model ──────────────────────────────────────── */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
 }
 
-/* ============================================================
-   1. SITE HEADER
-   ============================================================ */
 
-.site-header {
-	position: sticky;
-	top: 0;
-	z-index: 100;
-	/* Frosted-glass effect — matches the stitch design */
-	backdrop-filter: blur(12px);
-	-webkit-backdrop-filter: blur(12px);
-	/* Subtle bottom shadow on scroll (JS adds .is-scrolled class) */
-	border-bottom: 1px solid transparent;
-	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+/* ── Body base ────────────────────────────────────────────────── */
+body {
+	font-family: 'Inter', system-ui, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background: #f8f9fa;   /* --wp--preset--color--light */
+	color: #191c1d;
 }
 
-.site-header.is-scrolled {
-	box-shadow: 0 1px 24px rgba(26, 60, 110, 0.08);
-	border-bottom-color: var(--wp--preset--color--surface);
+
+/* ── Smooth scroll ────────────────────────────────────────────── */
+html {
+	scroll-behavior: smooth;
 }
 
-/* Logo */
-.site-header__logo a {
-	text-decoration: none;
-	color: var(--wp--preset--color--primary) !important;
-}
 
-/* Nav links */
-.site-header__nav .wp-block-navigation-item__content,
-.site-header__nav .wp-block-navigation-item a {
-	color: var(--wp--preset--color--on-surface-variant);
-	transition: color 0.18s ease;
-	text-decoration: none;
+/* ── WordPress admin bar ──────────────────────────────────────── */
+/* When logged in, WP adds a 32px (desktop) or 46px (mobile) bar.
+   Offset our sticky header so it doesn't hide under the bar.      */
+.admin-bar #site-header {
+	top: 32px;
 }
-
-.site-header__nav .wp-block-navigation-item__content:hover,
-.site-header__nav .wp-block-navigation-item a:hover,
-.site-header__nav .current-menu-item > .wp-block-navigation-item__content {
-	color: var(--wp--preset--color--primary);
-}
-
-/* Active page indicator — amber underline */
-.site-header__nav .current-menu-item > .wp-block-navigation-item__content {
-	border-bottom: 2px solid var(--wp--preset--color--accent);
-	padding-bottom: 2px;
-}
-
-/* CTA button — slight scale on hover/active */
-.site-header__cta-btn .wp-block-button__link {
-	transition: transform 0.15s ease, opacity 0.15s ease;
-}
-
-.site-header__cta-btn .wp-block-button__link:hover {
-	opacity: 0.92;
-	transform: translateY(-1px);
-}
-
-.site-header__cta-btn .wp-block-button__link:active {
-	transform: scale(0.96);
-}
-
-/* ── Mobile hamburger overlay ── */
-.site-header__nav .wp-block-navigation__responsive-container.is-menu-open {
-	background-color: var(--wp--preset--color--light);
-}
-
-.site-header__nav .wp-block-navigation__responsive-container.is-menu-open
-.wp-block-navigation-item__content {
-	color: var(--wp--preset--color--primary);
-	font-size: 1.125rem;
-}
-
-/* Hamburger / close icon colour */
-.site-header__nav .wp-block-navigation__responsive-container-open,
-.site-header__nav .wp-block-navigation__responsive-container-close {
-	color: var(--wp--preset--color--primary);
-}
-
-/* Hide CTA button inside mobile overlay (it's already in the hamburger menu area) */
-@media (max-width: 781px) {
-	.site-header__cta {
-		display: none;
+@media screen and (max-width: 782px) {
+	.admin-bar #site-header {
+		top: 46px;
 	}
 }
 
-/* ============================================================
-   2. SITE FOOTER
-   ============================================================ */
 
-.site-footer {
-	/* Ensures footer columns are constrained properly */
-	contain: layout;
-}
-
-/* ── Column headings ── */
-.site-footer__col-heading {
-	color: var(--wp--preset--color--accent);
-}
-
-/* ── Tagline / description text ── */
-.site-footer__tagline {
-	opacity: 0.65;
-}
-
-/* ── Link lists ── */
-.site-footer__link-list li {
-	margin-bottom: 0.75rem;
-}
-
-.site-footer__link-list li:last-child {
+/* ── WordPress block defaults ─────────────────────────────────── */
+/* FSE group blocks add default padding via theme.json — reset
+   inner padding on the full-width hero/footer groups.              */
+.wp-block-group {
+	margin-top: 0;
 	margin-bottom: 0;
 }
 
-.site-footer__link-list a {
-	color: var(--wp--preset--color--white);
-	opacity: 0.65;
-	text-decoration: none;
-	transition: opacity 0.18s ease, color 0.18s ease;
+/* Site title block: remove heading margin */
+.wp-site-title {
+	margin: 0;
 }
 
-.site-footer__link-list a:hover {
-	opacity: 1;
-	color: var(--wp--preset--color--white);
-	text-decoration: underline;
-	text-decoration-color: var(--wp--preset--color--accent);
-	text-underline-offset: 4px;
+/* Remove WP block default link colour interference */
+.wp-block-navigation a:where(:not(.wp-element-button)) {
+	color: inherit;
 }
 
-/* ── Social links ── */
-.site-footer__social {
-	gap: var(--wp--preset--spacing--2);
+
+/* ── WooCommerce bare-minimum layout ─────────────────────────── */
+/* Prevents the default WC single-column layout from overriding
+   our custom checkout / my-account templates.                      */
+.woocommerce,
+.woocommerce-page {
+	width: 100%;
 }
 
-.site-footer__social-link {
-	margin: 0 !important;
-}
 
-.site-footer__social-link a {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	width: 2rem;
-	height: 2rem;
-	background-color: rgba(255, 255, 255, 0.06);
-	border-radius: 4px;
-	color: var(--wp--preset--color--white);
-	text-decoration: none;
-	font-size: 0.875rem;
-	font-weight: 700;
-	transition: background-color 0.18s ease, color 0.18s ease;
-}
-
-.site-footer__social-link a:hover {
-	background-color: var(--wp--preset--color--accent);
-	color: var(--wp--preset--color--primary);
-}
-
-/* ── Newsletter form ── */
-.site-footer__newsletter-desc {
-	opacity: 0.65;
-}
-
-.footer-newsletter-form__row {
-	display: flex;
-	gap: 0.5rem;
-}
-
-.footer-newsletter-form__input {
-	flex: 1 1 0%;
-	min-width: 0;
-	padding: 0.625rem 1rem;
-	background-color: rgba(255, 255, 255, 0.08);
-	border: 1px solid rgba(255, 255, 255, 0.14);
-	border-radius: 6px;
-	color: var(--wp--preset--color--white);
-	font-family: var(--wp--preset--font-family--inter), sans-serif;
-	font-size: 0.875rem;
-	outline: none;
-	transition: border-color 0.18s ease;
-}
-
-.footer-newsletter-form__input::placeholder {
-	color: rgba(255, 255, 255, 0.35);
-}
-
-.footer-newsletter-form__input:focus {
-	border-color: var(--wp--preset--color--accent);
-}
-
-.footer-newsletter-form__btn {
-	padding: 0.625rem 1.125rem;
-	background-color: var(--wp--preset--color--accent);
-	color: var(--wp--preset--color--primary);
-	border: none;
-	border-radius: 6px;
-	font-family: var(--wp--preset--font-family--inter), sans-serif;
-	font-size: 0.875rem;
-	font-weight: 700;
-	cursor: pointer;
+/* ── Utility: screen-reader only ─────────────────────────────── */
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
 	white-space: nowrap;
-	transition: opacity 0.15s ease, transform 0.15s ease;
+	border-width: 0;
 }
-
-.footer-newsletter-form__btn:hover {
-	opacity: 0.9;
-}
-
-.footer-newsletter-form__btn:active {
-	transform: scale(0.96);
-}
-
-/* ── Bottom bar ── */
-.site-footer__bottom {
-	/* Border opacity is handled via the block's inline border style */
-}
-
-.site-footer__copyright {
-	opacity: 0.45;
-	margin: 0 !important;
-}
-
-/* ── Trust badges ── */
-.site-footer__trust-badges {
-	opacity: 0.55;
-	transition: opacity 0.3s ease;
-}
-
-.site-footer__trust-badges:hover {
-	opacity: 1;
-}
-
-.site-footer__badge {
-	margin: 0 !important;
-}
-
-/* ── Responsive stacking ── */
-
-/* On tablet, make newsletter span full width */
-@media (max-width: 960px) {
-	.site-footer__columns {
-		flex-wrap: wrap;
-	}
-
-	.site-footer__col-brand,
-	.site-footer__col-newsletter {
-		flex-basis: 100% !important;
-		width: 100%;
-	}
-
-	.site-footer__col-links,
-	.site-footer__col-support {
-		flex-basis: calc(50% - var(--wp--preset--spacing--3)) !important;
-	}
-}
-
-/* On mobile, everything stacks */
-@media (max-width: 599px) {
-	.site-footer__col-links,
-	.site-footer__col-support {
-		flex-basis: 100% !important;
-		width: 100%;
-	}
-
-	.footer-newsletter-form__row {
-		flex-direction: column;
-	}
-
-	.footer-newsletter-form__btn {
-		width: 100%;
-		text-align: center;
-	}
-
-	.site-footer__bottom {
-		flex-direction: column;
-		align-items: flex-start;
-		gap: var(--wp--preset--spacing--2);
-	}
-}
-
-/* ============================================================
-   3. SCROLL BEHAVIOUR — JS hook
-   ============================================================ */
-/*
- * The .is-scrolled class is added by assets/js/header-scroll.js
- * (enqueued via functions.php). No styles needed here beyond
- * what's in section 1 above.
- */
