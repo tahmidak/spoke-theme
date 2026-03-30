@@ -3,509 +3,730 @@
 <!-- ═══════════════════════════════════════════════════════════════
      SINGLE COURSE — single-course.html
      Spoke Theme · Phase 3
+     Tutor LMS single course: hero, tabs, curriculum, enrol card.
      ═══════════════════════════════════════════════════════════════ -->
 
-<!-- COURSE HERO ─────────────────────────────────────────────────── -->
-<!-- wp:group {"tagName":"section","className":"course-hero","style":{"background":{"gradient":"var(--wp--preset--gradient--hero-navy)"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--8)","bottom":"var(--wp--preset--spacing--8)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}},"layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group course-hero" style="background:var(--wp--preset--gradient--hero-navy);">
+<!-- COURSE HERO ────────────────────────────────────────────────── -->
+<!-- wp:html -->
+<?php
+// Core course data
+$course_id    = get_the_ID();
+$rating_data  = tutor_utils()->get_course_rating( $course_id );
+$rating_avg   = $rating_data->rating_avg   ?? 0;
+$rating_cnt   = $rating_data->rating_count ?? 0;
+$students     = tutor_utils()->count_enrolled_users_by_course( $course_id );
+$price        = tutor_utils()->get_raw_course_price( $course_id );
+$sale_price   = get_post_meta( $course_id, '_sale_price', true );
+$duration     = get_post_meta( $course_id, '_course_duration', true );
+$level        = get_post_meta( $course_id, '_tutor_course_level', true );
+$lesson_count = tutor_utils()->get_course_content_count_by( $course_id, 'lesson' );
+$quiz_count   = tutor_utils()->get_quiz_count_by_course( $course_id );
+$last_updated = get_the_modified_date( 'j M Y', $course_id );
+$instructor   = get_userdata( get_post_field( 'post_author', $course_id ) );
+$cats         = get_the_terms( $course_id, 'course-category' );
+$cat_name     = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
+$cat_url      = ( $cats && ! is_wp_error( $cats ) ) ? get_term_link( $cats[0] ) : '#';
+$thumb_id     = get_post_thumbnail_id();
+$thumb_url    = $thumb_id
+	? wp_get_attachment_image_url( $thumb_id, 'large' )
+	: get_template_directory_uri() . '/assets/images/course-placeholder.jpg';
 
-	<!-- wp:columns {"className":"course-hero__layout","style":{"spacing":{"blockGap":{"left":"var(--wp--preset--spacing--8)"}}}} -->
-	<div class="wp-block-columns course-hero__layout">
+// Star helper
+function spoke_stars( $avg, $size = 'sm' ) {
+	$w = $size === 'lg' ? '20' : '14';
+	$out = '';
+	for ( $i = 1; $i <= 5; $i++ ) {
+		$color = $i <= round( $avg ) ? '#F4A726' : '#D1D5DB';
+		$out  .= "<svg width='{$w}' height='{$w}' fill='{$color}' viewBox='0 0 20 20'><path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z'/></svg>";
+	}
+	return $out;
+}
+?>
 
-		<!-- ── Left: Course Meta (65%) ── -->
-		<!-- wp:column {"width":"65%","className":"course-hero__meta"} -->
-		<div class="wp-block-column course-hero__meta" style="flex-basis:65%">
+<section class="course-hero" aria-label="Course overview">
+	<div class="course-hero__inner">
+
+		<!-- Left: meta -->
+		<div class="course-hero__meta">
 
 			<!-- Breadcrumb -->
-			<!-- wp:html -->
 			<nav class="course-hero__breadcrumb" aria-label="Breadcrumb">
 				<ol>
-					<li><a href="/">Home</a></li>
-					<li><a href="/courses/">Courses</a></li>
-					<li aria-current="page">Course Title</li>
+					<li><a href="/"><?php esc_html_e( 'Home', 'spoke-theme' ); ?></a></li>
+					<li><a href="<?php echo esc_url( get_post_type_archive_link( 'courses' ) ); ?>"><?php esc_html_e( 'Courses', 'spoke-theme' ); ?></a></li>
+					<?php if ( $cat_name ) : ?>
+					<li><a href="<?php echo esc_url( $cat_url ); ?>"><?php echo esc_html( $cat_name ); ?></a></li>
+					<?php endif; ?>
+					<li aria-current="page"><?php the_title(); ?></li>
 				</ol>
 			</nav>
-			<!-- /wp:html -->
 
-			<!-- Badges row -->
-			<!-- wp:html -->
+			<!-- Badges -->
 			<div class="course-hero__badges">
-				<span class="course-badge course-badge--accredited">CPD Accredited</span>
-				<span class="course-badge course-badge--level">Advanced Level</span>
-				<span class="course-badge course-badge--duration">12 Weeks</span>
+				<span class="course-badge course-badge--accredited"><?php esc_html_e( 'CPD Accredited', 'spoke-theme' ); ?></span>
+				<?php if ( $level ) : ?>
+				<span class="course-badge course-badge--level"><?php echo esc_html( ucfirst( $level ) ); ?></span>
+				<?php endif; ?>
+				<?php if ( $duration ) : ?>
+				<span class="course-badge course-badge--duration"><?php echo esc_html( $duration ); ?></span>
+				<?php endif; ?>
 			</div>
-			<!-- /wp:html -->
 
 			<!-- Title -->
-			<!-- wp:post-title {"level":1,"textColor":"white","className":"course-hero__title","style":{"typography":{"fontSize":"clamp(1.75rem,4vw,2.75rem)","fontWeight":"500","lineHeight":"1.2","letterSpacing":"-0.02em"},"spacing":{"margin":{"top":"var(--wp--preset--spacing--2)","bottom":"var(--wp--preset--spacing--3)"}}}} /-->
+			<h1 class="course-hero__title"><?php the_title(); ?></h1>
+
+			<!-- Excerpt -->
+			<p class="course-hero__excerpt">
+				<?php echo wp_kses_post( get_the_excerpt() ); ?>
+			</p>
 
 			<!-- Rating row -->
-			<!-- wp:html -->
 			<div class="course-hero__rating">
-				<div class="course-stars" aria-label="4.9 out of 5 stars">
-					<span class="course-stars__score">4.9</span>
-					<span class="course-stars__icons" aria-hidden="true">★★★★★</span>
-					<span class="course-stars__count">(1,240 reviews)</span>
+				<div class="course-stars">
+					<span class="course-stars__score"><?php echo number_format( (float) $rating_avg, 1 ); ?></span>
+					<span class="course-stars__icons"><?php echo spoke_stars( $rating_avg ); // phpcs:ignore ?></span>
+					<span class="course-stars__count">(<?php echo number_format( (int) $rating_cnt ); ?> <?php esc_html_e( 'reviews', 'spoke-theme' ); ?>)</span>
 				</div>
-				<span class="course-hero__separator" aria-hidden="true">·</span>
-				<span class="course-hero__students">3,500+ students enrolled</span>
+				<?php if ( $students ) : ?>
+				<span class="course-hero__separator">·</span>
+				<span class="course-hero__students"><?php echo number_format( (int) $students ); ?> <?php esc_html_e( 'students', 'spoke-theme' ); ?></span>
+				<?php endif; ?>
 			</div>
-			<!-- /wp:html -->
 
 			<!-- Instructor -->
-			<!-- wp:html -->
+			<?php if ( $instructor ) : ?>
 			<div class="course-hero__instructor">
-				<img
-					src=""
-					alt="Instructor photo"
-					class="course-hero__instructor-avatar"
-					width="36"
-					height="36"
-					loading="lazy"
-				/>
+				<?php $av = get_user_meta( $instructor->ID, '_tutor_profile_photo', true ); ?>
+				<?php if ( $av ) : ?>
+				<img src="<?php echo esc_url( $av ); ?>" alt="<?php echo esc_attr( $instructor->display_name ); ?>" class="course-hero__instructor-avatar" width="36" height="36" loading="lazy" />
+				<?php else : ?>
+				<div class="course-hero__instructor-avatar-fallback"><?php echo esc_html( mb_substr( $instructor->display_name, 0, 2 ) ); ?></div>
+				<?php endif; ?>
 				<div class="course-hero__instructor-info">
-					<span class="course-hero__instructor-label">Instructor</span>
-					<span class="course-hero__instructor-name">Dr. Sarah Jenkins</span>
+					<span class="course-hero__instructor-label"><?php esc_html_e( 'Instructor', 'spoke-theme' ); ?></span>
+					<span class="course-hero__instructor-name"><?php echo esc_html( $instructor->display_name ); ?></span>
 				</div>
 			</div>
-			<!-- /wp:html -->
+			<?php endif; ?>
 
 			<!-- Last updated -->
-			<!-- wp:html -->
 			<p class="course-hero__updated">
-				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-				Last updated <time>October 2024</time>
+				<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+				<?php echo esc_html( sprintf( __( 'Last updated %s', 'spoke-theme' ), $last_updated ) ); ?>
 			</p>
-			<!-- /wp:html -->
 
-		</div>
-		<!-- /wp:column -->
+		</div><!-- /.course-hero__meta -->
 
-		<!-- ── Right: Enrolment Card (35%) ── -->
-		<!-- wp:column {"width":"35%","className":"course-hero__enrol-col"} -->
-		<div class="wp-block-column course-hero__enrol-col" style="flex-basis:35%">
+		<!-- Right: sticky enrol card -->
+		<div class="course-hero__enrol-col">
+			<div class="enrol-card course-sidebar-sticky">
 
-			<!-- wp:html -->
-			<div class="enrol-card" id="enrol-card">
-
-				<!-- Course preview image / video -->
+				<!-- Preview media -->
 				<div class="enrol-card__media">
-					<!-- wp:post-featured-image {"className":"enrol-card__img","isLink":false} /-->
-					<button class="enrol-card__play-btn" aria-label="Watch course preview">
-						<span class="enrol-card__play-icon" aria-hidden="true">
-							<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+					<img src="<?php echo esc_url( $thumb_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="enrol-card__img" width="400" height="225" loading="eager" />
+					<button class="enrol-card__play-btn" aria-label="<?php esc_attr_e( 'Watch preview', 'spoke-theme' ); ?>">
+						<span class="enrol-card__play-icon">
+							<svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
 						</span>
 					</button>
 				</div>
 
-				<!-- Price -->
+				<!-- Pricing -->
 				<div class="enrol-card__pricing">
-					<span class="enrol-card__price">£299</span>
-					<span class="enrol-card__price-original">£450</span>
-					<span class="enrol-card__discount">33% OFF</span>
-				</div>
-
-				<!-- Countdown (conditionally shown via functions.php) -->
-				<div class="enrol-card__countdown" aria-label="Offer expires in">
-					<p class="enrol-card__countdown-label">Offer ends in</p>
-					<div class="enrol-card__countdown-timer" data-end="2024-12-31T23:59:59">
-						<div class="countdown-unit"><span class="countdown-num" data-unit="hours">00</span><span class="countdown-label">hrs</span></div>
-						<div class="countdown-sep" aria-hidden="true">:</div>
-						<div class="countdown-unit"><span class="countdown-num" data-unit="minutes">00</span><span class="countdown-label">min</span></div>
-						<div class="countdown-sep" aria-hidden="true">:</div>
-						<div class="countdown-unit"><span class="countdown-num" data-unit="seconds">00</span><span class="countdown-label">sec</span></div>
-					</div>
+					<?php if ( $sale_price ) : ?>
+						<span class="enrol-card__price">£<?php echo number_format( (float) $sale_price, 2 ); ?></span>
+						<span class="enrol-card__price-original">£<?php echo number_format( (float) $price, 2 ); ?></span>
+						<?php
+						$pct = $price > 0 ? round( ( 1 - $sale_price / $price ) * 100 ) : 0;
+						if ( $pct > 0 ) :
+							?>
+						<span class="enrol-card__discount"><?php echo (int) $pct; ?>% <?php esc_html_e( 'off', 'spoke-theme' ); ?></span>
+						<?php endif; ?>
+					<?php elseif ( $price ) : ?>
+						<span class="enrol-card__price">£<?php echo number_format( (float) $price, 2 ); ?></span>
+					<?php else : ?>
+						<span class="enrol-card__price"><?php esc_html_e( 'Free', 'spoke-theme' ); ?></span>
+					<?php endif; ?>
 				</div>
 
 				<!-- CTA -->
-				<a href="?add-to-cart=PRODUCT_ID" class="enrol-card__cta">Enrol Now</a>
+				<?php do_action( 'tutor_course/single/enrol_btn' ); ?>
 
-				<!-- Money-back -->
-				<p class="enrol-card__guarantee">
-					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-					30-Day Money-Back Guarantee
-				</p>
+				<!-- Guarantee -->
+				<div class="enrol-card__guarantee">
+					<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+					<?php esc_html_e( '30-Day Money-Back Guarantee', 'spoke-theme' ); ?>
+				</div>
 
-				<!-- Course includes -->
+				<!-- Includes -->
 				<ul class="enrol-card__includes">
+					<?php if ( $lesson_count ) : ?>
 					<li>
-						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="9 9 10 17 12 13 14 17 15 9"/></svg>
-						Lifetime access to all materials
+						<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+						<?php printf( esc_html__( '%d lessons', 'spoke-theme' ), (int) $lesson_count ); ?>
+					</li>
+					<?php endif; ?>
+					<?php if ( $quiz_count ) : ?>
+					<li>
+						<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+						<?php printf( esc_html__( '%d quizzes', 'spoke-theme' ), (int) $quiz_count ); ?>
+					</li>
+					<?php endif; ?>
+					<li>
+						<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+						<?php esc_html_e( 'Mobile & desktop access', 'spoke-theme' ); ?>
 					</li>
 					<li>
-						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-						24 downloadable resources
+						<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+						<?php esc_html_e( 'CPD certificate on completion', 'spoke-theme' ); ?>
 					</li>
 					<li>
-						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-						Mobile &amp; tablet friendly
-					</li>
-					<li>
-						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" width="16" height="16" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
-						Accredited certificate on completion
+						<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+						<?php esc_html_e( 'Direct Q&amp;A with instructor', 'spoke-theme' ); ?>
 					</li>
 				</ul>
 
 				<!-- Share / wishlist -->
 				<div class="enrol-card__actions">
-					<button class="enrol-card__action-btn" aria-label="Add to wishlist">
-						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-						Wishlist
+					<button class="enrol-card__action-btn">
+						<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+						<?php esc_html_e( 'Wishlist', 'spoke-theme' ); ?>
 					</button>
-					<button class="enrol-card__action-btn" aria-label="Share this course">
-						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-						Share
+					<button class="enrol-card__action-btn">
+						<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+						<?php esc_html_e( 'Share', 'spoke-theme' ); ?>
 					</button>
 				</div>
 
-			</div>
-			<!-- /wp:html -->
+			</div><!-- /.enrol-card -->
+		</div><!-- /.course-hero__enrol-col -->
 
-		</div>
-		<!-- /wp:column -->
-
-	</div>
-	<!-- /wp:columns -->
-
+	</div><!-- /.course-hero__inner -->
 </section>
-<!-- /wp:group -->
+<!-- /wp:html -->
 
-<!-- COURSE CONTENT ──────────────────────────────────────────────── -->
-<!-- wp:group {"tagName":"section","className":"course-content","style":{"spacing":{"padding":{"top":"var(--wp--preset--spacing--8)","bottom":"var(--wp--preset--spacing--12)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}},"layout":{"type":"constrained","wideSize":"1280px"}} -->
+<!-- TABS + MAIN CONTENT ────────────────────────────────────────── -->
+<!-- wp:group {"tagName":"section","className":"course-content","style":{"spacing":{"padding":{"top":"var(--wp--preset--spacing--6)","bottom":"var(--wp--preset--spacing--12)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}},"layout":{"type":"constrained","wideSize":"1280px"}} -->
 <section class="wp-block-group course-content">
+<div class="course-content__layout">
 
-	<!-- wp:columns {"className":"course-content__layout","style":{"spacing":{"blockGap":{"left":"var(--wp--preset--spacing--8)"}}}} -->
-	<div class="wp-block-columns course-content__layout">
+	<!-- ── LEFT: Tabs ── -->
+	<div class="course-content__main">
 
-		<!-- ── Main content (65%) ── -->
-		<!-- wp:column {"width":"65%","className":"course-content__main"} -->
-		<div class="wp-block-column course-content__main" style="flex-basis:65%">
-
-			<!-- Tab navigation -->
-			<!-- wp:html -->
-			<nav class="course-tabs" aria-label="Course sections">
-				<button class="course-tab course-tab--active" data-tab="overview" aria-selected="true">Overview</button>
-				<button class="course-tab" data-tab="curriculum" aria-selected="false">Curriculum</button>
-				<button class="course-tab" data-tab="instructor" aria-selected="false">Instructor</button>
-				<button class="course-tab" data-tab="reviews" aria-selected="false">Reviews</button>
-			</nav>
-			<!-- /wp:html -->
-
-			<!-- ─── Tab: Overview ─── -->
-			<!-- wp:html -->
-			<div class="course-tab-panel" id="tab-overview" role="tabpanel" aria-labelledby="tab-overview-btn">
-			<!-- /wp:html -->
-
-				<!-- What you'll learn -->
-				<!-- wp:group {"className":"course-what-learn","style":{"spacing":{"margin":{"top":"var(--wp--preset--spacing--4)","bottom":"var(--wp--preset--spacing--6)"}},"border":{"radius":"8px"},"backgroundColor":"success"}} -->
-				<div class="wp-block-group course-what-learn has-success-background-color has-background" style="border-radius:8px;margin-top:var(--wp--preset--spacing--4);margin-bottom:var(--wp--preset--spacing--6);">
-
-					<!-- wp:heading {"level":2,"style":{"typography":{"fontSize":"1.25rem","fontWeight":"600"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--3)"}}}} -->
-					<h2 class="wp-block-heading" style="font-size:1.25rem;font-weight:600;margin-top:0;margin-bottom:var(--wp--preset--spacing--3);">What you'll learn</h2>
-					<!-- /wp:heading -->
-
-					<!-- wp:html -->
-					<ul class="course-learn-list">
-						<li>Design and implement digital transformation frameworks across organisations</li>
-						<li>Master stakeholder management in complex, changing environments</li>
-						<li>Utilise data analytics to drive strategic decision-making</li>
-						<li>Build and lead high-performance agile teams</li>
-						<li>Earn an accredited certificate recognised by UK employers</li>
-						<li>Access CPD hours for professional development portfolios</li>
-					</ul>
-					<!-- /wp:html -->
-
-				</div>
-				<!-- /wp:group -->
-
-				<!-- Description -->
-				<!-- wp:group {"className":"course-description"} -->
-				<div class="wp-block-group course-description">
-					<!-- wp:heading {"level":2,"style":{"typography":{"fontSize":"1.25rem","fontWeight":"600"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--3)"}}}} -->
-					<h2 class="wp-block-heading" style="font-size:1.25rem;font-weight:600;margin-top:0;margin-bottom:var(--wp--preset--spacing--3);">Course Description</h2>
-					<!-- /wp:heading -->
-					<!-- wp:post-content {"className":"course-description__body"} /-->
-				</div>
-				<!-- /wp:group -->
-
-				<!-- Requirements -->
-				<!-- wp:html -->
-				<div class="course-requirements">
-					<h2 class="course-section-heading">Requirements</h2>
-					<ul class="course-requirements__list">
-						<li>No prior certification required — suitable for professionals with 2+ years of work experience</li>
-						<li>A device with internet access (desktop or mobile)</li>
-						<li>Approximately 4–6 hours per week commitment</li>
-					</ul>
-				</div>
-				<!-- /wp:html -->
-
-			<!-- wp:html -->
-			</div><!-- end tab-overview -->
-			<!-- /wp:html -->
-
-			<!-- ─── Tab: Curriculum ─── -->
-			<!-- wp:html -->
-			<div class="course-tab-panel course-tab-panel--hidden" id="tab-curriculum" role="tabpanel" aria-labelledby="tab-curriculum-btn">
-
-				<h2 class="course-section-heading">Course Curriculum</h2>
-
-				<!--
-					Tutor LMS renders the curriculum accordion automatically
-					when it detects a single course template. The class names
-					below allow lms-overrides.css to re-skin the Tutor output.
-
-					The following placeholder shows the expected markup shape:
-				-->
-				<div class="tutor-course-content-list">
-					<div class="tutor-course-content-list__topic">
-						<div class="tutor-course-content-list__topic-header">
-							<span class="tutor-topic-label">Module 01</span>
-							<h3 class="tutor-topic-title">Foundations of Strategic Leadership</h3>
-							<span class="tutor-topic-meta">4 Lessons · 45 min</span>
-							<button class="tutor-topic-toggle" aria-expanded="true" aria-label="Toggle module">
-								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-							</button>
-						</div>
-						<ul class="tutor-topic-lesson-list">
-							<li class="tutor-lesson-item tutor-lesson-item--free">
-								<svg class="tutor-lesson-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-								<span class="tutor-lesson-title">Welcome &amp; Course Orientation</span>
-								<span class="tutor-lesson-meta">5 min</span>
-								<span class="tutor-lesson-free-badge">Free Preview</span>
-							</li>
-							<li class="tutor-lesson-item">
-								<svg class="tutor-lesson-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-								<span class="tutor-lesson-title">History of Strategic Management</span>
-								<span class="tutor-lesson-meta">12 min</span>
-								<svg class="tutor-lesson-lock" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-							</li>
-							<li class="tutor-lesson-item">
-								<svg class="tutor-lesson-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-								<span class="tutor-lesson-title">Reading: Core Frameworks PDF</span>
-								<span class="tutor-lesson-meta">PDF</span>
-								<svg class="tutor-lesson-lock" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-							</li>
-							<li class="tutor-lesson-item">
-								<svg class="tutor-lesson-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-								<span class="tutor-lesson-title">Quiz: Strategy Foundations</span>
-								<span class="tutor-lesson-meta">10 questions</span>
-								<svg class="tutor-lesson-lock" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-							</li>
-						</ul>
-					</div>
-
-					<div class="tutor-course-content-list__topic">
-						<div class="tutor-course-content-list__topic-header">
-							<span class="tutor-topic-label">Module 02</span>
-							<h3 class="tutor-topic-title">Leadership in a Volatile World</h3>
-							<span class="tutor-topic-meta">6 Lessons · 1h 20 min</span>
-							<button class="tutor-topic-toggle" aria-expanded="false" aria-label="Toggle module">
-								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-							</button>
-						</div>
-					</div>
-
-					<div class="tutor-course-content-list__topic">
-						<div class="tutor-course-content-list__topic-header">
-							<span class="tutor-topic-label">Module 03</span>
-							<h3 class="tutor-topic-title">Data-Driven Decision Making</h3>
-							<span class="tutor-topic-meta">5 Lessons · 55 min</span>
-							<button class="tutor-topic-toggle" aria-expanded="false" aria-label="Toggle module">
-								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-							</button>
-						</div>
-					</div>
-				</div>
-
-			</div><!-- end tab-curriculum -->
-			<!-- /wp:html -->
-
-			<!-- ─── Tab: Instructor ─── -->
-			<!-- wp:html -->
-			<div class="course-tab-panel course-tab-panel--hidden" id="tab-instructor" role="tabpanel" aria-labelledby="tab-instructor-btn">
-
-				<h2 class="course-section-heading">Your Instructor</h2>
-
-				<div class="course-instructor-card">
-					<img src="" alt="Instructor portrait" class="course-instructor-card__avatar" width="120" height="120" loading="lazy" />
-					<div class="course-instructor-card__info">
-						<h3 class="course-instructor-card__name">Dr. Sarah Jenkins</h3>
-						<p class="course-instructor-card__title">PhD in Organisational Leadership · Ex-McKinsey Senior Partner</p>
-						<div class="course-instructor-card__stats">
-							<div class="course-instructor-stat"><strong>12,400+</strong><span>Students</span></div>
-							<div class="course-instructor-stat"><strong>8</strong><span>Courses</span></div>
-							<div class="course-instructor-stat"><strong>4.9</strong><span>Avg Rating</span></div>
-						</div>
-						<p class="course-instructor-card__bio">With over 20 years in management consulting and executive coaching, Dr. Jenkins has helped FTSE 100 companies navigate digital transformation. She specialises in behavioural economics and evidence-based strategic planning.</p>
-					</div>
-				</div>
-
-			</div><!-- end tab-instructor -->
-			<!-- /wp:html -->
-
-			<!-- ─── Tab: Reviews ─── -->
-			<!-- wp:html -->
-			<div class="course-tab-panel course-tab-panel--hidden" id="tab-reviews" role="tabpanel" aria-labelledby="tab-reviews-btn">
-
-				<h2 class="course-section-heading">Student Reviews</h2>
-
-				<!-- Rating summary -->
-				<div class="course-rating-summary">
-					<div class="course-rating-summary__score">
-						<span class="course-rating-summary__big">4.9</span>
-						<span class="course-rating-summary__stars" aria-hidden="true">★★★★★</span>
-						<span class="course-rating-summary__label">Course Rating</span>
-					</div>
-					<div class="course-rating-summary__bars">
-						<div class="course-rating-bar">
-							<div class="course-rating-bar__track"><div class="course-rating-bar__fill" style="width:92%"></div></div>
-							<span class="course-rating-bar__pct">92%</span>
-						</div>
-						<div class="course-rating-bar">
-							<div class="course-rating-bar__track"><div class="course-rating-bar__fill" style="width:6%"></div></div>
-							<span class="course-rating-bar__pct">6%</span>
-						</div>
-						<div class="course-rating-bar">
-							<div class="course-rating-bar__track"><div class="course-rating-bar__fill" style="width:2%"></div></div>
-							<span class="course-rating-bar__pct">2%</span>
-						</div>
-						<div class="course-rating-bar">
-							<div class="course-rating-bar__track"><div class="course-rating-bar__fill" style="width:0%"></div></div>
-							<span class="course-rating-bar__pct">0%</span>
-						</div>
-						<div class="course-rating-bar">
-							<div class="course-rating-bar__track"><div class="course-rating-bar__fill" style="width:0%"></div></div>
-							<span class="course-rating-bar__pct">0%</span>
-						</div>
-					</div>
-				</div>
-
-				<!--
-					Tutor LMS renders the actual review list here.
-					lms-overrides.css targets .tutor-reviews-list, etc.
-				-->
-				<div class="tutor-reviews-list">
-					<article class="tutor-review-item">
-						<div class="tutor-review-item__header">
-							<img src="" alt="" class="tutor-review-item__avatar" width="44" height="44" loading="lazy" />
-							<div>
-								<strong class="tutor-review-item__name">James Whitaker</strong>
-								<span class="tutor-review-item__role">Senior Project Manager</span>
-							</div>
-							<span class="tutor-review-item__stars" aria-label="5 stars">★★★★★</span>
-						</div>
-						<blockquote class="tutor-review-item__body">Within three months of completing this course I secured a promotion to Senior level. Truly a career-changing platform. The curriculum is incredibly thorough and the instructor's real-world experience shows in every lesson.</blockquote>
-					</article>
-					<article class="tutor-review-item">
-						<div class="tutor-review-item__header">
-							<img src="" alt="" class="tutor-review-item__avatar" width="44" height="44" loading="lazy" />
-							<div>
-								<strong class="tutor-review-item__name">Emily Chen</strong>
-								<span class="tutor-review-item__role">Operations Lead</span>
-							</div>
-							<span class="tutor-review-item__stars" aria-label="5 stars">★★★★★</span>
-						</div>
-						<blockquote class="tutor-review-item__body">As a busy professional, I needed flexibility without sacrificing quality. StudyMate Central provided both. The accreditation is respected everywhere in the UK market.</blockquote>
-					</article>
-				</div>
-
-			</div><!-- end tab-reviews -->
-			<!-- /wp:html -->
-
+		<!-- Tab navigation -->
+		<!-- wp:html -->
+		<div class="course-tabs" role="tablist" aria-label="Course sections">
+			<button class="course-tab course-tab--active" role="tab" aria-selected="true"  aria-controls="tab-overview"   id="tab-btn-overview"><?php esc_html_e( 'Overview', 'spoke-theme' ); ?></button>
+			<button class="course-tab"                   role="tab" aria-selected="false" aria-controls="tab-curriculum" id="tab-btn-curriculum"><?php esc_html_e( 'Curriculum', 'spoke-theme' ); ?></button>
+			<button class="course-tab"                   role="tab" aria-selected="false" aria-controls="tab-instructor" id="tab-btn-instructor"><?php esc_html_e( 'Instructor', 'spoke-theme' ); ?></button>
+			<button class="course-tab"                   role="tab" aria-selected="false" aria-controls="tab-reviews"   id="tab-btn-reviews"><?php esc_html_e( 'Reviews', 'spoke-theme' ); ?></button>
 		</div>
-		<!-- /wp:column -->
+		<!-- /wp:html -->
 
-		<!-- ── Sticky sidebar (35%) — desktop only ── -->
-		<!-- wp:column {"width":"35%","className":"course-content__sidebar"} -->
-		<div class="wp-block-column course-content__sidebar" style="flex-basis:35%">
-			<!-- Sticky enrol card clone (desktop) — hidden on mobile -->
-			<!-- wp:html -->
-			<div class="course-sidebar-sticky" aria-hidden="true">
-				<!-- JS clones #enrol-card here on scroll past hero on desktop -->
+		<!-- ─ OVERVIEW ─ -->
+		<!-- wp:html -->
+		<div id="tab-overview" class="course-tab-panel" role="tabpanel" aria-labelledby="tab-btn-overview">
+
+			<?php
+			// What you'll learn
+			$learn_items = get_post_meta( $course_id, '_tutor_course_benefits', true );
+			if ( $learn_items ) :
+				$items = array_filter( array_map( 'trim', explode( "\n", $learn_items ) ) );
+				?>
+			<div class="course-what-learn">
+				<h2 class="course-section-heading"><?php esc_html_e( "What you'll learn", 'spoke-theme' ); ?></h2>
+				<ul class="course-learn-list">
+					<?php foreach ( $items as $item ) : ?>
+					<li><?php echo esc_html( $item ); ?></li>
+					<?php endforeach; ?>
+				</ul>
 			</div>
-			<!-- /wp:html -->
+			<?php endif; ?>
+
+			<?php
+			// Course description
+			if ( have_posts() ) :
+				while ( have_posts() ) :
+					the_post();
+					?>
+			<div class="course-description" style="margin-top:var(--wp--preset--spacing--4);">
+				<?php the_content(); ?>
+			</div>
+			<?php
+				endwhile;
+			endif;
+			?>
+
+			<?php
+			// Requirements
+			$requirements = get_post_meta( $course_id, '_tutor_course_requirements', true );
+			if ( $requirements ) :
+				$req_items = array_filter( array_map( 'trim', explode( "\n", $requirements ) ) );
+				?>
+			<div class="course-requirements" style="margin-top:var(--wp--preset--spacing--4);">
+				<h2 class="course-section-heading"><?php esc_html_e( 'Requirements', 'spoke-theme' ); ?></h2>
+				<ul class="course-requirements__list">
+					<?php foreach ( $req_items as $req ) : ?>
+					<li><?php echo esc_html( $req ); ?></li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+			<?php endif; ?>
+
 		</div>
-		<!-- /wp:column -->
+		<!-- /wp:html -->
 
-	</div>
-	<!-- /wp:columns -->
+		<!-- ─ CURRICULUM ─ -->
+		<!-- wp:html -->
+		<div id="tab-curriculum" class="course-tab-panel course-tab-panel--hidden" role="tabpanel" aria-labelledby="tab-btn-curriculum">
+			<h2 class="course-section-heading"><?php esc_html_e( 'Course Curriculum', 'spoke-theme' ); ?></h2>
+			<?php
+			$topics = tutor_utils()->get_topics_by_course( $course_id );
+			if ( $topics->posts ) :
+			?>
+			<div class="tutor-course-content-list">
+			<?php
+			foreach ( $topics->posts as $idx => $topic ) :
+				$lessons    = tutor_utils()->get_lessons_by_topic( $topic->ID );
+				$lesson_cnt = $lessons ? count( $lessons ) : 0;
+				$panel_id   = 'topic-panel-' . $topic->ID;
+				?>
+				<div class="tutor-course-content-list__topic">
+					<button
+						class="tutor-course-content-list__topic-header"
+						aria-expanded="<?php echo $idx === 0 ? 'true' : 'false'; ?>"
+						aria-controls="<?php echo esc_attr( $panel_id ); ?>"
+					>
+						<span class="tutor-topic-label"><?php printf( esc_html__( 'Section %d', 'spoke-theme' ), $idx + 1 ); ?></span>
+						<h3 class="tutor-topic-title"><?php echo esc_html( $topic->post_title ); ?></h3>
+						<span class="tutor-topic-meta"><?php printf( esc_html( _n( '%d lesson', '%d lessons', $lesson_cnt, 'spoke-theme' ) ), $lesson_cnt ); ?></span>
+						<button class="tutor-topic-toggle" aria-label="<?php esc_attr_e( 'Toggle section', 'spoke-theme' ); ?>">
+							<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+						</button>
+					</button>
+					<ul class="tutor-topic-lesson-list <?php echo $idx === 0 ? 'is-open' : ''; ?>" id="<?php echo esc_attr( $panel_id ); ?>">
+					<?php
+					if ( $lessons ) :
+						foreach ( $lessons as $lesson ) :
+							$is_preview = get_post_meta( $lesson->ID, '_is_preview', true );
+							$l_duration = get_post_meta( $lesson->ID, '_lesson_duration', true );
+							$post_type  = $lesson->post_type;
+							// Icon
+							$icon = '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
+							if ( 'tutor_quiz' === $post_type ) {
+								$icon = '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>';
+							}
+							?>
+						<li class="tutor-lesson-item">
+							<span class="tutor-lesson-icon"><?php echo $icon; // phpcs:ignore ?></span>
+							<?php if ( $is_preview ) : ?>
+							<a href="<?php echo esc_url( get_permalink( $lesson->ID ) ); ?>" class="tutor-lesson-title"><?php echo esc_html( $lesson->post_title ); ?></a>
+							<span class="tutor-lesson-free-badge"><?php esc_html_e( 'Free Preview', 'spoke-theme' ); ?></span>
+							<?php else : ?>
+							<span class="tutor-lesson-title"><?php echo esc_html( $lesson->post_title ); ?></span>
+							<svg class="tutor-lesson-lock" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-label="<?php esc_attr_e( 'Locked', 'spoke-theme' ); ?>"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+							<?php endif; ?>
+							<?php if ( $l_duration ) : ?>
+							<span class="tutor-lesson-meta"><?php echo esc_html( $l_duration ); ?></span>
+							<?php endif; ?>
+						</li>
+						<?php
+						endforeach;
+					endif;
+					?>
+					</ul>
+				</div>
+			<?php
+			endforeach;
+			endif;
+			?>
+			</div>
+		</div>
+		<!-- /wp:html -->
 
+		<!-- ─ INSTRUCTOR ─ -->
+		<!-- wp:html -->
+		<div id="tab-instructor" class="course-tab-panel course-tab-panel--hidden" role="tabpanel" aria-labelledby="tab-btn-instructor">
+			<?php if ( $instructor ) :
+				$bio          = get_user_meta( $instructor->ID, 'description', true );
+				$photo        = get_user_meta( $instructor->ID, '_tutor_profile_photo', true );
+				$instructor_courses = get_posts( [ 'post_type' => 'courses', 'author' => $instructor->ID, 'numberposts' => -1 ] );
+			?>
+			<h2 class="course-section-heading"><?php esc_html_e( 'Your Instructor', 'spoke-theme' ); ?></h2>
+			<div class="course-instructor-card">
+				<?php if ( $photo ) : ?>
+				<img src="<?php echo esc_url( $photo ); ?>" alt="<?php echo esc_attr( $instructor->display_name ); ?>" class="course-instructor-card__avatar" width="120" height="120" loading="lazy" />
+				<?php else : ?>
+				<div class="course-instructor-card__avatar course-instructor-card__avatar--fallback"><?php echo esc_html( mb_substr( $instructor->display_name, 0, 2 ) ); ?></div>
+				<?php endif; ?>
+				<div class="course-instructor-card__info">
+					<h3 class="course-instructor-card__name"><?php echo esc_html( $instructor->display_name ); ?></h3>
+					<?php
+					$title = get_user_meta( $instructor->ID, '_tutor_profile_job_title', true );
+					if ( $title ) :
+					?>
+					<p class="course-instructor-card__title"><?php echo esc_html( $title ); ?></p>
+					<?php endif; ?>
+					<div class="course-instructor-card__stats">
+						<div class="course-instructor-stat">
+							<strong><?php echo count( $instructor_courses ); ?></strong>
+							<span><?php esc_html_e( 'Courses', 'spoke-theme' ); ?></span>
+						</div>
+						<div class="course-instructor-stat">
+							<strong><?php echo number_format( (int) $students ); ?>+</strong>
+							<span><?php esc_html_e( 'Students', 'spoke-theme' ); ?></span>
+						</div>
+						<?php
+						$instr_rating = tutor_utils()->get_course_rating( $course_id );
+						?>
+						<div class="course-instructor-stat">
+							<strong><?php echo number_format( (float) $instr_rating->rating_avg, 1 ); ?></strong>
+							<span><?php esc_html_e( 'Rating', 'spoke-theme' ); ?></span>
+						</div>
+					</div>
+					<?php if ( $bio ) : ?>
+					<p class="course-instructor-card__bio"><?php echo esc_html( $bio ); ?></p>
+					<?php endif; ?>
+				</div>
+			</div>
+			<?php endif; ?>
+		</div>
+		<!-- /wp:html -->
+
+		<!-- ─ REVIEWS ─ -->
+		<!-- wp:html -->
+		<div id="tab-reviews" class="course-tab-panel course-tab-panel--hidden" role="tabpanel" aria-labelledby="tab-btn-reviews">
+			<h2 class="course-section-heading"><?php esc_html_e( 'Student Feedback', 'spoke-theme' ); ?></h2>
+
+			<!-- Rating summary -->
+			<div class="course-rating-summary">
+				<div class="course-rating-summary__score">
+					<strong class="course-rating-summary__big"><?php echo number_format( (float) $rating_avg, 1 ); ?></strong>
+					<span class="course-rating-summary__stars"><?php echo spoke_stars( $rating_avg, 'lg' ); // phpcs:ignore ?></span>
+					<span class="course-rating-summary__label"><?php esc_html_e( 'Course Rating', 'spoke-theme' ); ?></span>
+				</div>
+				<div class="course-rating-summary__bars">
+					<?php
+					$star_counts = tutor_utils()->get_course_rating( $course_id );
+					$bars = [
+						5 => $star_counts->count_5_star ?? 0,
+						4 => $star_counts->count_4_star ?? 0,
+						3 => $star_counts->count_3_star ?? 0,
+						2 => $star_counts->count_2_star ?? 0,
+						1 => $star_counts->count_1_star ?? 0,
+					];
+					foreach ( $bars as $star => $cnt ) :
+						$pct = $rating_cnt > 0 ? round( ( $cnt / $rating_cnt ) * 100 ) : 0;
+						?>
+					<div class="course-rating-bar">
+						<div class="course-rating-bar__track">
+							<div class="course-rating-bar__fill" style="width:<?php echo (int) $pct; ?>%;"></div>
+						</div>
+						<span class="course-rating-bar__pct"><?php echo (int) $pct; ?>%</span>
+					</div>
+					<?php endforeach; ?>
+				</div>
+			</div>
+
+			<!-- Reviews list -->
+			<?php do_action( 'tutor_course/single/reviews' ); ?>
+		</div>
+		<!-- /wp:html -->
+
+	</div><!-- /.course-content__main -->
+
+	<!-- ── RIGHT: spacer (card already in hero) ── -->
+	<div class="course-content__sidebar-spacer" aria-hidden="true"></div>
+
+</div>
 </section>
 <!-- /wp:group -->
 
-<!-- RELATED COURSES ─────────────────────────────────────────────── -->
-<!-- wp:group {"tagName":"section","className":"related-courses","backgroundColor":"light","style":{"spacing":{"padding":{"top":"var(--wp--preset--spacing--8)","bottom":"var(--wp--preset--spacing--8)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}},"layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group related-courses has-light-background-color has-background">
-
-	<!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","alignItems":"flex-end"},"style":{"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--4)"}}}} -->
-	<div class="wp-block-group" style="margin-bottom:var(--wp--preset--spacing--4);">
-		<!-- wp:heading {"level":2,"style":{"typography":{"fontSize":"1.5rem","fontWeight":"500"},"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
-		<h2 class="wp-block-heading" style="font-size:1.5rem;font-weight:500;margin-top:0;margin-bottom:0;">Continue Your Learning</h2>
-		<!-- /wp:heading -->
-		<!-- wp:paragraph {"style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
-		<p style="margin-top:0;margin-bottom:0;"><a href="/courses/">View all courses →</a></p>
-		<!-- /wp:paragraph -->
+<!-- RELATED COURSES ────────────────────────────────────────────── -->
+<!-- wp:html -->
+<?php
+$related_args = [
+	'post_type'      => 'courses',
+	'posts_per_page' => 3,
+	'post__not_in'   => [ $course_id ],
+	'orderby'        => 'meta_value_num',
+	'meta_key'       => '_tutor_rating_sum',
+];
+if ( $cats && ! is_wp_error( $cats ) ) {
+	$related_args['tax_query'] = [ [
+		'taxonomy' => 'course-category',
+		'field'    => 'term_id',
+		'terms'    => wp_list_pluck( $cats, 'term_id' ),
+	] ];
+}
+$related = new WP_Query( $related_args );
+if ( $related->have_posts() ) :
+?>
+<section class="related-courses" aria-label="Related courses" style="padding:var(--wp--preset--spacing--8) var(--wp--preset--spacing--4);background:var(--wp--preset--color--light);">
+	<div style="max-width:1280px;margin:0 auto;">
+		<div class="related-courses__header">
+			<h2 class="related-courses__title"><?php esc_html_e( 'Continue Your Learning', 'spoke-theme' ); ?></h2>
+			<a href="<?php echo esc_url( get_post_type_archive_link( 'courses' ) ); ?>" class="related-courses__all"><?php esc_html_e( 'View All Courses →', 'spoke-theme' ); ?></a>
+		</div>
+		<div class="related-courses__grid">
+			<?php
+			while ( $related->have_posts() ) :
+				$related->the_post();
+				$rid      = get_the_ID();
+				$r_rating = tutor_utils()->get_course_rating( $rid );
+				$r_price  = tutor_utils()->get_raw_course_price( $rid );
+				$r_thumb  = get_post_thumbnail_id() ? wp_get_attachment_image_url( get_post_thumbnail_id(), 'medium_large' ) : '';
+				$r_cats   = get_the_terms( $rid, 'course-category' );
+				$r_cat    = ( $r_cats && ! is_wp_error( $r_cats ) ) ? $r_cats[0]->name : '';
+				?>
+				<article class="tutor-course-card">
+					<a href="<?php the_permalink(); ?>" class="tutor-course-thumbnail" tabindex="-1" aria-hidden="true">
+						<?php if ( $r_thumb ) : ?>
+						<img src="<?php echo esc_url( $r_thumb ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" loading="lazy" width="400" height="225" />
+						<?php endif; ?>
+					</a>
+					<div class="tutor-card-body">
+						<?php if ( $r_cat ) : ?><p class="tutor-course-category"><?php echo esc_html( $r_cat ); ?></p><?php endif; ?>
+						<h3 class="tutor-course-name"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+						<div class="tutor-rating">
+							<span class="tutor-star-rating-group flex gap-0.5"><?php echo spoke_stars( $r_rating->rating_avg ?? 0 ); // phpcs:ignore ?></span>
+							<span class="font-semibold text-[13px]"><?php echo number_format( (float) $r_rating->rating_avg, 1 ); ?></span>
+						</div>
+					</div>
+					<div class="tutor-card-footer">
+						<span class="tutor-course-price">£<?php echo number_format( (float) $r_price, 2 ); ?></span>
+						<a href="<?php the_permalink(); ?>" class="enroll-btn"><?php esc_html_e( 'Learn More', 'spoke-theme' ); ?></a>
+					</div>
+				</article>
+			<?php endwhile; wp_reset_postdata(); ?>
+		</div>
 	</div>
-	<!-- /wp:group -->
-
-	<!-- Related course cards — Tutor LMS shortcode -->
-	<!-- wp:html -->
-	<div class="related-courses__grid">
-		<?php
-		if ( function_exists( 'do_shortcode' ) ) {
-			echo do_shortcode( '[tutor_course id="" exclude_ids="" category="" tag="" orderby="rating" order="DESC" count="3"]' );
-		}
-		?>
-	</div>
-	<!-- /wp:html -->
-
 </section>
-<!-- /wp:group -->
+<?php endif; ?>
+<!-- /wp:html -->
 
-<!-- TAB SWITCHER JS ─────────────────────────────────────────────── -->
+<!-- SINGLE COURSE STYLES ───────────────────────────────────────── -->
+<!-- wp:html -->
+<style>
+:root {
+	--sc-primary:   var(--wp--preset--color--primary);
+	--sc-accent:    var(--wp--preset--color--accent);
+	--sc-light:     var(--wp--preset--color--light);
+	--sc-dark:      var(--wp--preset--color--dark);
+	--sc-success:   var(--wp--preset--color--success);
+	--sc-white:     var(--wp--preset--color--white);
+	--sc-on-muted:  var(--wp--preset--color--on-surface-variant);
+	--sc-shadow:    var(--wp--preset--shadow--card);
+	--sc-shadow-e:  var(--wp--preset--shadow--enrol-card);
+	--sc-radius:    8px;
+	--sc-radius-lg: 12px;
+	--sc-tr:        200ms ease;
+}
+
+/* ── Hero ── */
+.course-hero {
+	background: linear-gradient(160deg, #1A3C6E 0%, #1A1A2E 100%);
+	padding: var(--wp--preset--spacing--8) var(--wp--preset--spacing--4);
+}
+.course-hero__inner {
+	max-width: 1280px;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 1fr 400px;
+	gap: var(--wp--preset--spacing--8);
+	align-items: flex-start;
+}
+.course-hero__breadcrumb ol { display:flex; flex-wrap:wrap; align-items:center; gap:6px; list-style:none; margin:0 0 var(--wp--preset--spacing--2); padding:0; font-size:13px; }
+.course-hero__breadcrumb li { display:flex; align-items:center; gap:6px; color:rgba(255,255,255,0.55); }
+.course-hero__breadcrumb li:not(:last-child)::after { content:'/'; opacity:0.35; }
+.course-hero__breadcrumb a { color:rgba(255,255,255,0.65); text-decoration:none; transition:color var(--sc-tr); }
+.course-hero__breadcrumb a:hover { color:#fff; }
+.course-hero__breadcrumb [aria-current="page"] { color: var(--sc-accent); }
+
+.course-hero__badges { display:flex; flex-wrap:wrap; gap:8px; margin-bottom: var(--wp--preset--spacing--2); }
+.course-badge {
+	display: inline-block; padding: 4px 10px; border-radius: 4px;
+	font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.course-badge--accredited { background: rgba(244,167,38,0.2); color: var(--sc-accent); border: 1px solid rgba(244,167,38,0.35); }
+.course-badge--level, .course-badge--duration { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.2); }
+
+.course-hero__title { font-size: clamp(1.75rem,4vw,3rem); font-weight: 500; color: #fff; letter-spacing:-0.02em; line-height:1.15; margin:0 0 var(--wp--preset--spacing--2); }
+.course-hero__excerpt { font-size:1.0625rem; color:rgba(255,255,255,0.75); line-height:1.7; margin:0 0 var(--wp--preset--spacing--3); }
+
+.course-hero__rating { display:flex; flex-wrap:wrap; align-items:center; gap: var(--wp--preset--spacing--2); margin-bottom:var(--wp--preset--spacing--2); }
+.course-stars { display:flex; align-items:center; gap:6px; }
+.course-stars__score { font-weight:700; color:var(--sc-accent); }
+.course-stars__icons { display:flex; gap:2px; }
+.course-stars__count { font-size:13px; color:rgba(255,255,255,0.65); }
+.course-hero__separator { color:rgba(255,255,255,0.35); }
+.course-hero__students  { font-size:13px; color:rgba(255,255,255,0.75); }
+
+.course-hero__instructor { display:flex; align-items:center; gap:10px; margin-bottom: var(--wp--preset--spacing--2); }
+.course-hero__instructor-avatar { width:36px; height:36px; border-radius:4px; object-fit:cover; border:2px solid rgba(255,255,255,0.3); }
+.course-hero__instructor-avatar-fallback { width:36px; height:36px; border-radius:4px; background:rgba(255,255,255,0.2); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.course-hero__instructor-label { font-size:10px; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:0.08em; display:block; }
+.course-hero__instructor-name { font-size:14px; font-weight:600; color:#fff; display:block; }
+.course-hero__updated { display:flex; align-items:center; gap:6px; font-size:13px; color:rgba(255,255,255,0.5); margin:0; }
+
+/* ── Enrol card ── */
+.enrol-card { background:var(--sc-white); border-radius:var(--sc-radius-lg); box-shadow:var(--sc-shadow-e); overflow:hidden; }
+.enrol-card__media { position:relative; aspect-ratio:16/9; background:var(--sc-light); overflow:hidden; }
+.enrol-card__img { width:100%; height:100%; object-fit:cover; display:block; }
+.enrol-card__play-btn { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(26,60,110,0.45); border:none; cursor:pointer; transition:background var(--sc-tr); }
+.enrol-card__play-btn:hover { background:rgba(26,60,110,0.6); }
+.enrol-card__play-icon { width:56px; height:56px; background:var(--sc-white); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--sc-primary); transition:transform var(--sc-tr); }
+.enrol-card__play-btn:hover .enrol-card__play-icon { transform:scale(1.08); }
+.enrol-card__pricing { display:flex; align-items:baseline; flex-wrap:wrap; gap:8px; padding:var(--wp--preset--spacing--3) var(--wp--preset--spacing--3) 0; }
+.enrol-card__price { font-size:2rem; font-weight:700; color:var(--sc-primary); line-height:1; }
+.enrol-card__price-original { font-size:1rem; color:var(--sc-on-muted); text-decoration:line-through; }
+.enrol-card__discount { font-size:0.75rem; font-weight:700; color:#BA1A1A; background:rgba(186,26,26,0.08); padding:2px 6px; border-radius:4px; }
+.enrol-card__cta, .tutor-enroll-btn, .single-course-enroll-btn, .woocommerce-button.button { display:block !important; margin:var(--wp--preset--spacing--2) var(--wp--preset--spacing--3) !important; padding:var(--wp--preset--spacing--2) var(--wp--preset--spacing--3) !important; background:var(--sc-accent) !important; color:var(--sc-dark) !important; border:none !important; border-radius:var(--sc-radius) !important; font-family:var(--wp--preset--font-family--inter) !important; font-size:1.0625rem !important; font-weight:700 !important; text-align:center !important; text-decoration:none !important; cursor:pointer !important; transition:filter var(--sc-tr) !important; }
+.enrol-card__cta:hover, .tutor-enroll-btn:hover { filter:brightness(1.06) !important; }
+.enrol-card__guarantee { display:flex; align-items:center; justify-content:center; gap:6px; font-size:14px; font-weight:600; color:var(--sc-primary); margin:0 var(--wp--preset--spacing--3) var(--wp--preset--spacing--3); padding:10px var(--wp--preset--spacing--2); background:var(--sc-success); border-radius:var(--sc-radius); }
+.enrol-card__includes { list-style:none; margin:0 !important; padding:0 var(--wp--preset--spacing--3) var(--wp--preset--spacing--3) !important; display:flex; flex-direction:column; gap:10px; }
+.enrol-card__includes li { display:flex; align-items:center; gap:10px; font-size:14px; color:var(--sc-on-muted); }
+.enrol-card__includes svg { color:var(--sc-primary); flex-shrink:0; }
+.enrol-card__actions { display:flex; align-items:center; justify-content:center; gap:var(--wp--preset--spacing--3); padding:var(--wp--preset--spacing--2) var(--wp--preset--spacing--3) var(--wp--preset--spacing--3); border-top:1px solid rgba(0,0,0,0.06); }
+.enrol-card__action-btn { display:flex; align-items:center; gap:6px; background:none; border:none; font-family:var(--wp--preset--font-family--inter); font-size:14px; font-weight:600; color:var(--sc-primary); cursor:pointer; transition:color var(--sc-tr); }
+.enrol-card__action-btn:hover { color:var(--sc-accent); }
+.course-sidebar-sticky { position:sticky; top:90px; }
+
+/* ── Tabs ── */
+.course-content__layout { display:flex; gap:var(--wp--preset--spacing--8); align-items:flex-start; }
+.course-content__main { flex:1; min-width:0; }
+.course-content__sidebar-spacer { width:400px; flex-shrink:0; }
+.course-tabs { display:flex; border-bottom:2px solid rgba(0,0,0,0.08); margin-bottom:var(--wp--preset--spacing--4); overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+.course-tabs::-webkit-scrollbar { display:none; }
+.course-tab { flex-shrink:0; height:48px; padding:0 var(--wp--preset--spacing--3); background:none; border:none; border-bottom:2px solid transparent; margin-bottom:-2px; font-family:var(--wp--preset--font-family--inter); font-size:var(--wp--preset--font-size--body); font-weight:500; color:var(--sc-on-muted); cursor:pointer; transition:color var(--sc-tr), border-color var(--sc-tr); }
+.course-tab:hover { color:var(--sc-primary); }
+.course-tab--active { color:var(--sc-primary); font-weight:700; border-bottom-color:var(--sc-accent); }
+.course-tab-panel { padding-top:var(--wp--preset--spacing--4); }
+.course-tab-panel--hidden { display:none !important; }
+
+/* ── Overview ── */
+.course-section-heading { font-size:var(--wp--preset--font-size--h3); font-weight:500; color:var(--sc-primary); margin:0 0 var(--wp--preset--spacing--3); }
+.course-what-learn { padding:var(--wp--preset--spacing--4); background:var(--sc-light); border-radius:var(--sc-radius-lg); }
+.course-learn-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px; list-style:none; margin:0 !important; padding:0 !important; }
+.course-learn-list li { display:flex; align-items:flex-start; gap:8px; font-size:14px; color:var(--sc-primary); }
+.course-learn-list li::before { content:'✓'; color:var(--sc-primary); font-weight:700; flex-shrink:0; margin-top:1px; }
+.course-requirements__list { padding-left:var(--wp--preset--spacing--3) !important; margin:0 !important; }
+.course-requirements__list li { font-size:14px; color:var(--sc-on-muted); margin-bottom:8px; line-height:1.6; }
+
+/* ── Curriculum ── */
+.tutor-course-content-list { display:flex; flex-direction:column; gap:var(--wp--preset--spacing--2); }
+.tutor-course-content-list__topic { border:1px solid rgba(0,0,0,0.08); border-radius:var(--sc-radius); overflow:hidden; }
+.tutor-course-content-list__topic-header { width:100%; display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:var(--wp--preset--spacing--2) var(--wp--preset--spacing--3); background:var(--sc-primary); cursor:pointer; border:none; text-align:left; }
+.tutor-topic-label { font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.6); flex-shrink:0; }
+.tutor-topic-title { flex:1; font-size:var(--wp--preset--font-size--body); font-weight:600; color:var(--sc-white); margin:0 !important; }
+.tutor-topic-meta { font-size:13px; color:rgba(255,255,255,0.65); flex-shrink:0; }
+.tutor-topic-toggle { background:none; border:none; color:var(--sc-white); cursor:pointer; padding:0; flex-shrink:0; transition:transform var(--sc-tr); }
+.tutor-topic-toggle[aria-expanded="true"] { transform:rotate(180deg); }
+.tutor-topic-lesson-list { display:none; list-style:none; margin:0 !important; padding:0 !important; }
+.tutor-topic-lesson-list.is-open { display:block; }
+.tutor-lesson-item { display:flex; align-items:center; gap:10px; padding:12px var(--wp--preset--spacing--3); border-top:1px solid rgba(0,0,0,0.06); background:var(--sc-white); transition:background var(--sc-tr); }
+.tutor-lesson-item:hover { background:var(--sc-light); }
+.tutor-lesson-icon { color:var(--sc-primary); flex-shrink:0; }
+.tutor-lesson-title { flex:1; font-size:14px; font-weight:500; color:var(--sc-on-muted); }
+.tutor-lesson-title a { color:var(--sc-primary); text-decoration:none; }
+.tutor-lesson-meta { font-size:13px; color:var(--sc-on-muted); flex-shrink:0; opacity:0.7; }
+.tutor-lesson-lock { color:var(--sc-on-muted); opacity:0.4; flex-shrink:0; }
+.tutor-lesson-free-badge { font-size:10px; font-weight:700; color:var(--sc-primary); background:rgba(26,60,110,0.08); padding:2px 6px; border-radius:4px; }
+
+/* ── Instructor ── */
+.course-instructor-card { display:flex; flex-wrap:wrap; gap:var(--wp--preset--spacing--4); background:var(--sc-light); border-radius:var(--sc-radius-lg); padding:var(--wp--preset--spacing--4); }
+.course-instructor-card__avatar { width:120px; height:120px; border-radius:var(--sc-radius); object-fit:cover; flex-shrink:0; box-shadow:var(--sc-shadow); }
+.course-instructor-card__avatar--fallback { width:120px; height:120px; border-radius:var(--sc-radius); background:var(--sc-primary); color:var(--sc-white); font-size:2rem; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.course-instructor-card__info { flex:1; min-width:200px; }
+.course-instructor-card__name { font-size:var(--wp--preset--font-size--h3); font-weight:500; color:var(--sc-primary); margin:0 0 4px; }
+.course-instructor-card__title { font-size:14px; font-weight:600; color:var(--sc-accent); margin:0 0 var(--wp--preset--spacing--2); }
+.course-instructor-card__stats { display:flex; flex-wrap:wrap; gap:var(--wp--preset--spacing--2); margin-bottom:var(--wp--preset--spacing--2); }
+.course-instructor-stat { background:var(--sc-white); border-radius:var(--sc-radius); padding:8px var(--wp--preset--spacing--2); text-align:center; box-shadow:var(--sc-shadow); }
+.course-instructor-stat strong { display:block; font-size:var(--wp--preset--font-size--h4); font-weight:700; color:var(--sc-primary); }
+.course-instructor-stat span { font-size:11px; color:var(--sc-on-muted); }
+.course-instructor-card__bio { font-size:14px; color:var(--sc-on-muted); line-height:1.7; margin:0; }
+
+/* ── Reviews ── */
+.course-rating-summary { display:flex; flex-wrap:wrap; align-items:center; gap:var(--wp--preset--spacing--6); margin-bottom:var(--wp--preset--spacing--4); padding:var(--wp--preset--spacing--4); background:var(--sc-light); border-radius:var(--sc-radius-lg); }
+.course-rating-summary__score { text-align:center; }
+.course-rating-summary__big { display:block; font-size:3.5rem; font-weight:800; color:var(--sc-accent); line-height:1; }
+.course-rating-summary__stars { display:flex; justify-content:center; gap:2px; margin:4px 0; }
+.course-rating-summary__label { font-size:14px; font-weight:600; color:var(--sc-primary); }
+.course-rating-summary__bars { flex:1; min-width:200px; display:flex; flex-direction:column; gap:8px; }
+.course-rating-bar { display:flex; align-items:center; gap:var(--wp--preset--spacing--2); }
+.course-rating-bar__track { flex:1; height:8px; background:rgba(0,0,0,0.08); border-radius:4px; overflow:hidden; }
+.course-rating-bar__fill { height:100%; background:var(--sc-accent); border-radius:4px; transition:width 600ms ease; }
+.course-rating-bar__pct { width:36px; text-align:right; font-size:13px; font-weight:600; color:var(--sc-on-muted); }
+
+/* ── Related courses header ── */
+.related-courses__header { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:var(--wp--preset--spacing--2); margin-bottom:var(--wp--preset--spacing--4); }
+.related-courses__title { font-size:var(--wp--preset--font-size--h2); font-weight:500; color:var(--sc-primary); margin:0; }
+.related-courses__all { font-size:14px; font-weight:700; color:var(--sc-primary); text-decoration:none; }
+.related-courses__all:hover { color:var(--sc-accent); }
+.related-courses__grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:var(--wp--preset--spacing--3); }
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+	.course-hero__inner { grid-template-columns:1fr; }
+	.course-hero__enrol-col { order:-1; }
+	.enrol-card { max-width:480px; }
+	.course-sidebar-sticky { position:static; }
+	.course-content__layout { flex-direction:column; }
+	.course-content__sidebar-spacer { display:none; }
+}
+@media (max-width: 640px) {
+	.course-hero { padding:var(--wp--preset--spacing--6) var(--wp--preset--spacing--2); }
+	.course-learn-list { grid-template-columns:1fr; }
+	.course-instructor-card { flex-direction:column; }
+	.course-instructor-card__avatar, .course-instructor-card__avatar--fallback { width:80px; height:80px; }
+	.course-rating-summary { flex-direction:column; align-items:flex-start; }
+	.related-courses__grid { grid-template-columns:1fr; }
+}
+</style>
+<!-- /wp:html -->
+
+<!-- TAB INTERACTION SCRIPT ─────────────────────────────────────── -->
 <!-- wp:html -->
 <script>
-( function () {
+(function () {
 	'use strict';
 
-	var tabs    = document.querySelectorAll( '.course-tab' );
-	var panels  = document.querySelectorAll( '.course-tab-panel' );
+	// ── Tab switching ──────────────────────────────────────────
+	var tabs    = document.querySelectorAll('.course-tab');
+	var panels  = document.querySelectorAll('.course-tab-panel');
 
-	if ( ! tabs.length ) return;
+	tabs.forEach(function (tab) {
+		tab.addEventListener('click', function () {
+			var target = tab.getAttribute('aria-controls');
 
-	tabs.forEach( function ( tab ) {
-		tab.addEventListener( 'click', function () {
-			var target = this.dataset.tab;
+			tabs.forEach(function (t) {
+				t.classList.remove('course-tab--active');
+				t.setAttribute('aria-selected', 'false');
+			});
+			panels.forEach(function (p) { p.classList.add('course-tab-panel--hidden'); });
 
-			tabs.forEach( function ( t ) {
-				t.classList.remove( 'course-tab--active' );
-				t.setAttribute( 'aria-selected', 'false' );
-			} );
-			panels.forEach( function ( p ) {
-				p.classList.add( 'course-tab-panel--hidden' );
-			} );
+			tab.classList.add('course-tab--active');
+			tab.setAttribute('aria-selected', 'true');
+			var panel = document.getElementById(target);
+			if (panel) { panel.classList.remove('course-tab-panel--hidden'); }
+		});
+	});
 
-			this.classList.add( 'course-tab--active' );
-			this.setAttribute( 'aria-selected', 'true' );
+	// ── Curriculum accordion ──────────────────────────────────
+	document.querySelectorAll('.tutor-course-content-list__topic-header').forEach(function (btn) {
+		btn.addEventListener('click', function () {
+			var panelId = btn.getAttribute('aria-controls');
+			var panel   = document.getElementById(panelId);
+			var toggle  = btn.querySelector('.tutor-topic-toggle');
+			if (!panel) return;
 
-			var panel = document.getElementById( 'tab-' + target );
-			if ( panel ) panel.classList.remove( 'course-tab-panel--hidden' );
-		} );
-	} );
-
-	// Curriculum topic accordion
-	document.querySelectorAll( '.tutor-topic-toggle' ).forEach( function ( btn ) {
-		btn.addEventListener( 'click', function () {
-			var expanded = this.getAttribute( 'aria-expanded' ) === 'true';
-			var header   = this.closest( '.tutor-course-content-list__topic' );
-			var list     = header && header.querySelector( '.tutor-topic-lesson-list' );
-
-			this.setAttribute( 'aria-expanded', String( ! expanded ) );
-			if ( list ) list.classList.toggle( 'is-open', ! expanded );
-		} );
-	} );
-} )();
+			var open = btn.getAttribute('aria-expanded') === 'true';
+			btn.setAttribute('aria-expanded', String(!open));
+			panel.classList.toggle('is-open', !open);
+			if (toggle) { toggle.setAttribute('aria-expanded', String(!open)); }
+		});
+	});
+})();
 </script>
 <!-- /wp:html -->
 

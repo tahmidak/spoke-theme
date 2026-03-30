@@ -1,113 +1,296 @@
 <!-- wp:html -->
-<header id="site-header" class="bg-primary sticky top-0 z-50">
+<style>
+  /* Nav link hover underline */
+  .spoke-nav-link { position: relative; }
+  .spoke-nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #F4A726;
+    transition: width 0.25s ease;
+  }
+  .spoke-nav-link:hover::after { width: 100%; }
+  .spoke-nav-link.active::after { width: 100%; }
 
-  <!-- ── Main nav row ── -->
-  <div class="max-w-site mx-auto px-6 lg:px-8 h-[72px] flex items-center justify-between gap-4">
+  /* Courses hover dropdown */
+  .spoke-dropdown-menu {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(6px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .spoke-dropdown-trigger:hover .spoke-dropdown-menu,
+  .spoke-dropdown-trigger:focus-within .spoke-dropdown-menu {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
 
-    <!-- Logo -->
-    <a href="/" class="flex items-center gap-2 shrink-0 no-underline" aria-label="StudyMate Central – Home">
-      <div class="w-8 h-8 bg-accent rounded-md flex items-center justify-center flex-shrink-0">
-        <svg viewBox="0 0 24 24" class="w-5 h-5 text-accent-dark" fill="currentColor" aria-hidden="true">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-        </svg>
-      </div>
-      <span class="text-white font-bold text-[18px] tracking-tight leading-none whitespace-nowrap">
-        StudyMate <span class="text-accent">Central</span>
-      </span>
+  /* Avatar user-menu */
+  .spoke-user-menu {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.95) translateY(-4px);
+    transform-origin: top right;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+  .spoke-user-menu.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1) translateY(0);
+  }
+
+  /* Mobile drawer */
+  #spoke-mobile-menu {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+  }
+  #spoke-mobile-menu.open {
+    max-height: 600px;
+    opacity: 1;
+  }
+</style>
+
+<header id="site-header"
+        class="bg-light sticky top-0 z-50 border-b border-black/[0.06] transition-shadow duration-300"
+        aria-label="Site header">
+
+  <div class="max-w-site mx-auto px-4 sm:px-8 h-[80px] flex items-center justify-between gap-6">
+
+    <!-- ── Logo ────────────────────────────────────────── -->
+    <a href="/"
+       class="flex-shrink-0 text-primary text-[20px] sm:text-[22px] font-bold tracking-[-1.2px]
+              leading-none hover:opacity-80 transition-opacity no-underline">
+      StudyMate Central
     </a>
 
-    <!-- Desktop Navigation -->
-    <nav class="hidden md:flex items-center gap-1" aria-label="Primary navigation">
-      <a href="/courses/"
-         class="text-white/75 hover:text-white text-[15px] font-medium px-4 py-2 rounded-lg hover:bg-white/10 transition-colors duration-200">
-        Courses
+    <!-- ── Desktop nav + dropdown ─────────────────────── -->
+    <nav class="hidden md:flex items-center gap-0" aria-label="Primary navigation">
+
+      <!-- Courses with hover dropdown -->
+      <div class="spoke-dropdown-trigger relative">
+        <a href="/courses/"
+           class="spoke-nav-link text-muted text-[16px] tracking-[-0.4px] px-4 py-7
+                  flex items-center gap-1 hover:text-primary transition-colors no-underline">
+          Courses
+          <svg class="w-4 h-4 opacity-50" fill="none" viewBox="0 0 24 24"
+               stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </a>
+
+        <!-- Dropdown panel -->
+        <div class="spoke-dropdown-menu absolute top-full left-0 w-[280px] bg-white
+                    rounded-[10px] shadow-[0_12px_40px_rgba(0,38,83,0.12)]
+                    border border-black/[0.06] py-2 z-50">
+
+          <a href="/courses/leadership-strategy/"
+             class="flex items-center gap-3 px-4 py-3 hover:bg-light transition-colors no-underline">
+            <div class="w-8 h-8 rounded-[6px] bg-success flex items-center justify-center flex-shrink-0">
+              <svg class="w-4 h-4 text-[#2d7a4f]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0118 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-primary text-[14px] font-semibold">Leadership &amp; Strategy</p>
+              <p class="text-muted text-[12px]">12 accredited programmes</p>
+            </div>
+          </a>
+
+          <a href="/courses/finance-accounting/"
+             class="flex items-center gap-3 px-4 py-3 hover:bg-light transition-colors no-underline">
+            <div class="w-8 h-8 rounded-[6px] bg-[#fff7e6] flex items-center justify-center flex-shrink-0">
+              <svg class="w-4 h-4 text-[#c47f00]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-primary text-[14px] font-semibold">Finance &amp; Accounting</p>
+              <p class="text-muted text-[12px]">8 accredited programmes</p>
+            </div>
+          </a>
+
+          <a href="/courses/data-analytics/"
+             class="flex items-center gap-3 px-4 py-3 hover:bg-light transition-colors no-underline">
+            <div class="w-8 h-8 rounded-[6px] bg-[#eef0ff] flex items-center justify-center flex-shrink-0">
+              <svg class="w-4 h-4 text-[#4459c8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 8.25h3m-3 4.5h3m-6-4.5H6m6 4.5H6"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-primary text-[14px] font-semibold">Data &amp; Analytics</p>
+              <p class="text-muted text-[12px]">6 accredited programmes</p>
+            </div>
+          </a>
+
+          <div class="border-t border-black/[0.06] mx-4 my-1"></div>
+
+          <a href="/courses/"
+             class="flex items-center justify-between px-4 py-3 text-primary text-[13px]
+                    font-semibold hover:bg-light transition-colors no-underline">
+            Browse all courses
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+            </svg>
+          </a>
+        </div>
+      </div><!-- /dropdown trigger -->
+
+      <!-- My Learning — active with amber underline -->
+      <a href="/dashboard/"
+         class="spoke-nav-link active text-primary text-[16px] font-semibold
+                tracking-[-0.4px] px-4 py-7 border-b-2 border-accent no-underline">
+        My Learning
       </a>
-      <a href="/hot-deals/"
-         class="text-white/75 hover:text-white text-[15px] font-medium px-4 py-2 rounded-lg hover:bg-white/10 transition-colors duration-200">
-        Hot Deals
+
+      <a href="/accreditation/"
+         class="spoke-nav-link text-muted text-[16px] tracking-[-0.4px] px-4 py-7
+                hover:text-primary transition-colors no-underline">
+        Accreditation
       </a>
+
       <a href="/about/"
-         class="text-white/75 hover:text-white text-[15px] font-medium px-4 py-2 rounded-lg hover:bg-white/10 transition-colors duration-200">
+         class="spoke-nav-link text-muted text-[16px] tracking-[-0.4px] px-4 py-7
+                hover:text-primary transition-colors no-underline">
         About
       </a>
-      <a href="/contact/"
-         class="text-white/75 hover:text-white text-[15px] font-medium px-4 py-2 rounded-lg hover:bg-white/10 transition-colors duration-200">
-        Contact
-      </a>
+
     </nav>
 
-    <!-- Right: Auth + CTA -->
+    <!-- ── Desktop right actions ──────────────────────── -->
     <div class="hidden md:flex items-center gap-3 flex-shrink-0">
-      <!-- My Dashboard — only visible when logged in (WP adds .logged-in to <body>) -->
-      <a href="/dashboard/"
-         class="spoke-dashboard-link text-white/75 hover:text-white text-[14px] font-medium border border-white/20
-                px-3 py-1.5 rounded-lg hover:bg-white/10 transition duration-200 hidden whitespace-nowrap">
-        My Dashboard
+
+      <!-- Search -->
+      <button aria-label="Search"
+              class="p-2 rounded-lg text-muted hover:text-primary hover:bg-surface
+                     transition-colors duration-200">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+        </svg>
+      </button>
+
+      <!-- Cart with badge -->
+      <a href="/cart/" aria-label="Cart"
+         class="relative p-2 rounded-lg text-muted hover:text-primary hover:bg-surface
+                transition-colors duration-200 no-underline">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9m12-9l2 9M9 21a1 1 0 100-2 1 1 0 000 2zm6 0a1 1 0 100-2 1 1 0 000 2z"/>
+        </svg>
+        <span id="spoke-cart-badge"
+              class="absolute top-1 right-1 bg-accent text-accent-dark text-[9px] font-black
+                     w-[14px] h-[14px] rounded-full flex items-center justify-center
+                     leading-none hidden">
+          0
+        </span>
       </a>
 
-      <a href="/login/"
-         class="spoke-login-link text-white/75 hover:text-white text-[14px] font-medium transition-colors duration-200">
-        Log in
-      </a>
+      <!-- Avatar + dropdown -->
+      <div class="relative">
+        <button id="spoke-avatar-btn"
+                aria-label="Account menu"
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="w-9 h-9 rounded-full bg-primary text-white text-[13px] font-bold
+                       flex items-center justify-center hover:bg-primary/90 transition-colors
+                       focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2">
+          AT
+        </button>
 
-      <a href="/courses/"
-         class="bg-accent text-accent-dark font-bold text-[14px] px-5 py-2 rounded-lg
-                hover:brightness-105 transition duration-200 whitespace-nowrap shadow-sm">
-        Browse Courses
-      </a>
-    </div>
+        <div id="spoke-user-menu"
+             class="spoke-user-menu absolute top-full right-0 mt-2 w-[200px] bg-white
+                    rounded-[10px] shadow-[0_12px_40px_rgba(0,38,83,0.12)]
+                    border border-black/[0.06] py-2 z-50"
+             role="menu">
+          <div class="px-4 py-3 border-b border-black/[0.06]">
+            <p class="text-primary text-[14px] font-semibold">Alex Thompson</p>
+            <p class="text-muted text-[12px] truncate">alex@professional.uk</p>
+          </div>
+          <a href="/dashboard/"         class="block px-4 py-2.5 text-[14px] text-muted hover:bg-light hover:text-primary transition-colors no-underline" role="menuitem">My Dashboard</a>
+          <a href="/my-account/"         class="block px-4 py-2.5 text-[14px] text-muted hover:bg-light hover:text-primary transition-colors no-underline" role="menuitem">Account Settings</a>
+          <a href="/my-account/orders/"  class="block px-4 py-2.5 text-[14px] text-muted hover:bg-light hover:text-primary transition-colors no-underline" role="menuitem">My Orders</a>
+          <div class="border-t border-black/[0.06] my-1"></div>
+          <a href="/wp-login.php?action=logout"
+             class="block px-4 py-2.5 text-[14px] text-muted hover:bg-light hover:text-primary
+                    transition-colors no-underline" role="menuitem">Sign Out</a>
+        </div>
+      </div>
 
-    <!-- Mobile Hamburger -->
+    </div><!-- /right actions -->
+
+    <!-- ── Hamburger (mobile) ─────────────────────────── -->
     <button id="spoke-ham-btn"
-            class="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition duration-200 flex-shrink-0"
-            aria-label="Open navigation menu"
+            class="md:hidden p-2 rounded-lg text-muted hover:text-primary hover:bg-surface
+                   transition-colors duration-200"
+            aria-label="Toggle menu"
             aria-expanded="false"
             aria-controls="spoke-mobile-menu">
-      <svg id="spoke-ham-open" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+      <svg id="spoke-ham-open"  class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
       </svg>
-      <svg id="spoke-ham-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+      <svg id="spoke-ham-close" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
       </svg>
     </button>
 
-  </div>
+  </div><!-- /inner row -->
 
-  <!-- Mobile Drawer -->
+  <!-- ── Mobile drawer ──────────────────────────────────── -->
   <div id="spoke-mobile-menu"
-       class="hidden md:hidden bg-primary border-t border-white/10"
+       class="md:hidden border-t border-black/[0.06] bg-white"
        aria-label="Mobile navigation">
-    <nav class="max-w-site mx-auto px-6 pb-5 flex flex-col gap-1 pt-3">
+    <div class="px-4 py-5 flex flex-col gap-1">
 
       <a href="/courses/"
-         class="text-white/80 hover:text-white text-[15px] font-medium py-2.5 px-3 rounded-lg hover:bg-white/8 transition-colors">
+         class="text-muted text-[15px] font-medium py-2.5 px-3 rounded-lg
+                hover:bg-light hover:text-primary transition-colors no-underline
+                flex items-center justify-between">
         Courses
+        <svg class="w-4 h-4 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
       </a>
-      <a href="/hot-deals/"
-         class="text-white/80 hover:text-white text-[15px] font-medium py-2.5 px-3 rounded-lg hover:bg-white/8 transition-colors">
-        Hot Deals
+
+      <a href="/dashboard/"
+         class="text-primary text-[15px] font-semibold py-2.5 px-3 rounded-lg bg-light no-underline">
+        My Learning
       </a>
+
+      <a href="/accreditation/"
+         class="text-muted text-[15px] font-medium py-2.5 px-3 rounded-lg
+                hover:bg-light hover:text-primary transition-colors no-underline">
+        Accreditation
+      </a>
+
       <a href="/about/"
-         class="text-white/80 hover:text-white text-[15px] font-medium py-2.5 px-3 rounded-lg hover:bg-white/8 transition-colors">
+         class="text-muted text-[15px] font-medium py-2.5 px-3 rounded-lg
+                hover:bg-light hover:text-primary transition-colors no-underline">
         About
       </a>
-      <a href="/contact/"
-         class="text-white/80 hover:text-white text-[15px] font-medium py-2.5 px-3 rounded-lg hover:bg-white/8 transition-colors">
-        Contact
-      </a>
 
-      <div class="border-t border-white/10 mt-2 pt-4 flex gap-3">
-        <a href="/login/"
-           class="border border-white/30 text-white text-[14px] font-bold px-4 py-2.5 rounded-lg hover:bg-white/10 transition flex-1 text-center">
-          Log in
-        </a>
-        <a href="/courses/"
-           class="bg-accent text-accent-dark font-bold text-[14px] px-4 py-2.5 rounded-lg hover:brightness-105 transition flex-1 text-center">
-          Browse Courses
-        </a>
+      <div class="border-t border-black/[0.06] my-2"></div>
+
+      <!-- User info row -->
+      <div class="flex items-center gap-3 px-3 py-2">
+        <div class="w-9 h-9 rounded-full bg-primary text-white text-[13px] font-bold
+                    flex items-center justify-center flex-shrink-0">AT</div>
+        <div>
+          <p class="text-primary text-[14px] font-semibold leading-tight">Alex Thompson</p>
+          <a href="/dashboard/" class="text-muted text-[12px] no-underline hover:text-primary">My Dashboard</a>
+        </div>
       </div>
 
-    </nav>
+      <a href="/courses/"
+         class="mt-2 bg-accent text-accent-dark text-[15px] font-bold px-6 py-3
+                rounded-lg text-center hover:brightness-105 transition no-underline">
+        Browse Courses
+      </a>
+
+    </div>
   </div>
 
 </header>
@@ -116,53 +299,90 @@
 (function () {
   'use strict';
 
-  var header    = document.getElementById('site-header');
-  var btn       = document.getElementById('spoke-ham-btn');
-  var menu      = document.getElementById('spoke-mobile-menu');
-  var icOpen    = document.getElementById('spoke-ham-open');
-  var icClose   = document.getElementById('spoke-ham-close');
-  var dashLink  = document.querySelector('.spoke-dashboard-link');
-  var loginLink = document.querySelector('.spoke-login-link');
-  var isOpen    = false;
-
-  if (!btn || !header) return;
-
-  // ── Mobile drawer toggle ──────────────────────────────────────
-  btn.addEventListener('click', function () {
-    isOpen = !isOpen;
-    menu.classList.toggle('hidden', !isOpen);
-    icOpen.classList.toggle('hidden', isOpen);
-    icClose.classList.toggle('hidden', !isOpen);
-    btn.setAttribute('aria-expanded', String(isOpen));
-  });
-
-  // Close drawer on resize to desktop
-  window.addEventListener('resize', function () {
-    if (window.innerWidth >= 768 && isOpen) {
-      isOpen = false;
-      menu.classList.add('hidden');
-      icOpen.classList.remove('hidden');
-      icClose.classList.add('hidden');
-      btn.setAttribute('aria-expanded', 'false');
-    }
-  }, { passive: true });
-
-  // ── Scroll shadow ─────────────────────────────────────────────
-  function onScroll() {
-    if (window.scrollY > 8) {
-      header.classList.add('shadow-nav');
-    } else {
-      header.classList.remove('shadow-nav');
-    }
+  /* ── Scroll shadow ─────────────────────────────────── */
+  var header = document.getElementById('site-header');
+  if (header) {
+    window.addEventListener('scroll', function () {
+      header.style.boxShadow = window.scrollY > 8
+        ? '0 2px 12px rgba(26,60,110,0.12)'
+        : '';
+    }, { passive: true });
   }
-  window.addEventListener('scroll', onScroll, { passive: true });
 
-  // ── Logged-in state ───────────────────────────────────────────
-  // WordPress adds .logged-in to <body> — show/hide nav links accordingly.
-  if (document.body.classList.contains('logged-in')) {
-    if (dashLink)  dashLink.classList.remove('hidden');
-    if (loginLink) loginLink.style.display = 'none';
+  /* ── Mobile hamburger ──────────────────────────────── */
+  var btn     = document.getElementById('spoke-ham-btn');
+  var menu    = document.getElementById('spoke-mobile-menu');
+  var icOpen  = document.getElementById('spoke-ham-open');
+  var icClose = document.getElementById('spoke-ham-close');
+  var drawerOpen = false;
+
+  if (btn && menu) {
+    btn.addEventListener('click', function () {
+      drawerOpen = !drawerOpen;
+      menu.classList.toggle('open', drawerOpen);
+      icOpen.classList.toggle('hidden', drawerOpen);
+      icClose.classList.toggle('hidden', !drawerOpen);
+      btn.setAttribute('aria-expanded', String(drawerOpen));
+    });
+    window.addEventListener('resize', function () {
+      if (window.innerWidth >= 768 && drawerOpen) {
+        drawerOpen = false;
+        menu.classList.remove('open');
+        icOpen.classList.remove('hidden');
+        icClose.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    }, { passive: true });
   }
+
+  /* ── Avatar dropdown ───────────────────────────────── */
+  var avatarBtn = document.getElementById('spoke-avatar-btn');
+  var userMenu  = document.getElementById('spoke-user-menu');
+  var dropOpen  = false;
+
+  if (avatarBtn && userMenu) {
+    avatarBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      dropOpen = !dropOpen;
+      userMenu.classList.toggle('open', dropOpen);
+      avatarBtn.setAttribute('aria-expanded', String(dropOpen));
+    });
+    document.addEventListener('click', function () {
+      if (dropOpen) {
+        dropOpen = false;
+        userMenu.classList.remove('open');
+        avatarBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+    userMenu.addEventListener('click', function (e) { e.stopPropagation(); });
+  }
+
+  /* ── WooCommerce cart badge ────────────────────────── */
+  function updateCartBadge() {
+    var badge = document.getElementById('spoke-cart-badge');
+    if (!badge) return;
+    /* WooCommerce stores count in wc_cart_fragments_timestamp cookie.
+       We can also check the .wc-block-mini-cart__quantity-badge DOM
+       element if WC blocks are active. Fallback: show nothing.     */
+    try {
+      var raw = sessionStorage.getItem('wc_fragments');
+      if (raw) {
+        var frags = JSON.parse(raw);
+        var keys  = Object.keys(frags);
+        for (var i = 0; i < keys.length; i++) {
+          if (keys[i].indexOf('cart-contents-count') !== -1) {
+            var count = parseInt(frags[keys[i]], 10) || 0;
+            badge.textContent = count;
+            badge.classList.toggle('hidden', count === 0);
+            return;
+          }
+        }
+      }
+    } catch (e) {}
+    badge.classList.add('hidden');
+  }
+  updateCartBadge();
+  document.addEventListener('wc_fragments_refreshed', updateCartBadge);
 
 })();
 </script>

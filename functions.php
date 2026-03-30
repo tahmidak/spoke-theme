@@ -124,21 +124,13 @@ add_action( 'wp_enqueue_scripts', function (): void {
 
 
 // ─────────────────────────────────────────────────────────────────
-// 4. AUTO-REGISTER BLOCK PATTERNS
-//    Every .php file in /patterns/ is required by WordPress
-//    automatically in FSE themes (theme.json v3 + WP 6.4+).
-//    This hook is a belt-and-braces fallback for older WP.
+// 4. BLOCK PATTERNS
+//    WordPress 6.4+ auto-discovers all .php files in /patterns/
+//    using the file-header comment metadata. No manual require_once
+//    needed — that caused "headers already sent" errors because
+//    pattern files output HTML directly when included.
 // ─────────────────────────────────────────────────────────────────
-
-add_action( 'init', function (): void {
-	$dir = get_template_directory() . '/patterns/';
-	if ( ! is_dir( $dir ) ) {
-		return;
-	}
-	foreach ( glob( $dir . '*.php' ) as $file ) {
-		require_once $file;
-	}
-} );
+// (no code needed here — WordPress handles it automatically)
 
 
 // ─────────────────────────────────────────────────────────────────
