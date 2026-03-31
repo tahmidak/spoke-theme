@@ -2,16 +2,12 @@
  * global.css — Spoke Theme
  *
  * PURPOSE: WordPress-specific base fixes only.
- * Tailwind CDN (loaded via functions.php wp_head) handles:
+ * Tailwind CDN (loaded via functions.php wp_enqueue_scripts) handles:
  *   - CSS reset (Preflight)
  *   - All layout / typography utilities
  *
  * LMS overrides    → lms-overrides.css
  * WooCommerce      → woocommerce-overrides.css
- *
- * COLOUR RULE: never hardcode hex here — use Tailwind config tokens
- * (bg-primary, text-accent …) in templates, or
- * var(--wp--preset--color--*) in the two override CSS files.
  */
 
 
@@ -19,76 +15,129 @@
 *,
 *::before,
 *::after {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 
 /* ── Body base ────────────────────────────────────────────────── */
 body {
-	font-family: 'Inter', system-ui, sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	background: #f8f9fa;   /* --wp--preset--color--light */
-	color: #191c1d;
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #f8f9fa;
+  color: #191c1d;
+  margin: 0;
+  padding: 0;
 }
 
 
 /* ── Smooth scroll ────────────────────────────────────────────── */
 html {
-	scroll-behavior: smooth;
+  scroll-behavior: smooth;
+}
+
+
+/* ── CRITICAL: Remove block gap that causes header padding ─────── */
+/*
+ * WordPress FSE wraps <!-- wp:html --> blocks in <div class="wp-block-html">
+ * These divs inherit the blockGap from theme.json (32px) which creates
+ * unwanted space above the header and between template parts.
+ */
+.wp-site-blocks,
+.wp-block-template-part,
+.wp-block-group {
+  --wp--style--block-gap: 0px;
+}
+
+/* Remove any default margin/gap between top-level site blocks */
+.wp-site-blocks > * + * {
+  margin-block-start: 0 !important;
+}
+
+/* Specifically target the wp-block-html wrapper inside template parts */
+.wp-block-template-part .wp-block-html,
+.wp-site-blocks > .wp-block-html {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  display: block;
+}
+
+/* The header itself must be flush to top */
+#site-header {
+  margin-top: 0 !important;
 }
 
 
 /* ── WordPress admin bar ──────────────────────────────────────── */
-/* When logged in, WP adds a 32px (desktop) or 46px (mobile) bar.
-   Offset our sticky header so it doesn't hide under the bar.      */
 .admin-bar #site-header {
-	top: 32px;
+  top: 32px;
 }
 @media screen and (max-width: 782px) {
-	.admin-bar #site-header {
-		top: 46px;
-	}
+  .admin-bar #site-header {
+    top: 46px;
+  }
 }
 
 
 /* ── WordPress block defaults ─────────────────────────────────── */
-/* FSE group blocks add default padding via theme.json — reset
-   inner padding on the full-width hero/footer groups.              */
 .wp-block-group {
-	margin-top: 0;
-	margin-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
-/* Site title block: remove heading margin */
 .wp-site-title {
-	margin: 0;
+  margin: 0;
 }
 
-/* Remove WP block default link colour interference */
 .wp-block-navigation a:where(:not(.wp-element-button)) {
-	color: inherit;
+  color: inherit;
 }
 
 
 /* ── WooCommerce bare-minimum layout ─────────────────────────── */
-/* Prevents the default WC single-column layout from overriding
-   our custom checkout / my-account templates.                      */
 .woocommerce,
 .woocommerce-page {
-	width: 100%;
+  width: 100%;
+}
+
+/*
+ * CRITICAL: Remove the padding/max-width WordPress adds via page.html
+ * when WooCommerce pages load. Our spoke-woo-main div in functions.php
+ * handles the correct container padding instead.
+ */
+.woocommerce-cart #main-content > .wp-block-post-content,
+.woocommerce-checkout #main-content > .wp-block-post-content,
+.woocommerce-account #main-content > .wp-block-post-content {
+  padding: 0 !important;
+  max-width: none !important;
 }
 
 
 /* ── Utility: screen-reader only ─────────────────────────────── */
 .sr-only {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border-width: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
+
+/* Target WordPress's :root :where() specificity */
+:root :where(.site-header.wp-block-group) {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+:root :where(header .wp-block-group) {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* ── Inter font via Google Fonts fallback ─────────────────────── */
+/* Self-hosted Inter is preferred (theme.json fontFace).
+   This is a safety net if the woff2 files haven't been installed. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');

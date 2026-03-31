@@ -1,508 +1,157 @@
 <!-- wp:template-part {"slug":"header","tagName":"header"} /-->
 
-<!-- ═══════════════════════════════════════════════════════════════
-     FRONT PAGE — front-page.html
-     Spoke Theme · Phase 5
-     ═══════════════════════════════════════════════════════════════ -->
+<!-- wp:pattern {"slug":"spoke-theme/hero-banner"} /-->
 
-<!-- HERO SECTION ────────────────────────────────────────────────── -->
-<!-- wp:group {"tagName":"section","className":"hero-banner","style":{"background":{"gradient":"linear-gradient(135deg, #1A3C6E 0%, #1A1A2E 100%)"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--12)","bottom":"var(--wp--preset--spacing--12)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}},"layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group hero-banner">
+<!-- wp:pattern {"slug":"spoke-theme/stats-bar"} /-->
 
-	<!-- wp:columns {"style":{"spacing":{"blockGap":{"left":"var(--wp--preset--spacing--8)"}}}} -->
-	<div class="wp-block-columns">
+<!-- wp:pattern {"slug":"spoke-theme/how-it-works"} /-->
 
-		<!-- wp:column {"width":"58%"} -->
-		<div class="wp-block-column" style="flex-basis:58%">
+<!-- wp:pattern {"slug":"spoke-theme/hot-deals-banner"} /-->
 
-			<!-- wp:html -->
-			<div class="hero-badge">
-				<span style="color:var(--wp--preset--color--accent);font-weight:700;">✓</span>
-				<span>10,000+ UK professionals enrolled</span>
-			</div>
-			<!-- /wp:html -->
-
-			<!-- wp:heading {"level":1,"textColor":"white","style":{"typography":{"fontSize":"clamp(2.25rem,5vw,3.5rem)","fontWeight":"500","lineHeight":"1.1","letterSpacing":"-0.02em"},"spacing":{"margin":{"top":"var(--wp--preset--spacing--2)","bottom":"var(--wp--preset--spacing--3)"}}}} -->
-			<h1 class="wp-block-heading has-white-color has-text-color" style="font-size:clamp(2.25rem,5vw,3.5rem);font-weight:500;line-height:1.1;letter-spacing:-0.02em;margin-top:var(--wp--preset--spacing--2);margin-bottom:var(--wp--preset--spacing--3);">Upskill for Career Progression with Accredited Online Courses</h1>
-			<!-- /wp:heading -->
-
-			<!-- wp:paragraph {"style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.7"},"color":{"text":"rgba(255,255,255,0.75)"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--4)"}}}} -->
-			<p style="font-size:1.125rem;line-height:1.7;color:rgba(255,255,255,0.75);margin-top:0;margin-bottom:var(--wp--preset--spacing--4);">Specialised e-learning platform for UK professionals. Elevate your expertise with industry-recognised certifications.</p>
-			<!-- /wp:paragraph -->
-
-			<!-- wp:buttons {"style":{"spacing":{"blockGap":"var(--wp--preset--spacing--2)"}}} -->
-			<div class="wp-block-buttons">
-				<!-- wp:button {"backgroundColor":"accent","textColor":"dark","style":{"border":{"radius":"8px"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--2)","bottom":"var(--wp--preset--spacing--2)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}},"typography":{"fontWeight":"700","fontSize":"1.0625rem"}}} -->
-				<div class="wp-block-button"><a class="wp-block-button__link has-accent-background-color has-dark-color has-background has-text-color" href="/courses/" style="border-radius:8px;font-weight:700;font-size:1.0625rem;">Start Learning</a></div>
-				<!-- /wp:button -->
-				<!-- wp:button {"style":{"border":{"radius":"8px","color":"rgba(255,255,255,0.3)","width":"2px"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--2)","bottom":"var(--wp--preset--spacing--2)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}},"typography":{"fontWeight":"700","fontSize":"1.0625rem"},"color":{"text":"#ffffff","background":"transparent"}}} -->
-				<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-text-color" href="/about/" style="border-radius:8px;border:2px solid rgba(255,255,255,0.3);background:transparent;font-weight:700;font-size:1.0625rem;">View Accreditation</a></div>
-				<!-- /wp:button -->
-			</div>
-			<!-- /wp:buttons -->
-
-		</div>
-		<!-- /wp:column -->
-
-		<!-- wp:column {"width":"42%","className":"hero-card-col"} -->
-		<div class="wp-block-column hero-card-col" style="flex-basis:42%">
-			<!-- wp:html -->
-			<div class="hero-floating-card">
-				<div class="hero-card-icon">🎓</div>
-				<div>
-					<div class="hero-card-label">New Course</div>
-					<div class="hero-card-name">Project Leadership</div>
-				</div>
-				<div class="hero-card-bar"><div class="hero-card-fill"></div></div>
-			</div>
-			<!-- /wp:html -->
-		</div>
-		<!-- /wp:column -->
-
-	</div>
-	<!-- /wp:columns -->
-
-</section>
-<!-- /wp:group -->
-
-<!-- STATS BAR ───────────────────────────────────────────────────── -->
-<!-- wp:group {"className":"stats-bar-wrap","style":{"spacing":{"padding":{"top":"0","bottom":"0","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}},"layout":{"type":"constrained","wideSize":"1280px"}} -->
-<div class="wp-block-group stats-bar-wrap">
-	<!-- wp:group {"className":"stats-bar","backgroundColor":"white","style":{"border":{"radius":"12px"},"shadow":"var(--wp--preset--shadow--card)","spacing":{"padding":{"top":"var(--wp--preset--spacing--6)","bottom":"var(--wp--preset--spacing--6)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}}} -->
-	<div class="wp-block-group stats-bar has-white-background-color has-background" style="border-radius:12px;box-shadow:var(--wp--preset--shadow--card);">
-		<!-- wp:columns -->
-		<div class="wp-block-columns">
-			<!-- wp:column -->
-			<div class="wp-block-column" style="text-align:center">
-				<!-- wp:heading {"level":3,"textAlign":"center","textColor":"primary","style":{"typography":{"fontSize":"2rem","fontWeight":"500"},"spacing":{"margin":{"top":"0","bottom":"4px"}}}} -->
-				<h3 class="wp-block-heading has-text-align-center has-primary-color has-text-color" style="font-size:2rem;font-weight:500;margin-top:0;margin-bottom:4px;">150+</h3>
-				<!-- /wp:heading -->
-				<!-- wp:paragraph {"textAlign":"center","style":{"typography":{"fontSize":"0.875rem","fontWeight":"500"},"color":{"text":"var(--wp--preset--color--on-surface-variant)"},"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
-				<p class="has-text-align-center" style="font-size:0.875rem;font-weight:500;color:var(--wp--preset--color--on-surface-variant);margin:0;">Total Courses</p>
-				<!-- /wp:paragraph -->
-			</div>
-			<!-- /wp:column -->
-			<!-- wp:column {"className":"stat-divided"} -->
-			<div class="wp-block-column stat-divided" style="text-align:center">
-				<!-- wp:heading {"level":3,"textAlign":"center","textColor":"primary","style":{"typography":{"fontSize":"2rem","fontWeight":"500"},"spacing":{"margin":{"top":"0","bottom":"4px"}}}} -->
-				<h3 class="wp-block-heading has-text-align-center has-primary-color has-text-color" style="font-size:2rem;font-weight:500;margin-top:0;margin-bottom:4px;">10,000+</h3>
-				<!-- /wp:heading -->
-				<!-- wp:paragraph {"textAlign":"center","style":{"typography":{"fontSize":"0.875rem","fontWeight":"500"},"color":{"text":"var(--wp--preset--color--on-surface-variant)"},"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
-				<p class="has-text-align-center" style="font-size:0.875rem;font-weight:500;color:var(--wp--preset--color--on-surface-variant);margin:0;">Students Enrolled</p>
-				<!-- /wp:paragraph -->
-			</div>
-			<!-- /wp:column -->
-			<!-- wp:column {"className":"stat-divided"} -->
-			<div class="wp-block-column stat-divided" style="text-align:center">
-				<!-- wp:heading {"level":3,"textAlign":"center","textColor":"primary","style":{"typography":{"fontSize":"2rem","fontWeight":"500"},"spacing":{"margin":{"top":"0","bottom":"4px"}}}} -->
-				<h3 class="wp-block-heading has-text-align-center has-primary-color has-text-color" style="font-size:2rem;font-weight:500;margin-top:0;margin-bottom:4px;">8,500+</h3>
-				<!-- /wp:heading -->
-				<!-- wp:paragraph {"textAlign":"center","style":{"typography":{"fontSize":"0.875rem","fontWeight":"500"},"color":{"text":"var(--wp--preset--color--on-surface-variant)"},"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
-				<p class="has-text-align-center" style="font-size:0.875rem;font-weight:500;color:var(--wp--preset--color--on-surface-variant);margin:0;">Certified Graduates</p>
-				<!-- /wp:paragraph -->
-			</div>
-			<!-- /wp:column -->
-			<!-- wp:column {"className":"stat-divided"} -->
-			<div class="wp-block-column stat-divided" style="text-align:center">
-				<!-- wp:heading {"level":3,"textAlign":"center","textColor":"primary","style":{"typography":{"fontSize":"2rem","fontWeight":"500"},"spacing":{"margin":{"top":"0","bottom":"4px"}}}} -->
-				<h3 class="wp-block-heading has-text-align-center has-primary-color has-text-color" style="font-size:2rem;font-weight:500;margin-top:0;margin-bottom:4px;">4.9/5 ⭐</h3>
-				<!-- /wp:heading -->
-				<!-- wp:paragraph {"textAlign":"center","style":{"typography":{"fontSize":"0.875rem","fontWeight":"500"},"color":{"text":"var(--wp--preset--color--on-surface-variant)"},"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
-				<p class="has-text-align-center" style="font-size:0.875rem;font-weight:500;color:var(--wp--preset--color--on-surface-variant);margin:0;">Average Rating</p>
-				<!-- /wp:paragraph -->
-			</div>
-			<!-- /wp:column -->
-		</div>
-		<!-- /wp:columns -->
-	</div>
-	<!-- /wp:group -->
-</div>
-<!-- /wp:group -->
-
-<!-- HOW IT WORKS ────────────────────────────────────────────────── -->
-<!-- wp:group {"tagName":"section","style":{"spacing":{"padding":{"top":"var(--wp--preset--spacing--8)","bottom":"var(--wp--preset--spacing--8)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}},"layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group">
-
-	<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--6)"}}},"layout":{"type":"flex","flexDirection":"column","alignItems":"center"}} -->
-	<div class="wp-block-group" style="margin-bottom:var(--wp--preset--spacing--6);">
-		<!-- wp:heading {"level":2,"textAlign":"center","textColor":"primary","style":{"typography":{"fontSize":"clamp(1.75rem,3vw,2.5rem)","fontWeight":"500","letterSpacing":"-0.02em"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--2)"}}}} -->
-		<h2 class="wp-block-heading has-text-align-center has-primary-color has-text-color" style="font-size:clamp(1.75rem,3vw,2.5rem);font-weight:500;letter-spacing:-0.02em;margin-top:0;margin-bottom:var(--wp--preset--spacing--2);">Your Path to Mastery</h2>
-		<!-- /wp:heading -->
-		<!-- wp:html --><div class="section-divider"></div><!-- /wp:html -->
-	</div>
-	<!-- /wp:group -->
-
-	<!-- wp:columns {"style":{"spacing":{"blockGap":{"left":"var(--wp--preset--spacing--6)"}}}} -->
-	<div class="wp-block-columns">
-
-		<!-- wp:column {"className":"how-step"} -->
-		<div class="wp-block-column how-step">
-			<!-- wp:html --><div class="how-step__icon">🔍</div><!-- /wp:html -->
-			<!-- wp:heading {"level":3,"textColor":"primary","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--2)"}}}} -->
-			<h3 class="wp-block-heading has-primary-color has-text-color" style="font-size:1.125rem;font-weight:700;margin-top:0;margin-bottom:var(--wp--preset--spacing--2);">1. Browse our accredited catalog</h3>
-			<!-- /wp:heading -->
-			<!-- wp:paragraph {"style":{"typography":{"fontSize":"0.9375rem","lineHeight":"1.7"},"color":{"text":"var(--wp--preset--color--on-surface-variant)"},"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
-			<p style="font-size:0.9375rem;line-height:1.7;color:var(--wp--preset--color--on-surface-variant);margin:0;">Discover a curated selection of courses tailored for the British job market and international standards.</p>
-			<!-- /wp:paragraph -->
-		</div>
-		<!-- /wp:column -->
-
-		<!-- wp:column {"className":"how-step"} -->
-		<div class="wp-block-column how-step">
-			<!-- wp:html --><div class="how-step__icon">✏️</div><!-- /wp:html -->
-			<!-- wp:heading {"level":3,"textColor":"primary","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--2)"}}}} -->
-			<h3 class="wp-block-heading has-primary-color has-text-color" style="font-size:1.125rem;font-weight:700;margin-top:0;margin-bottom:var(--wp--preset--spacing--2);">2. Enrol in your professional course</h3>
-			<!-- /wp:heading -->
-			<!-- wp:paragraph {"style":{"typography":{"fontSize":"0.9375rem","lineHeight":"1.7"},"color":{"text":"var(--wp--preset--color--on-surface-variant)"},"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
-			<p style="font-size:0.9375rem;line-height:1.7;color:var(--wp--preset--color--on-surface-variant);margin:0;">Simple onboarding process designed for busy professionals. Immediate access to all learning materials.</p>
-			<!-- /wp:paragraph -->
-		</div>
-		<!-- /wp:column -->
-
-		<!-- wp:column {"className":"how-step"} -->
-		<div class="wp-block-column how-step">
-			<!-- wp:html --><div class="how-step__icon">🏆</div><!-- /wp:html -->
-			<!-- wp:heading {"level":3,"textColor":"primary","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--2)"}}}} -->
-			<h3 class="wp-block-heading has-primary-color has-text-color" style="font-size:1.125rem;font-weight:700;margin-top:0;margin-bottom:var(--wp--preset--spacing--2);">3. Get certified for career growth</h3>
-			<!-- /wp:heading -->
-			<!-- wp:paragraph {"style":{"typography":{"fontSize":"0.9375rem","lineHeight":"1.7"},"color":{"text":"var(--wp--preset--color--on-surface-variant)"},"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
-			<p style="font-size:0.9375rem;line-height:1.7;color:var(--wp--preset--color--on-surface-variant);margin:0;">Earn industry-recognised credentials that validate your expertise and open doors to new opportunities.</p>
-			<!-- /wp:paragraph -->
-		</div>
-		<!-- /wp:column -->
-
-	</div>
-	<!-- /wp:columns -->
-
-</section>
-<!-- /wp:group -->
-
-<!-- HOT DEALS BANNER ────────────────────────────────────────────── -->
-<!-- wp:group {"tagName":"section","style":{"spacing":{"padding":{"top":"0","bottom":"var(--wp--preset--spacing--8)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}},"layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group">
-	<!-- wp:html -->
-	<div class="hot-deals-wrap">
-		<div class="hot-deals-content">
-			<span class="hot-deals-badge">Limited Time Offer</span>
-			<h2 class="hot-deals-title">15% Discount for new UK enrollments</h2>
-			<p class="hot-deals-sub">Accelerate your professional journey today. Discount expires in:</p>
-			<div class="hot-deals-timer">
-				<div class="timer-block"><span class="timer-n" id="hd-h">08</span><span class="timer-l">Hours</span></div>
-				<span class="timer-colon">:</span>
-				<div class="timer-block"><span class="timer-n" id="hd-m">42</span><span class="timer-l">Mins</span></div>
-				<span class="timer-colon">:</span>
-				<div class="timer-block"><span class="timer-n" id="hd-s">15</span><span class="timer-l">Secs</span></div>
-			</div>
-		</div>
-		<div><a href="/hot-deals/" class="hot-deals-btn">Claim Offer</a></div>
-		<div class="hd-orb hd-orb-1"></div>
-		<div class="hd-orb hd-orb-2"></div>
-	</div>
-	<!-- /wp:html -->
-</section>
-<!-- /wp:group -->
-
-<!-- FEATURED COURSES ────────────────────────────────────────────── -->
-<!-- wp:group {"tagName":"section","backgroundColor":"light","style":{"spacing":{"padding":{"top":"var(--wp--preset--spacing--8)","bottom":"var(--wp--preset--spacing--8)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}},"layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group has-light-background-color has-background">
-
-	<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","alignItems":"flex-end"},"style":{"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--4)"}}}} -->
-	<div class="wp-block-group" style="margin-bottom:var(--wp--preset--spacing--4);">
-		<!-- wp:group -->
-		<div class="wp-block-group">
-			<!-- wp:heading {"level":2,"textColor":"primary","style":{"typography":{"fontSize":"clamp(1.75rem,3vw,2.5rem)","fontWeight":"500","letterSpacing":"-0.02em"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--1)"}}}} -->
-			<h2 class="wp-block-heading has-primary-color has-text-color" style="font-size:clamp(1.75rem,3vw,2.5rem);font-weight:500;letter-spacing:-0.02em;margin-top:0;margin-bottom:var(--wp--preset--spacing--1);">Browse our Top-Rated Courses</h2>
-			<!-- /wp:heading -->
-			<!-- wp:paragraph {"style":{"color":{"text":"var(--wp--preset--color--on-surface-variant)"},"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
-			<p style="color:var(--wp--preset--color--on-surface-variant);margin:0;">Our most popular training programmes trending among UK industry leaders.</p>
-			<!-- /wp:paragraph -->
-		</div>
-		<!-- /wp:group -->
-		<!-- wp:html -->
-		<a href="/courses/" class="courses-view-all">Explore All Courses →</a>
-		<!-- /wp:html -->
-	</div>
-	<!-- /wp:group -->
-
-	<!-- wp:html -->
-	<div class="featured-courses-grid">
-		<?php
-		if ( function_exists( 'do_shortcode' ) ) {
-			echo do_shortcode( '[tutor_course orderby="rating" order="DESC" count="3"]' );
-		} else {
-			echo '<p style="text-align:center;color:#888;padding:3rem;">Featured courses will appear here.</p>';
-		}
-		?>
-	</div>
-	<!-- /wp:html -->
-
-</section>
-<!-- /wp:group -->
-
-<!-- TESTIMONIALS ────────────────────────────────────────────────── -->
-<!-- wp:group {"tagName":"section","style":{"spacing":{"padding":{"top":"var(--wp--preset--spacing--8)","bottom":"var(--wp--preset--spacing--8)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}}},"layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group">
-
-	<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--6)"}}},"layout":{"type":"flex","flexDirection":"column","alignItems":"center"}} -->
-	<div class="wp-block-group" style="margin-bottom:var(--wp--preset--spacing--6);">
-		<!-- wp:heading {"level":2,"textAlign":"center","textColor":"primary","style":{"typography":{"fontSize":"clamp(1.75rem,3vw,2.5rem)","fontWeight":"500","letterSpacing":"-0.02em"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--2)"}}}} -->
-		<h2 class="wp-block-heading has-text-align-center has-primary-color has-text-color" style="font-size:clamp(1.75rem,3vw,2.5rem);font-weight:500;letter-spacing:-0.02em;margin-top:0;margin-bottom:var(--wp--preset--spacing--2);">What our professional students say</h2>
-		<!-- /wp:heading -->
-		<!-- wp:html --><div class="section-divider"></div><!-- /wp:html -->
-	</div>
-	<!-- /wp:group -->
-
-	<!-- wp:columns {"style":{"spacing":{"blockGap":{"left":"var(--wp--preset--spacing--4)"}}}} -->
-	<div class="wp-block-columns">
-
-		<!-- wp:column -->
-		<div class="wp-block-column">
-			<!-- wp:html -->
-			<div class="tcard">
-				<div class="tcard-head">
-					<div class="tcard-av">JW</div>
-					<div><div class="tcard-name">James Whitaker</div><div class="tcard-role">Senior Project Manager</div></div>
-				</div>
-				<div class="tcard-stars">★★★★★</div>
-				<blockquote class="tcard-quote">"The curriculum was incredibly thorough. Within three months of completing the Strategic Management course, I secured a promotion to Senior level. Truly a career-changing platform."</blockquote>
-			</div>
-			<!-- /wp:html -->
-		</div>
-		<!-- /wp:column -->
-
-		<!-- wp:column -->
-		<div class="wp-block-column">
-			<!-- wp:html -->
-			<div class="tcard">
-				<div class="tcard-head">
-					<div class="tcard-av">EC</div>
-					<div><div class="tcard-name">Emily Chen</div><div class="tcard-role">Operations Lead</div></div>
-				</div>
-				<div class="tcard-stars">★★★★★</div>
-				<blockquote class="tcard-quote">"As a busy professional, I needed flexibility without sacrificing quality. StudyMate Central provided both. The accreditation is respected everywhere in the UK market."</blockquote>
-			</div>
-			<!-- /wp:html -->
-		</div>
-		<!-- /wp:column -->
-
-		<!-- wp:column -->
-		<div class="wp-block-column">
-			<!-- wp:html -->
-			<div class="tcard">
-				<div class="tcard-head">
-					<div class="tcard-av">RH</div>
-					<div><div class="tcard-name">Robert Hughes</div><div class="tcard-role">Marketing Director</div></div>
-				</div>
-				<div class="tcard-stars">★★★★★</div>
-				<blockquote class="tcard-quote">"The quality of the instructors is what sets this platform apart. They aren't just academics — they are industry veterans sharing real-world insights that are immediately applicable."</blockquote>
-			</div>
-			<!-- /wp:html -->
-		</div>
-		<!-- /wp:column -->
-
-	</div>
-	<!-- /wp:columns -->
-
-</section>
-<!-- /wp:group -->
-
-<!-- TRUST SIGNALS ───────────────────────────────────────────────── -->
-<!-- wp:group {"tagName":"section","backgroundColor":"white","style":{"spacing":{"padding":{"top":"var(--wp--preset--spacing--6)","bottom":"var(--wp--preset--spacing--6)","left":"var(--wp--preset--spacing--4)","right":"var(--wp--preset--spacing--4)"}},"border":{"top":{"color":"rgba(0,0,0,0.06)","width":"1px","style":"solid"},"bottom":{"color":"rgba(0,0,0,0.06)","width":"1px","style":"solid"}}},"layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group has-white-background-color has-background">
-	<!-- wp:html -->
-	<div class="trust-row">
-		<div class="trust-badges">
-			<div class="trust-badge">🔒 Stripe Secure Payment</div>
-			<div class="trust-badge">↩ 30-Day Money-Back Guarantee</div>
-			<div class="trust-badge">✓ CPD Certified Courses</div>
-			<div class="trust-badge">🎓 Industry Recognised</div>
-		</div>
-	</div>
-	<!-- /wp:html -->
-</section>
-<!-- /wp:group -->
-
-<!-- HOMEPAGE STYLES ─────────────────────────────────────────────── -->
+<!-- ═══════════════════════════════════════════════
+     FEATURED COURSES
+════════════════════════════════════════════════ -->
 <!-- wp:html -->
+<section class="px-6 lg:px-8 py-20 lg:py-24" style="background:#f3f4f5;">
+  <div class="max-w-[1280px] mx-auto">
+
+    <!-- Section header -->
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+      <div>
+        <h2 class="font-medium tracking-[-0.9px] mb-2" style="color:#002653;font-size:clamp(1.75rem,3vw,2.25rem);">
+          Browse our Top-Rated Courses
+        </h2>
+        <p class="text-[15px]" style="color:#43474f;">
+          Our most popular training programmes trending among UK industry leaders.
+        </p>
+      </div>
+      <a href="/courses/"
+         class="flex items-center gap-2 font-semibold text-[15px] whitespace-nowrap hover:underline flex-shrink-0"
+         style="color:#002653;">
+        Explore All Courses
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Tutor LMS course grid -->
+    <div class="featured-courses-grid">
+      <?php
+        if ( function_exists( 'do_shortcode' ) ) {
+          echo do_shortcode( '[tutor_course orderby="rating" order="DESC" count="3"]' );
+        }
+      ?>
+    </div>
+
+    <!-- Fallback placeholder visible only when no PHP (e.g. in block editor preview) -->
+    <div class="tutor-lms-placeholder grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <!-- Placeholder card 1 -->
+      <article class="bg-white rounded-xl overflow-hidden flex flex-col" style="box-shadow:0 8px 32px rgba(26,60,110,0.04);">
+        <div class="relative h-48" style="background:linear-gradient(135deg,#002653 0%,#252539 100%);">
+          <span class="absolute top-3 left-3 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide" style="background:rgba(0,0,0,0.4);">Accredited</span>
+        </div>
+        <div class="p-6 flex flex-col gap-2 flex-1">
+          <h3 class="font-bold text-[18px] leading-snug" style="color:#002653;">Executive Leadership &amp; Strategic Management</h3>
+          <p class="text-[13px]" style="color:#43474f;">Instructor: Dr. Sarah Jenkins</p>
+          <div class="flex items-center justify-between mt-auto pt-3" style="border-top:1px solid #f1f5f9;">
+            <span class="text-[12px]" style="color:#43474f;">3.5k students</span>
+            <span class="font-black text-[22px]" style="color:#002653;">£299</span>
+          </div>
+          <a href="/courses/" class="mt-3 w-full font-bold text-[15px] py-3 rounded-lg text-center transition hover:brightness-110 block" style="background:#002653;color:#ffffff;">Enroll Now</a>
+        </div>
+      </article>
+
+      <!-- Placeholder card 2 -->
+      <article class="bg-white rounded-xl overflow-hidden flex flex-col" style="box-shadow:0 8px 32px rgba(26,60,110,0.04);">
+        <div class="relative h-48" style="background:linear-gradient(135deg,#825500 0%,#4a3000 100%);">
+          <span class="absolute top-3 left-3 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide" style="background:rgba(0,0,0,0.4);">Professional</span>
+        </div>
+        <div class="p-6 flex flex-col gap-2 flex-1">
+          <h3 class="font-bold text-[18px] leading-snug" style="color:#002653;">Digital Transformation Mastery</h3>
+          <p class="text-[13px]" style="color:#43474f;">Instructor: Marcus Thorne</p>
+          <div class="flex items-center justify-between mt-auto pt-3" style="border-top:1px solid #f1f5f9;">
+            <span class="text-[12px]" style="color:#43474f;">2.1k students</span>
+            <span class="font-black text-[22px]" style="color:#002653;">£189</span>
+          </div>
+          <a href="/courses/" class="mt-3 w-full font-bold text-[15px] py-3 rounded-lg text-center transition hover:brightness-110 block" style="background:#002653;color:#ffffff;">Enroll Now</a>
+        </div>
+      </article>
+
+      <!-- Placeholder card 3 -->
+      <article class="bg-white rounded-xl overflow-hidden flex flex-col sm:col-span-2 lg:col-span-1" style="box-shadow:0 8px 32px rgba(26,60,110,0.04);">
+        <div class="relative h-48" style="background:linear-gradient(135deg,#0d5c2e 0%,#072e17 100%);">
+          <span class="absolute top-3 left-3 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide" style="background:rgba(0,0,0,0.4);">Accredited</span>
+        </div>
+        <div class="p-6 flex flex-col gap-2 flex-1">
+          <h3 class="font-bold text-[18px] leading-snug" style="color:#002653;">Advanced Project Management (PRINCE2)</h3>
+          <p class="text-[13px]" style="color:#43474f;">Instructor: Helena Vance</p>
+          <div class="flex items-center justify-between mt-auto pt-3" style="border-top:1px solid #f1f5f9;">
+            <span class="text-[12px]" style="color:#43474f;">5.8k students</span>
+            <span class="font-black text-[22px]" style="color:#002653;">£450</span>
+          </div>
+          <a href="/courses/" class="mt-3 w-full font-bold text-[15px] py-3 rounded-lg text-center transition hover:brightness-110 block" style="background:#002653;color:#ffffff;">Enroll Now</a>
+        </div>
+      </article>
+
+    </div>
+
+  </div>
+</section>
+
 <style>
-/* ── Hero ── */
-.hero-badge {
-	display: inline-flex;
-	align-items: center;
-	gap: 8px;
-	background: rgba(255,255,255,0.1);
-	border: 1px solid rgba(255,255,255,0.15);
-	border-radius: 100px;
-	padding: 6px 16px;
-	font-size: 0.875rem;
-	font-weight: 600;
-	color: rgba(255,255,255,0.9);
-	margin-bottom: var(--wp--preset--spacing--2);
-}
-.hero-card-col {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.hero-floating-card {
-	background: var(--wp--preset--color--white);
-	border-radius: 12px;
-	padding: var(--wp--preset--spacing--3);
-	box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-	max-width: 260px;
-	width: 100%;
-}
-.hero-card-icon { font-size: 2rem; margin-bottom: 8px; }
-.hero-card-label { font-size: 0.75rem; font-weight: 700; color: var(--wp--preset--color--primary); text-transform: uppercase; letter-spacing: 0.08em; }
-.hero-card-name { font-size: 1rem; font-weight: 500; color: var(--wp--preset--color--on-surface-variant); font-style: italic; margin-bottom: var(--wp--preset--spacing--2); }
-.hero-card-bar { height: 8px; background: var(--wp--preset--color--light); border-radius: 4px; overflow: hidden; }
-.hero-card-fill { width: 75%; height: 100%; background: var(--wp--preset--color--accent); border-radius: 4px; }
-
-/* ── Stats bar ── */
-.stats-bar-wrap { margin-top: calc(-1 * var(--wp--preset--spacing--4)); position: relative; z-index: 10; }
-.stat-divided { border-left: 1px solid rgba(0,0,0,0.08); }
-
-/* ── Section divider ── */
-.section-divider { width: 64px; height: 4px; background: var(--wp--preset--color--accent); border-radius: 2px; }
-
-/* ── How It Works steps ── */
-.how-step {
-	padding: var(--wp--preset--spacing--3);
-	border-radius: 12px;
-	transition: background 200ms ease, box-shadow 200ms ease;
-}
-.how-step:hover { background: var(--wp--preset--color--white); box-shadow: var(--wp--preset--shadow--card-hover); }
-.how-step__icon {
-	width: 64px; height: 64px;
-	background: var(--wp--preset--color--light);
-	border-radius: 8px;
-	display: flex; align-items: center; justify-content: center;
-	font-size: 1.75rem;
-	margin-bottom: var(--wp--preset--spacing--2);
-	transition: background 200ms ease;
-}
-.how-step:hover .how-step__icon { background: var(--wp--preset--color--primary); }
-
-/* ── Hot Deals ── */
-.hot-deals-wrap {
-	background: var(--wp--preset--color--accent);
-	border-radius: 16px;
-	padding: var(--wp--preset--spacing--6);
-	position: relative;
-	overflow: hidden;
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: space-between;
-	gap: var(--wp--preset--spacing--4);
-}
-.hot-deals-badge {
-	display: inline-block;
-	background: var(--wp--preset--color--primary);
-	color: white;
-	font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-	padding: 4px 12px; border-radius: 4px;
-	margin-bottom: var(--wp--preset--spacing--2);
-}
-.hot-deals-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; color: var(--wp--preset--color--primary); letter-spacing: -0.02em; margin: 0 0 var(--wp--preset--spacing--1); line-height: 1.2; }
-.hot-deals-sub { font-size: 1rem; font-weight: 500; color: rgba(26,60,110,0.75); margin: 0 0 var(--wp--preset--spacing--3); }
-.hot-deals-timer { display: flex; align-items: center; gap: var(--wp--preset--spacing--1); }
-.timer-block { background: rgba(255,255,255,0.35); border-radius: 8px; padding: 10px 14px; min-width: 64px; text-align: center; }
-.timer-n { display: block; font-size: 1.5rem; font-weight: 700; color: var(--wp--preset--color--primary); line-height: 1; }
-.timer-l { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--wp--preset--color--primary); opacity: 0.7; margin-top: 2px; }
-.timer-colon { font-size: 1.5rem; font-weight: 700; color: var(--wp--preset--color--primary); }
-.hot-deals-btn {
-	display: inline-block;
-	background: var(--wp--preset--color--primary);
-	color: white !important;
-	font-size: 1.0625rem; font-weight: 700;
-	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--6);
-	border-radius: 8px;
-	text-decoration: none !important;
-	transition: filter 200ms ease, transform 200ms ease;
-	white-space: nowrap;
-	position: relative; z-index: 1;
-}
-.hot-deals-btn:hover { filter: brightness(1.15); transform: translateY(-1px); }
-.hd-orb { position: absolute; border-radius: 50%; pointer-events: none; }
-.hd-orb-1 { width: 200px; height: 200px; background: rgba(255,255,255,0.12); top: -60px; right: -60px; }
-.hd-orb-2 { width: 100px; height: 100px; background: rgba(26,60,110,0.06); bottom: -30px; left: -30px; }
-.hot-deals-content { position: relative; z-index: 1; }
-
-/* ── Featured courses ── */
-.featured-courses-grid .tutor-course-list {
-	display: grid !important;
-	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
-	gap: var(--wp--preset--spacing--3) !important;
-}
-.courses-view-all {
-	font-size: var(--wp--preset--font-size--body);
-	font-weight: 600;
-	color: var(--wp--preset--color--primary);
-	text-decoration: none;
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	transition: gap 200ms ease;
-}
-.courses-view-all:hover { gap: 10px; }
-
-/* ── Testimonials ── */
-.tcard {
-	background: var(--wp--preset--color--white);
-	border-radius: 12px;
-	padding: var(--wp--preset--spacing--4);
-	box-shadow: var(--wp--preset--shadow--card);
-	border: 1px solid rgba(196,198,208,0.15);
-	height: 100%;
-}
-.tcard-head { display: flex; align-items: center; gap: var(--wp--preset--spacing--2); margin-bottom: var(--wp--preset--spacing--2); }
-.tcard-av { width: 48px; height: 48px; border-radius: 6px; background: var(--wp--preset--color--primary); color: white; font-size: 0.875rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.tcard-name { font-weight: 700; color: var(--wp--preset--color--primary); font-size: var(--wp--preset--font-size--body); }
-.tcard-role { font-size: var(--wp--preset--font-size--small); color: var(--wp--preset--color--on-surface-variant); }
-.tcard-stars { color: var(--wp--preset--color--accent); font-size: 1rem; letter-spacing: 2px; margin-bottom: var(--wp--preset--spacing--2); }
-.tcard-quote { font-size: 0.9375rem; color: var(--wp--preset--color--on-surface-variant); line-height: 1.7; font-style: italic; margin: 0; border-left: 3px solid var(--wp--preset--color--accent); padding-left: var(--wp--preset--spacing--2); }
-
-/* ── Trust signals ── */
-.trust-row { display: flex; align-items: center; justify-content: center; }
-.trust-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--wp--preset--spacing--3); }
-.trust-badge {
-	font-size: 0.8125rem;
-	font-weight: 700;
-	color: var(--wp--preset--color--on-surface-variant);
-	background: var(--wp--preset--color--light);
-	padding: 8px 16px;
-	border-radius: 8px;
-	border: 1px solid rgba(0,0,0,0.06);
-}
-
-/* ── Responsive ── */
-@media (max-width: 768px) {
-	.hero-card-col { display: none !important; }
-	.stats-bar-wrap { margin-top: 0; }
-	.stat-divided { border-left: none; border-top: 1px solid rgba(0,0,0,0.08); }
-	.hot-deals-wrap { flex-direction: column; text-align: center; }
-	.hot-deals-timer { justify-content: center; }
-}
+  /* Hide placeholder when PHP has rendered real courses */
+  .featured-courses-grid:not(:empty) + .tutor-lms-placeholder {
+    display: none !important;
+  }
+  /* Style the Tutor LMS output grid */
+  .featured-courses-grid .tutor-course-list {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+    gap: 2rem !important;
+  }
 </style>
-
-<script>
-(function(){
-	var end = new Date();
-	end.setHours(end.getHours()+8, end.getMinutes()+42, end.getSeconds()+15);
-	function pad(n){ return n<10?'0'+n:''+n; }
-	function tick(){
-		var diff = Math.max(0, Math.floor((end-new Date())/1000));
-		var h=Math.floor(diff/3600), m=Math.floor((diff%3600)/60), s=diff%60;
-		['hd-h','hd-m','hd-s'].forEach(function(id,i){
-			var el=document.getElementById(id);
-			if(el) el.textContent=pad([h,m,s][i]);
-		});
-		if(diff>0) setTimeout(tick,1000);
-	}
-	tick();
-})();
-</script>
 <!-- /wp:html -->
+
+<!-- wp:pattern {"slug":"spoke-theme/testimonials-row"} /-->
+
+<!-- ═══════════════════════════════════════════════
+     TRUST SIGNALS
+════════════════════════════════════════════════ -->
+<!-- wp:html -->
+<section class="px-6 lg:px-8 py-10 bg-white" style="border-top:1px solid #f1f5f9;border-bottom:1px solid #f1f5f9;">
+  <div class="max-w-[1280px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-8">
+
+    <!-- Partner logos (greyscale) -->
+    <div class="flex flex-wrap items-center gap-8 opacity-40 grayscale">
+      <!-- Generic shield / award icons as stand-ins until real logos are uploaded -->
+      <svg class="w-10 h-10" fill="#002653" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <svg class="w-10 h-10" fill="#002653" viewBox="0 0 24 24"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+      <svg class="w-10 h-10" fill="#002653" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1 15v-4H7l5-8v4h4l-5 8z"/></svg>
+      <svg class="w-10 h-10" fill="#002653" viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3z"/></svg>
+    </div>
+
+    <!-- Trust badges -->
+    <div class="flex flex-wrap gap-4">
+      <div class="flex items-center gap-2 rounded-lg px-4 py-2" style="background:#ecfdf5;border:1px solid #d1fae5;">
+        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="#065f46" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        <span class="text-[11px] font-bold uppercase tracking-wider" style="color:#065f46;">Stripe Secure Payment</span>
+      </div>
+      <div class="flex items-center gap-2 rounded-lg px-4 py-2" style="background:#ecfdf5;border:1px solid #d1fae5;">
+        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="#065f46" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+        </svg>
+        <span class="text-[11px] font-bold uppercase tracking-wider" style="color:#065f46;">30-Day Money-Back Guarantee</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- /wp:html -->
+
+<!-- wp:pattern {"slug":"spoke-theme/cta-banner"} /-->
 
 <!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->
