@@ -1,0 +1,134 @@
+<!-- wp:html  -->
+<style>
+  body>div.wp-site-blocks>header>header>div {
+    gap: 0px !important;
+  }
+
+  body>div.wp-site-blocks>header>header>div>div.wp-block-column.is-vertically-aligned-center.nav-column.is-layout-flow.wp-block-column-is-layout-flow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    row-gap: 20px;
+  }
+
+  body>div.wp-site-blocks>header>header>div>div.wp-block-column.is-vertically-aligned-center.nav-column.is-layout-flow.wp-block-column-is-layout-flow>div.wp-block-woocommerce-customer-account,
+  body>div.wp-site-blocks>header>header>div>div.wp-block-column.is-vertically-aligned-center.nav-column.is-layout-flow.wp-block-column-is-layout-flow>div.wc-block-mini-cart.wp-block-woocommerce-mini-cart {
+    margin-top: 0 !important;
+    font-size: 22px !important;
+    justify-self: right !important;
+  }
+
+  body>div.wp-site-blocks>header>header>div>div.wp-block-column.is-vertically-aligned-center.nav-column.is-layout-flow.wp-block-column-is-layout-flow>div.wp-block-woocommerce-customer-account {
+    margin-left: auto !important;
+  }
+
+
+  /* Force desktop nav above 1010px */
+  @media (min-width: 1011px) {
+    .wp-block-navigation__responsive-container {
+      display: flex !important;
+      /* show normal nav */
+    }
+
+    .wp-block-navigation__responsive-container-open {
+      display: none !important;
+      /* hide hamburger */
+    }
+  }
+
+  @media (max-width: 1010px) {
+
+    /* Show hamburger */
+    .wp-block-navigation__responsive-container-open {
+      display: block !important;
+    }
+
+    /* Hide nav only when menu is closed */
+    .wp-block-navigation__responsive-container:not(.is-menu-open) {
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 1010px) {
+    body>div.wp-site-blocks>header>header>div>div.wp-block-column.is-vertically-aligned-center.nav-column.is-layout-flow.wp-block-column-is-layout-flow {
+      flex-direction: row-reverse;
+      width: fit-content;
+    }
+
+    body>div.wp-site-blocks>header>header>div>div.wp-block-column.is-vertically-aligned-center.nav-column.is-layout-flow.wp-block-column-is-layout-flow>div.wp-block-woocommerce-customer-account {
+      margin-left: 0 !important;
+    }
+
+    .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column {
+      flex-basis: 200px !important;
+    }
+  }
+
+  @media (max-width: 781px) {
+    .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column {
+      flex-basis: 150px !important;
+    }
+
+    body>div.wp-site-blocks>header>header>div>div:nth-child(3) {
+      display: none;
+    }
+  }
+
+  header.wp-block-template-part,
+  header.wp-block-group.is-position-sticky {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 50 !important;
+  }
+</style>
+
+<script>
+  /*  */
+</script>
+<!-- /wp:html  -->
+<!-- wp:group {"tagName":"header","style":{"position":{"type":"sticky"},"zIndex":50},"backgroundColor":"white","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<header class="wp-block-group has-white-background-color has-background"
+  style="position:sticky;top:0;z-index:50;border-bottom:1px solid #e7e8e9;">
+
+
+  <!-- wp:columns {"verticalAlignment":"center","style":{"spacing":{"padding":{"top":"0","bottom":"0"}}}} -->
+  <div class="wp-block-columns are-vertically-aligned-center"
+    style="padding:0;max-width:1280px;margin:0 auto;padding-left:24px;padding-right:24px;min-height:80px;">
+
+    <!-- Logo col -->
+    <!-- wp:column {"verticalAlignment":"center","width":"200px"} -->
+    <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:200px">
+      <!-- wp:site-title {"level":0,"style":{"typography":{"fontWeight":"700","fontSize":"22px","letterSpacing":"-0.05em"},"color":{"text":"#002653"}}} /-->
+    </div>
+    <!-- /wp:column -->
+
+    <!-- Nav col -->
+
+    <!-- wp:column {"verticalAlignment":"center"} -->
+
+    <div class="wp-block-column is-vertically-aligned-center nav-column">
+      <!-- wp:navigation {"overlayMenu":"mobile","orientation":"horizontal","layout":{"type":"flex","justifyContent":"center","flexWrap":"nowrap"},"style":{"typography":{"fontWeight":"500","fontSize":"15px"},"color":{"text":"#43474f"}}} /-->
+    </div>
+    <!-- /wp:column -->
+
+    <!-- Actions col -->
+    <!-- wp:column {"verticalAlignment":"center","width":"200px"} -->
+    <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:200px;">
+      <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"right"}} -->
+      <div class="wp-block-buttons">
+        <!-- wp:button {"backgroundColor":"primary","textColor":"white","style":{"border":{"radius":"8px"},"spacing":{"padding":{"top":"10px","bottom":"10px","left":"18px","right":"18px"}}}} -->
+        <div class="wp-block-button"><a
+            class="wp-block-button__link has-white-color has-primary-background-color has-text-color has-background"
+            href="/courses/" style="border-radius:8px;padding:10px 18px;">Browse Courses</a></div>
+        <!-- /wp:button -->
+      </div>
+      <!-- /wp:buttons -->
+    </div>
+    <!-- /wp:column -->
+
+  </div>
+  <!-- /wp:columns -->
+
+</header>
+<!-- /wp:group -->
