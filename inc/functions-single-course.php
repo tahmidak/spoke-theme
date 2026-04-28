@@ -174,6 +174,13 @@ function spoke_render_single_course(): void {
 		$cat_tax      = 'product_cat';
 	}
 
+	// ── Fake data override — takes priority over real Tutor LMS data ─
+	// Set values in WP Admin › Courses › Edit Course › "Display Data" sidebar box.
+	$display    = spoke_get_course_display_data( $post_id );
+	$rating_avg = $display['rating_avg'];
+	$rating_cnt = $display['rating_cnt'];
+	$students   = $display['students'];
+
 	$eff_price    = $sale_price > 0 ? $sale_price : $price;
 	$duration_raw = get_post_meta( $post_id, '_course_duration', true );
 	$duration     = is_array( $duration_raw ) ? implode( ' ', array_filter( $duration_raw ) ) : (string) $duration_raw;

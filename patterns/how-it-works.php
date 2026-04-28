@@ -12,7 +12,7 @@
 
     <!-- Section heading -->
     <div class="flex flex-col items-center gap-4 mb-14">
-      <h2 class="font-medium text-center tracking-[-0.9px]" style="color:#002653;font-size:clamp(1.75rem,3vw,2.25rem);">Your Path to Mastery</h2>
+      <h2 class="font-medium text-center tracking-[-0.9px]" style="color:#002653;font-size:clamp(1.75rem,3vw,2.25rem);">Your Path to Mastery khala khala</h2>
       <div class="w-20 h-1 rounded-full" style="background:#fdaf2e;"></div>
     </div>
 

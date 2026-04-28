@@ -30,3 +30,17 @@
 
 	window.addEventListener( 'scroll', onScroll, { passive: true } );
 } )();
+
+/* ── Bridge classic AJAX add-to-cart → WC Blocks mini-cart update ── */
+(function () {
+    'use strict';
+    if (typeof jQuery === 'undefined') { return; }
+
+    jQuery(document.body).on('added_to_cart', function () {
+        document.dispatchEvent( new CustomEvent('wc-blocks_added_to_cart') );
+    });
+
+    jQuery(document.body).on('removed_from_cart', function () {
+        document.dispatchEvent( new CustomEvent('wc-blocks_removed_from_cart') );
+    });
+})();

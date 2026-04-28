@@ -1,12 +1,57 @@
 <?php
 
-/**
- * functions.php — Spoke Theme
- * WordPress Full Site Editing (FSE) block theme
- * studymatecentral.org.uk — UK e-learning platform
- *
- * @package SpokeTheme
- */
+add_filter('template_include', function(string $template): string {
+
+    $normalized = str_replace('\\', '/', $template);
+    $is_tutor = (strpos($normalized, '/plugins/tutor/') !== false);
+
+    $is_woo = (
+        (function_exists('is_checkout') && is_checkout()) ||
+        (function_exists('is_cart') && is_cart())
+    );
+
+    if (!$is_tutor && !$is_woo) {
+        return $template;
+    }
+
+    if ($is_woo) {
+        // WooCommerce — use page.html normally, post content exists
+        $page_html = get_template_directory() . '/templates/page.html';
+        $content   = ltrim(file_get_contents($page_html), "\xEF\xBB\xBF");
+
+        global $_wp_current_template_content, $_wp_current_template_id;
+        $_wp_current_template_content = $content;
+        $_wp_current_template_id      = get_stylesheet() . '//page';
+
+        return ABSPATH . WPINC . '/template-canvas.php';
+    }
+
+    // TutorLMS — capture its template output, inject into a fake post_content
+    // so wp:post-content block renders it
+    ob_start();
+    include $template;
+    $tutor_html = ob_get_clean();
+
+    // Inject captured HTML as the post content so wp:post-content renders it
+    add_filter('the_content', function() use ($tutor_html): string {
+        return $tutor_html;
+    }, 999);
+
+    // Also handle cases where post_content is empty
+    add_filter('get_the_content', function($content) use ($tutor_html): string {
+        return $tutor_html;
+    }, 999);
+
+    $page_html = get_template_directory() . '/templates/page.html';
+    $content   = ltrim(file_get_contents($page_html), "\xEF\xBB\xBF");
+
+    global $_wp_current_template_content, $_wp_current_template_id;
+    $_wp_current_template_content = $content;
+    $_wp_current_template_id      = get_stylesheet() . '//page';
+
+    return ABSPATH . WPINC . '/template-canvas.php';
+
+}, 9999);
 
 
 // ─────────────────────────────────────────────────────────────────
@@ -14,8 +59,6 @@
 // ─────────────────────────────────────────────────────────────────
 
 add_action('after_setup_theme', function (): void {
-
-    // FSE core supports
     add_theme_support('wp-block-styles');
     add_theme_support('editor-styles');
     add_theme_support('align-wide');
@@ -28,17 +71,11 @@ add_action('after_setup_theme', function (): void {
         'caption',
         'navigation-widgets',
     ]);
-
-    // WooCommerce supports
     add_theme_support('woocommerce');
     add_theme_support('wc-product-gallery-zoom');
     add_theme_support('wc-product-gallery-lightbox');
     add_theme_support('wc-product-gallery-slider');
-
-    // patterns support 
     add_theme_support('core-block-patterns');
-
-    // Register Spoke pattern category
     register_block_pattern_category('spoke-theme', [
         'label'       => __('Spoke Theme', 'spoke-theme'),
         'description' => __('Patterns for the Spoke e-learning theme.', 'spoke-theme'),
@@ -48,59 +85,50 @@ add_action('after_setup_theme', function (): void {
 
 // ─────────────────────────────────────────────────────────────────
 // 2. TAILWIND CSS CDN + CONFIG
-//
-// CRITICAL: Must use wp_enqueue_scripts (not wp_head) so WordPress
-// places the script tag correctly and wp_head fires after it.
-// The inline config script must come AFTER the CDN script loads.
 // ─────────────────────────────────────────────────────────────────
 
 add_action('wp_enqueue_scripts', function (): void {
-
-    // Step 1: Register Tailwind CDN (in <head>, not footer)
     wp_enqueue_script(
         'tailwindcss',
         'https://cdn.tailwindcss.com',
-        [],   // no dependencies
-        null, // no version (CDN manages this)
-        false // FALSE = loads in <head>, required for Tailwind to work
+        [],
+        null,
+        false
     );
-
-    // Step 2: Inline config runs immediately after Tailwind CDN script
-    // Uses wp_add_inline_script with 'after' position
     wp_add_inline_script(
         'tailwindcss',
         'tailwind.config = {
-			theme: {
-				extend: {
-					fontFamily: {
-						inter: ["Inter", "system-ui", "sans-serif"],
-					},
-					colors: {
-						primary:         "#1A3C6E",
-						accent:          "#F4A726",
-						"accent-dark":   "#6B4500",
-						light:           "#F8F9FA",
-						dark:            "#1A1A2E",
-						success:         "#E8F4EC",
-						surface:         "#F3F4F5",
-						muted:           "#43474F",
-						error:           "#BA1A1A",
-					},
-					boxShadow: {
-						card:         "0 2px 8px rgba(0,0,0,0.08)",
-						"card-hover": "0 8px 32px rgba(26,60,110,0.08)",
-						enrol:        "0 20px 50px rgba(0,0,0,0.15)",
-						nav:          "0 2px 12px rgba(26,60,110,0.12)",
-					},
-					maxWidth: {
-						site: "1280px",
-					},
-				},
-			},
-		};',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        inter: ["Inter", "system-ui", "sans-serif"],
+                    },
+                    colors: {
+                        primary:         "#1A3C6E",
+                        accent:          "#F4A726",
+                        "accent-dark":   "#6B4500",
+                        light:           "#F8F9FA",
+                        dark:            "#1A1A2E",
+                        success:         "#E8F4EC",
+                        surface:         "#F3F4F5",
+                        muted:           "#43474F",
+                        error:           "#BA1A1A",
+                    },
+                    boxShadow: {
+                        card:         "0 2px 8px rgba(0,0,0,0.08)",
+                        "card-hover": "0 8px 32px rgba(26,60,110,0.08)",
+                        enrol:        "0 20px 50px rgba(0,0,0,0.15)",
+                        nav:          "0 2px 12px rgba(26,60,110,0.12)",
+                    },
+                    maxWidth: {
+                        site: "1280px",
+                    },
+                },
+            },
+        };',
         'after'
     );
-}, 1); // Priority 1 — runs before other enqueue hooks
+}, 1);
 
 
 // ─────────────────────────────────────────────────────────────────
@@ -117,76 +145,64 @@ add_action('wp_enqueue_scripts', function (): void {
         [],
         null
     );
-
-    wp_enqueue_style(
-        'spoke-global',
-        $uri . '/assets/css/global.css',
-        ['spoke-inter-font'],
-        $ver
-    );
-    wp_enqueue_style(
-        'spoke-lms',
-        $uri . '/assets/css/lms-overrides.css',
-        ['spoke-global'],
-        $ver
-    );
-    wp_enqueue_style(
-        'spoke-woo',
-        $uri . '/assets/css/woocommerce-overrides.css',
-        ['spoke-global'],
-        $ver
-    );
-
-    wp_enqueue_script(
-        'spoke-countdown',
-        $uri . '/assets/js/countdown-timer.js',
-        [],
-        $ver,
-        true
-    );
+    wp_enqueue_style('spoke-global', $uri . '/assets/css/global.css', ['spoke-inter-font'], $ver);
+    wp_enqueue_style('spoke-lms',    $uri . '/assets/css/lms-overrides.css', ['spoke-global'], $ver);
+    wp_enqueue_style('spoke-woo',    $uri . '/assets/css/woocommerce-overrides.css', ['spoke-global'], $ver);
+    wp_enqueue_script('spoke-countdown',    $uri . '/assets/js/countdown-timer.js',  [], $ver, true);
+    wp_enqueue_script('spoke-header-scroll', $uri . '/assets/js/header-scroll.js', [], $ver, true);
 }, 10);
 
 
 // ─────────────────────────────────────────────────────────────────
-// 4. FIX: REMOVE WORDPRESS BLOCK GAP FROM wp:html TEMPLATE PARTS
-//
-// WordPress wraps <!-- wp:html --> blocks in <div class="wp-block-html">
-// which inherits blockGap spacing from theme.json (32px by default).
-// This creates the "extra padding above header" issue.
+// 4. BLOCK GAP FIX
 // ─────────────────────────────────────────────────────────────────
 
 add_action('wp_head', function (): void {
     echo '<style>
-		/* Remove block gap from wp:html wrappers in template parts */
-		.wp-block-template-part .wp-block-html,
-		.wp-site-blocks > .wp-block-html {
-			margin-block-start: 0 !important;
-			margin-block-end: 0 !important;
-		}
-		/* Remove default body/html margin that WP sometimes adds */
-		body { margin: 0; }
-		/* Ensure Inter font applies everywhere */
-		body, * { font-family: "Inter", system-ui, sans-serif; }
-	</style>' . "\n";
+        .wp-block-template-part .wp-block-html,
+        .wp-site-blocks > .wp-block-html {
+            margin-block-start: 0 !important;
+            margin-block-end: 0 !important;
+        }
+        body { margin: 0; }
+        body, * { font-family: "Inter", system-ui, sans-serif; }
+    </style>' . "\n";
 }, 1);
 
+add_action('wp_head', function(): void {
+    if (!function_exists('tutor_utils')) return;
+    
+    $normalized = str_replace('\\', '/', $_SERVER['REQUEST_URI'] ?? '');
+    
+    // Check if this is a tutor template page
+    global $_wp_current_template_id;
+    if (empty($_wp_current_template_id) && !is_singular(['lesson', 'tutor_quiz', 'tutor_assignments'])) return;
+    
+    $normalized_template = str_replace('\\', '/', $_wp_current_template_id ?? '');
+    if (strpos($normalized_template, 'tutor') === false && !is_singular(['lesson', 'tutor_quiz', 'tutor_assignments'])) return;
+    
+    echo '<style>
+        /* Remove constrained layout restriction on TutorLMS pages */
+        .tutor-wrap .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)),
+        .tutor-dashboard .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)),
+        .tutor-page .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
+            max-width: none !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+    </style>';
+}, 20);
+
 
 // ─────────────────────────────────────────────────────────────────
-// 5. FIX: WOOCOMMERCE CART & CHECKOUT — USE FULL-WIDTH TEMPLATE
-//
-// WooCommerce Cart and Checkout pages use page.html by default.
-// page.html wraps content in a constrained group with padding.
-// We override this so WooCommerce pages get no extra wrapper padding.
+// 5. WOOCOMMERCE — CONTENT WRAPPERS
 // ─────────────────────────────────────────────────────────────────
 
-// Remove the default WooCommerce content wrappers so our template
-// controls the full layout
 add_action('after_setup_theme', function (): void {
     remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
     remove_action('woocommerce_after_main_content',  'woocommerce_output_content_wrapper_end', 10);
 });
 
-// Add our own minimal wrappers that don't fight the page.html layout
 add_action('woocommerce_before_main_content', function (): void {
     echo '<div class="spoke-woo-main">';
 });
@@ -194,28 +210,39 @@ add_action('woocommerce_after_main_content', function (): void {
     echo '</div>';
 });
 
-// Inline CSS for WooCommerce wrapper — keeps it full-width and clean
 add_action('wp_head', function (): void {
     if (! (is_cart() || is_checkout() || is_account_page())) {
         return;
     }
     echo '<style>
-		/* Override page.html group padding for WooCommerce pages */
-		.woocommerce-cart .wp-block-group,
-		.woocommerce-checkout .wp-block-group,
-		.woocommerce-account .wp-block-group {
-			padding: 0 !important;
-			max-width: none !important;
-		}
-		.spoke-woo-main {
-			max-width: 1280px;
-			margin: 0 auto;
-			padding: 40px 24px 80px;
-		}
-		@media (max-width: 640px) {
-			.spoke-woo-main { padding: 24px 16px 60px; }
-		}
-	</style>' . "\n";
+        .woocommerce-cart .wp-block-group,
+        .woocommerce-checkout .wp-block-group,
+        .woocommerce-account .wp-block-group {
+            padding: 0 !important;
+            max-width: none !important;
+        }
+        .spoke-woo-main {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+        @media (max-width: 640px) {
+            .spoke-woo-main { padding: 24px 16px 60px; }
+        }
+        .woocommerce-cart main.is-layout-constrained,
+        .woocommerce-checkout main.is-layout-constrained,
+        .woocommerce-account main.is-layout-constrained {
+            max-width: 1280px !important;
+            margin: 0 auto !important;
+            padding: 40px 24px 80px !important;
+        }
+        @media (max-width: 768px) {
+            .woocommerce-cart main.is-layout-constrained,
+            .woocommerce-checkout main.is-layout-constrained {
+                padding: 24px 16px 40px !important;
+            }
+        }
+    </style>' . "\n";
 });
 
 
@@ -226,7 +253,6 @@ add_action('wp_head', function (): void {
 function spoke_order_is_all_virtual(\WC_Order $order): bool
 {
     foreach ($order->get_items() as $item) {
-        /** @var WC_Order_Item_Product $item */
         $product = $item->get_product();
         if ($product && ! $product->is_virtual()) {
             return false;
@@ -237,21 +263,16 @@ function spoke_order_is_all_virtual(\WC_Order $order): bool
 
 
 // ─────────────────────────────────────────────────────────────────
-// 7. WOOCOMMERCE — CHECKOUT PAGE HARDENING
+// 7. WOOCOMMERCE — CHECKOUT HARDENING
 // ─────────────────────────────────────────────────────────────────
 
 add_filter('woocommerce_checkout_registration_required', '__return_false');
-
-add_filter('woocommerce_checkout_login_message', function (): string {
-    return esc_html__('Returning student? Log in via your dashboard.', 'spoke-theme');
-});
-
+add_filter('woocommerce_checkout_login_message', fn() => esc_html__('Returning student? Log in via your dashboard.', 'spoke-theme'));
 add_filter('woocommerce_checkout_show_login_reminder', '__return_false');
 
 add_filter('woocommerce_checkout_get_value', function ($value, string $input) {
     if ('billing_email' === $input && is_user_logged_in()) {
-        $user = wp_get_current_user();
-        return $user->user_email;
+        return wp_get_current_user()->user_email;
     }
     return $value;
 }, 10, 2);
@@ -263,14 +284,13 @@ add_filter('woocommerce_checkout_get_value', function ($value, string $input) {
 
 add_filter('woocommerce_email_styles', function (string $css): string {
     return $css . '
-		body       { background-color: #f8f9fa !important; }
-		#wrapper   { background-color: #f8f9fa !important; }
-		h1,h2,h3   { color: #1a3c6e !important; font-family: Arial, sans-serif !important; }
-		#header_wrapper { background-color: #1a3c6e !important; }
-		.order_details tfoot tr:last-child td { font-weight:700; font-size:1.1em; }
-		a          { color: #1a3c6e !important; }
-		.button    { background-color: #f4a726 !important; color: #1a1a2e !important; border-radius:8px !important; }
-	';
+        body       { background-color: #f8f9fa !important; }
+        #wrapper   { background-color: #f8f9fa !important; }
+        h1,h2,h3   { color: #1a3c6e !important; font-family: Arial, sans-serif !important; }
+        #header_wrapper { background-color: #1a3c6e !important; }
+        a          { color: #1a3c6e !important; }
+        .button    { background-color: #f4a726 !important; color: #1a1a2e !important; border-radius:8px !important; }
+    ';
 });
 
 add_action('woocommerce_email_footer', function (\WC_Email $email): void {
@@ -281,34 +301,27 @@ add_action('woocommerce_email_footer', function (\WC_Email $email): void {
 
 
 // ─────────────────────────────────────────────────────────────────
-// 9. WOOCOMMERCE — VAT DISPLAY & UK COMPLIANCE
+// 9. WOOCOMMERCE — VAT DISPLAY
 // ─────────────────────────────────────────────────────────────────
 
 add_filter('woocommerce_tax_display_cart', fn() => 'incl');
 add_filter('woocommerce_tax_display_shop', fn() => 'incl');
 
 add_filter('woocommerce_get_price_suffix', function (string $suffix, \WC_Product $product): string {
-    if (is_cart() || is_checkout()) {
-        return '';
-    }
+    if (is_cart() || is_checkout()) return '';
     return ' <small class="woocommerce-price-suffix">' . esc_html__('inc. VAT', 'spoke-theme') . '</small>';
 }, 10, 2);
 
 add_action('woocommerce_cart_totals_after_order_total', function (): void {
-    echo '<tr class="spoke-vat-notice"><td colspan="2">'
-        . esc_html__('All prices include UK VAT at 20%.', 'spoke-theme')
-        . '</td></tr>';
+    echo '<tr class="spoke-vat-notice"><td colspan="2">' . esc_html__('All prices include UK VAT at 20%.', 'spoke-theme') . '</td></tr>';
 });
-
 add_action('woocommerce_review_order_after_order_total', function (): void {
-    echo '<tr class="spoke-vat-notice"><td colspan="2">'
-        . esc_html__('All prices include UK VAT at 20%.', 'spoke-theme')
-        . '</td></tr>';
+    echo '<tr class="spoke-vat-notice"><td colspan="2">' . esc_html__('All prices include UK VAT at 20%.', 'spoke-theme') . '</td></tr>';
 });
 
 
 // ─────────────────────────────────────────────────────────────────
-// 10. WOOCOMMERCE — STRIPE GATEWAY INTEGRATION
+// 10. WOOCOMMERCE — STRIPE
 // ─────────────────────────────────────────────────────────────────
 
 add_filter('woocommerce_available_payment_gateways', function (array $gateways): array {
@@ -339,29 +352,20 @@ add_filter('woocommerce_payment_complete_order_status', function (string $status
 // ─────────────────────────────────────────────────────────────────
 
 add_filter('woocommerce_cart_needs_shipping_address', function (bool $needs): bool {
-    if (WC()->cart && WC()->cart->needs_shipping()) {
-        return $needs;
-    }
+    if (WC()->cart && WC()->cart->needs_shipping()) return $needs;
     return false;
 });
 
 add_filter('woocommerce_cart_needs_shipping', function (bool $needs): bool {
-    if (! WC()->cart) {
-        return $needs;
-    }
+    if (! WC()->cart) return $needs;
     foreach (WC()->cart->get_cart() as $cart_item) {
-        $product = $cart_item['data'];
-        if (! $product->is_virtual()) {
-            return $needs;
-        }
+        if (! $cart_item['data']->is_virtual()) return $needs;
     }
     return false;
 });
 
 add_action('woocommerce_thankyou', function (int $order_id): void {
-    if (! $order_id) {
-        return;
-    }
+    if (! $order_id) return;
     $order = wc_get_order($order_id);
     if ($order && spoke_order_is_all_virtual($order) && $order->has_status('processing')) {
         $order->update_status('completed', __('Auto-completed: all-virtual order.', 'spoke-theme'));
@@ -375,12 +379,7 @@ add_action('woocommerce_thankyou', function (int $order_id): void {
 
 add_filter('woocommerce_account_menu_items', function (array $items): array {
     unset($items['dashboard']);
-    $new = [];
-    $new['tutor-dashboard'] = __('My Learning', 'spoke-theme');
-    foreach ($items as $key => $label) {
-        $new[$key] = $label;
-    }
-    return $new;
+    return array_merge(['tutor-dashboard' => __('My Learning', 'spoke-theme')], $items);
 });
 
 add_action('woocommerce_account_tutor-dashboard_endpoint', function (): void {
@@ -389,49 +388,55 @@ add_action('woocommerce_account_tutor-dashboard_endpoint', function (): void {
 });
 
 add_filter('woocommerce_get_endpoint_url', function (string $url, string $endpoint): string {
-    if ('tutor-dashboard' === $endpoint) {
-        return home_url('/dashboard/');
-    }
+    if ('tutor-dashboard' === $endpoint) return home_url('/dashboard/');
     return $url;
 }, 10, 2);
 
 
 // ─────────────────────────────────────────────────────────────────
-// 13. WOOCOMMERCE — REMOVE UNWANTED DEFAULT CONTENT
+// 13. WOOCOMMERCE — REMOVE UNWANTED CONTENT + REDIRECTS
 // ─────────────────────────────────────────────────────────────────
 
 remove_action('woocommerce_before_main_content', 'woocommerce_breadcrumb', 20);
 add_filter('woocommerce_show_page_title', '__return_false');
-remove_action('woocommerce_before_shop_loop', 'woocommerce_result_count',    20);
+remove_action('woocommerce_before_shop_loop', 'woocommerce_result_count', 20);
 remove_action('woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30);
 
 add_action('template_redirect', function (): void {
-    if (is_shop() && ! is_admin()) {
-        $courses_page = get_page_by_path('courses');
-        if ($courses_page) {
-            wp_safe_redirect(get_permalink($courses_page->ID), 301);
-            exit;
+    if (function_exists('is_shop') && is_shop()) {
+        wp_safe_redirect(home_url('/courses/'), 301);
+        exit;
+    }
+    global $wp;
+    if (trim($wp->request, '/') === 'shop') {
+        wp_safe_redirect(home_url('/courses/'), 301);
+        exit;
+    }
+    if (is_tax('course-category')) {
+        $term = get_queried_object();
+        if (! $term || is_wp_error($term)) {
+            wp_safe_redirect(home_url('/courses/'), 301);
+        } else {
+            wp_safe_redirect(add_query_arg('cat', $term->slug, home_url('/courses/')), 302);
         }
+        exit;
     }
 });
 
 
 // ─────────────────────────────────────────────────────────────────
-// 14. WOOCOMMERCE — CHECKOUT FIELDS (UK-SPECIFIC)
+// 14. WOOCOMMERCE — CHECKOUT FIELDS (UK)
 // ─────────────────────────────────────────────────────────────────
 
 add_filter('woocommerce_billing_fields', function (array $fields): array {
-    $remove = ['billing_company', 'billing_state', 'billing_phone'];
-    foreach ($remove as $key) {
+    foreach (['billing_company', 'billing_state', 'billing_phone'] as $key) {
         unset($fields[$key]);
     }
     if (isset($fields['billing_address_1'])) {
         $fields['billing_address_1']['label']       = __('Street Address', 'spoke-theme');
         $fields['billing_address_1']['placeholder'] = __('123 High Street', 'spoke-theme');
     }
-    if (isset($fields['billing_country'])) {
-        $fields['billing_country']['default'] = 'GB';
-    }
+    if (isset($fields['billing_country']))  $fields['billing_country']['default']      = 'GB';
     if (isset($fields['billing_postcode'])) {
         $fields['billing_postcode']['label']       = __('Postcode', 'spoke-theme');
         $fields['billing_postcode']['placeholder'] = 'SW1A 1AA';
@@ -441,7 +446,7 @@ add_filter('woocommerce_billing_fields', function (array $fields): array {
 
 
 // ─────────────────────────────────────────────────────────────────
-// 15. RANK MATH SEO — BLOG POST SCHEMA + BREADCRUMBS
+// 15. RANK MATH — BREADCRUMB ARGS
 // ─────────────────────────────────────────────────────────────────
 
 add_filter('rank_math/frontend/breadcrumb/args', function (array $args): array {
@@ -449,17 +454,18 @@ add_filter('rank_math/frontend/breadcrumb/args', function (array $args): array {
     return $args;
 });
 
+
+// ─────────────────────────────────────────────────────────────────
+// 16. SCHEMA — BLOG POST
+// ─────────────────────────────────────────────────────────────────
+
 add_action('wp_head', function (): void {
-    if (! is_single() || 'post' !== get_post_type()) {
-        return;
-    }
+    if (! is_single() || 'post' !== get_post_type()) return;
     $post        = get_post();
     $author_name = get_the_author_meta('display_name', $post->post_author);
     $author_url  = get_author_posts_url($post->post_author);
     $image_url   = get_the_post_thumbnail_url($post->ID, 'large') ?: get_site_icon_url();
     $cats        = get_the_category($post->ID);
-    $cat_name    = $cats ? $cats[0]->name : 'Blog';
-
     $schema = [
         '@context'         => 'https://schema.org',
         '@type'            => 'BlogPosting',
@@ -467,172 +473,91 @@ add_action('wp_head', function (): void {
         'description'      => esc_html(wp_strip_all_tags(get_the_excerpt($post->ID))),
         'image'            => $image_url,
         'author'           => ['@type' => 'Person', 'name' => $author_name, 'url' => $author_url],
-        'publisher'        => [
-            '@type' => 'Organization',
-            'name'  => get_bloginfo('name'),
-            'url'   => home_url(),
-            'logo'  => ['@type' => 'ImageObject', 'url' => get_site_icon_url(512)],
-        ],
+        'publisher'        => ['@type' => 'Organization', 'name' => get_bloginfo('name'), 'url' => home_url(), 'logo' => ['@type' => 'ImageObject', 'url' => get_site_icon_url(512)]],
         'datePublished'    => get_the_date('c', $post->ID),
         'dateModified'     => get_the_modified_date('c', $post->ID),
         'mainEntityOfPage' => ['@type' => 'WebPage', '@id' => get_permalink($post->ID)],
-        'articleSection'   => $cat_name,
+        'articleSection'   => $cats ? $cats[0]->name : 'Blog',
         'wordCount'        => (int) str_word_count(wp_strip_all_tags($post->post_content)),
         'url'              => get_permalink($post->ID),
         'inLanguage'       => 'en-GB',
     ];
-
-    printf(
-        '<script type="application/ld+json">%s</script>' . "\n",
-        wp_json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)
-    );
+    printf('<script type="application/ld+json">%s</script>' . "\n", wp_json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
 }, 5);
 
 
 // ─────────────────────────────────────────────────────────────────
-// 16. RANK MATH SEO — TUTOR LMS COURSE SCHEMA (JSON-LD)
+// 17. SCHEMA — COURSE
 // ─────────────────────────────────────────────────────────────────
 
 add_action('wp_head', function (): void {
-    if (! is_singular('courses')) {
-        return;
-    }
-    $course_id    = get_the_ID();
-    $price        = get_post_meta($course_id, '_price', true);
-    $sale_price   = get_post_meta($course_id, '_sale_price', true);
-    $final_price  = $sale_price ?: $price;
-    $duration     = get_post_meta($course_id, '_course_duration', true);
-    $level        = get_post_meta($course_id, '_tutor_course_level', true);
-    $instructor   = get_userdata(get_post_field('post_author', $course_id));
-    $thumb_url    = get_the_post_thumbnail_url($course_id, 'large');
-    $cats         = get_the_terms($course_id, 'course-category');
-    $cat_name     = ($cats && ! is_wp_error($cats)) ? $cats[0]->name : 'Professional Development';
-    $rating_data  = function_exists('tutor_utils') ? tutor_utils()->get_course_rating($course_id) : null;
-    $rating_avg   = $rating_data ? (float) $rating_data->rating_avg   : null;
-    $rating_count = $rating_data ? (int)   $rating_data->rating_count : null;
-    $students     = function_exists('tutor_utils') ? tutor_utils()->count_enrolled_users_by_course($course_id) : null;
-    $benefits_raw = get_post_meta($course_id, '_tutor_course_benefits', true);
-    $benefits     = $benefits_raw ? array_filter(array_map('trim', explode("\n", $benefits_raw))) : [];
-    $req_raw      = get_post_meta($course_id, '_tutor_course_requirements', true);
-    $reqs         = $req_raw ? array_filter(array_map('trim', explode("\n", $req_raw))) : [];
-
+    if (! is_singular('courses')) return;
+    $course_id   = get_the_ID();
+    $price       = get_post_meta($course_id, '_price', true);
+    $sale_price  = get_post_meta($course_id, '_sale_price', true);
+    $final_price = $sale_price ?: $price;
+    $duration    = get_post_meta($course_id, '_course_duration', true);
+    $level       = get_post_meta($course_id, '_tutor_course_level', true);
+    $instructor  = get_userdata(get_post_field('post_author', $course_id));
+    $thumb_url   = get_the_post_thumbnail_url($course_id, 'large');
+    $cats        = get_the_terms($course_id, 'course-category');
+    $cat_name    = ($cats && ! is_wp_error($cats)) ? $cats[0]->name : 'Professional Development';
+    $rating_data = function_exists('tutor_utils') ? tutor_utils()->get_course_rating($course_id) : null;
+    $benefits    = array_filter(array_map('trim', explode("\n", get_post_meta($course_id, '_tutor_course_benefits', true) ?: '')));
+    $reqs        = array_filter(array_map('trim', explode("\n", get_post_meta($course_id, '_tutor_course_requirements', true) ?: '')));
     $schema = [
-        '@context'            => 'https://schema.org',
-        '@type'               => 'Course',
-        'name'                => esc_html(get_the_title()),
-        'description'         => esc_html(wp_strip_all_tags(get_the_excerpt())),
-        'url'                 => get_permalink(),
-        'image'               => $thumb_url ?: get_site_icon_url(),
-        'provider'            => ['@type' => 'Organization', 'name' => get_bloginfo('name'), 'sameAs' => home_url()],
-        'educationalLevel'    => $level ? ucfirst($level) : 'Intermediate',
-        'inLanguage'          => 'en-GB',
-        'availableLanguage'   => 'English',
-        'courseMode'          => 'online',
-        'isAccessibleForFree' => false,
-        'datePublished'       => get_the_date('c'),
-        'dateModified'        => get_the_modified_date('c'),
-        'about'               => $cat_name,
+        '@context' => 'https://schema.org', '@type' => 'Course',
+        'name' => esc_html(get_the_title()), 'description' => esc_html(wp_strip_all_tags(get_the_excerpt())),
+        'url' => get_permalink(), 'image' => $thumb_url ?: get_site_icon_url(),
+        'provider' => ['@type' => 'Organization', 'name' => get_bloginfo('name'), 'sameAs' => home_url()],
+        'educationalLevel' => $level ? ucfirst($level) : 'Intermediate',
+        'inLanguage' => 'en-GB', 'courseMode' => 'online', 'isAccessibleForFree' => false,
+        'datePublished' => get_the_date('c'), 'dateModified' => get_the_modified_date('c'), 'about' => $cat_name,
     ];
-
-    if ($instructor) {
-        $schema['instructor'] = ['@type' => 'Person', 'name' => $instructor->display_name, 'url' => get_author_posts_url($instructor->ID)];
-    }
-    if ($duration) {
-        $schema['timeRequired'] = $duration;
-    }
-    if ($final_price) {
-        $schema['offers'] = [
-            '@type'         => 'Offer',
-            'price'         => number_format((float) $final_price, 2, '.', ''),
-            'priceCurrency' => 'GBP',
-            'availability'  => 'https://schema.org/InStock',
-            'url'           => get_permalink(),
-            'validFrom'     => get_the_date('c'),
-        ];
-    }
-    if ($rating_avg && $rating_count && $rating_count > 0) {
-        $schema['aggregateRating'] = [
-            '@type'       => 'AggregateRating',
-            'ratingValue' => round($rating_avg, 1),
-            'reviewCount' => $rating_count,
-            'bestRating'  => 5,
-            'worstRating' => 1,
-        ];
-    }
-    if (! empty($benefits)) {
-        $schema['teaches'] = array_values($benefits);
-    }
-    if (! empty($reqs)) {
-        $schema['coursePrerequisites'] = array_values($reqs);
-    }
-
-    printf(
-        '<script type="application/ld+json">%s</script>' . "\n",
-        wp_json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)
-    );
+    if ($instructor) $schema['instructor'] = ['@type' => 'Person', 'name' => $instructor->display_name, 'url' => get_author_posts_url($instructor->ID)];
+    if ($duration)   $schema['timeRequired'] = $duration;
+    if ($final_price) $schema['offers'] = ['@type' => 'Offer', 'price' => number_format((float)$final_price, 2, '.', ''), 'priceCurrency' => 'GBP', 'availability' => 'https://schema.org/InStock', 'url' => get_permalink(), 'validFrom' => get_the_date('c')];
+    if ($rating_data && $rating_data->rating_count > 0) $schema['aggregateRating'] = ['@type' => 'AggregateRating', 'ratingValue' => round((float)$rating_data->rating_avg, 1), 'reviewCount' => (int)$rating_data->rating_count, 'bestRating' => 5, 'worstRating' => 1];
+    if (!empty($benefits)) $schema['teaches'] = array_values($benefits);
+    if (!empty($reqs))     $schema['coursePrerequisites'] = array_values($reqs);
+    printf('<script type="application/ld+json">%s</script>' . "\n", wp_json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
 }, 5);
 
 
 // ─────────────────────────────────────────────────────────────────
-// 17. RANK MATH — BREADCRUMB SCHEMA
+// 18. SCHEMA — BREADCRUMBS
 // ─────────────────────────────────────────────────────────────────
 
 add_action('wp_head', function (): void {
-    if (! is_singular('courses') && ! is_single()) {
-        return;
-    }
-    $items   = [];
-    $items[] = ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => home_url('/')];
-
+    if (! is_singular('courses') && ! is_single()) return;
+    $items = [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => home_url('/')]];
     if (is_singular('courses')) {
         $archive_url = get_post_type_archive_link('courses');
-        if ($archive_url) {
-            $items[] = ['@type' => 'ListItem', 'position' => 2, 'name' => 'Courses', 'item' => $archive_url];
-        }
+        if ($archive_url) $items[] = ['@type' => 'ListItem', 'position' => 2, 'name' => 'Courses', 'item' => $archive_url];
         $cats = get_the_terms(get_the_ID(), 'course-category');
-        if ($cats && ! is_wp_error($cats)) {
-            $items[] = ['@type' => 'ListItem', 'position' => count($items) + 1, 'name' => $cats[0]->name, 'item' => get_term_link($cats[0])];
-        }
+        if ($cats && ! is_wp_error($cats)) $items[] = ['@type' => 'ListItem', 'position' => count($items) + 1, 'name' => $cats[0]->name, 'item' => get_term_link($cats[0])];
         $items[] = ['@type' => 'ListItem', 'position' => count($items) + 1, 'name' => get_the_title(), 'item' => get_permalink()];
     } elseif (is_single()) {
         $blog_url = get_permalink(get_option('page_for_posts'));
-        if ($blog_url) {
-            $items[] = ['@type' => 'ListItem', 'position' => 2, 'name' => 'Blog', 'item' => $blog_url];
-        }
+        if ($blog_url) $items[] = ['@type' => 'ListItem', 'position' => 2, 'name' => 'Blog', 'item' => $blog_url];
         $cats = get_the_category();
-        if ($cats) {
-            $items[] = ['@type' => 'ListItem', 'position' => count($items) + 1, 'name' => $cats[0]->name, 'item' => get_category_link($cats[0]->term_id)];
-        }
+        if ($cats) $items[] = ['@type' => 'ListItem', 'position' => count($items) + 1, 'name' => $cats[0]->name, 'item' => get_category_link($cats[0]->term_id)];
         $items[] = ['@type' => 'ListItem', 'position' => count($items) + 1, 'name' => get_the_title(), 'item' => get_permalink()];
     }
-
-    if (empty($items)) {
-        return;
-    }
-
-    printf(
-        '<script type="application/ld+json">%s</script>' . "\n",
-        wp_json_encode(['@context' => 'https://schema.org', '@type' => 'BreadcrumbList', 'itemListElement' => $items], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)
-    );
+    printf('<script type="application/ld+json">%s</script>' . "\n", wp_json_encode(['@context' => 'https://schema.org', '@type' => 'BreadcrumbList', 'itemListElement' => $items], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
 }, 6);
 
 
 // ─────────────────────────────────────────────────────────────────
-// 18. RANK MATH — OPEN GRAPH FALLBACK FOR COURSES
+// 19. RANK MATH — OG IMAGE FALLBACK
 // ─────────────────────────────────────────────────────────────────
 
 add_action('wp_head', function (): void {
-    if (! is_singular('courses')) {
-        return;
-    }
+    if (! is_singular('courses')) return;
     $thumb = get_the_post_thumbnail_url(get_the_ID(), 'large');
-    if (! $thumb) {
-        return;
-    }
+    if (! $thumb) return;
     global $rank_math_og_image_output;
-    if ($rank_math_og_image_output) {
-        return;
-    }
+    if ($rank_math_og_image_output) return;
     printf('<meta property="og:image" content="%s" />' . "\n", esc_url($thumb));
     echo '<meta property="og:image:width" content="1200" />' . "\n";
     echo '<meta property="og:image:height" content="630" />' . "\n";
@@ -640,131 +565,40 @@ add_action('wp_head', function (): void {
 
 
 // ─────────────────────────────────────────────────────────────────
-// 19. BLOG — EXCERPT & COMMENTS
+// 20. BLOG — EXCERPT & COMMENTS
 // ─────────────────────────────────────────────────────────────────
 
 add_filter('excerpt_length', fn() => 30, 999);
 add_filter('excerpt_more',   fn() => '…');
-
 add_filter('the_excerpt', function (string $excerpt): string {
-    if (! $excerpt && is_singular('post')) {
-        $excerpt = wp_trim_words(get_the_content(), 30, '…');
-    }
+    if (! $excerpt && is_singular('post')) $excerpt = wp_trim_words(get_the_content(), 30, '…');
     return $excerpt;
 });
 
 add_action('wp_footer', function (): void {
-    if (! is_single() || ! comments_open()) {
-        return;
-    }
-?>
-    <style>
-        #commentform input[type="text"],
-        #commentform input[type="email"],
-        #commentform input[type="url"],
-        #commentform textarea {
-            width: 100%;
-            padding: 12px 16px;
-            background: #f3f4f5;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 15px;
-            color: #191c1d;
-            transition: border-color 200ms, box-shadow 200ms;
-            margin-bottom: 0;
+    if (! is_single() || ! comments_open()) return;
+    echo '<style>
+        #commentform input[type="text"], #commentform input[type="email"],
+        #commentform input[type="url"], #commentform textarea {
+            width:100%; padding:12px 16px; background:#f3f4f5;
+            border:1px solid rgba(0,0,0,0.1); border-radius:8px;
+            font-family:inherit; font-size:15px; color:#191c1d; margin-bottom:0;
         }
-
-        #commentform input:focus,
-        #commentform textarea:focus {
-            outline: 2px solid #F4A726;
-            outline-offset: 1px;
-            border-color: transparent;
-        }
-
-        #commentform textarea {
-            min-height: 140px;
-            resize: vertical;
-        }
-
-        #commentform .form-submit input[type="submit"] {
-            background: #1A3C6E;
-            color: #fff;
-            font-family: inherit;
-            font-size: 15px;
-            font-weight: 700;
-            padding: 12px 28px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: filter 150ms;
-        }
-
-        #commentform .form-submit input[type="submit"]:hover {
-            filter: brightness(1.15);
-        }
-
-        .comment-list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .comment {
-            padding: 20px 0;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.07);
-        }
-
-        .comment:last-child {
-            border-bottom: none;
-        }
-
-        .comment .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            float: left;
-            margin-right: 14px;
-        }
-
-        .comment-author .fn {
-            font-weight: 700;
-            font-size: 14px;
-            color: #1A3C6E;
-        }
-
-        .comment-meta {
-            font-size: 12px;
-            color: #6b7280;
-            margin-bottom: 8px;
-        }
-
-        .comment-content p {
-            font-size: 14px;
-            line-height: 1.7;
-            color: #43474f;
-            margin: 0;
-        }
-
-        #reply-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1A3C6E;
-            margin-bottom: 16px;
-        }
-    </style>
-<?php
+        #commentform input:focus, #commentform textarea:focus { outline:2px solid #F4A726; border-color:transparent; }
+        #commentform textarea { min-height:140px; resize:vertical; }
+        #commentform .form-submit input[type="submit"] { background:#1A3C6E; color:#fff; font-family:inherit; font-size:15px; font-weight:700; padding:12px 28px; border:none; border-radius:8px; cursor:pointer; }
+        .comment-list { list-style:none; margin:0; padding:0; }
+        .comment { padding:20px 0; border-bottom:1px solid rgba(0,0,0,0.07); }
+        .comment-author .fn { font-weight:700; font-size:14px; color:#1A3C6E; }
+        .comment-meta { font-size:12px; color:#6b7280; margin-bottom:8px; }
+        .comment-content p { font-size:14px; line-height:1.7; color:#43474f; margin:0; }
+        #reply-title { font-size:20px; font-weight:700; color:#1A3C6E; margin-bottom:16px; }
+    </style>';
 });
-/**
- * ─────────────────────────────────────────────────────────────────
- * ADD THIS TO functions.php
- * Spoke Theme — Nav Menu Registration + Custom Walker
- * ─────────────────────────────────────────────────────────────────
- */
 
 
 // ─────────────────────────────────────────────────────────────────
-// 1. REGISTER NAVIGATION MENUS
+// 21. NAV MENUS
 // ─────────────────────────────────────────────────────────────────
 
 add_action('after_setup_theme', function (): void {
@@ -774,96 +608,80 @@ add_action('after_setup_theme', function (): void {
     ]);
 }, 5);
 
+add_filter('render_block_core/navigation', function (string $html, array $block): string {
+    if (!empty($block['attrs']['ref'])) return $html;
+    $location = $block['attrs']['__experimentalLocation'] ?? '';
+    if ($location !== 'primary' && $location !== '') return $html;
+    $locations = get_nav_menu_locations();
+    if (empty($locations['primary'])) return $html;
+    $menu = wp_get_nav_menu_object($locations['primary']);
+    if (!$menu) return $html;
+    $block['attrs']['ref'] = (int) $menu->term_id;
+    return render_block($block);
+}, 10, 2);
+
 
 // ─────────────────────────────────────────────────────────────────
-// 2. CUSTOM NAV WALKER — adds Tailwind/Spoke CSS classes
-//    and wraps sub-menus with the dropdown div
+// 22. CUSTOM NAV WALKER
 // ─────────────────────────────────────────────────────────────────
 
 if (! class_exists('Spoke_Nav_Walker')) :
-
-    class Spoke_Nav_Walker extends Walker_Nav_Menu
-    {
-
-        /**
-         * Open <li> element.
-         *
-         * Adds:
-         *   • "spoke-has-dropdown" when a sub-menu exists
-         *   • WordPress's own current-menu-item / current-menu-ancestor classes
-         */
-        public function start_el(
-            &$output,
-            $data_object,
-            $depth = 0,
-            $args  = null,
-            $id    = 0
-        ) {
-            $item = $data_object;
-
-            // Build class string
-            $classes   = empty($item->classes) ? [] : (array) $item->classes;
-            $has_child = in_array('menu-item-has-children', $classes, true);
-            if ($has_child) {
-                $classes[] = 'spoke-has-dropdown';
-            }
-            $class_str = implode(' ', array_filter(array_unique($classes)));
-
-            $output .= '<li id="menu-item-' . esc_attr($item->ID) . '" class="' . esc_attr($class_str) . '">';
-
-            // Build the <a> tag
-            $atts = [];
-            $atts['href']   = ! empty($item->url) ? $item->url : '#';
-            $atts['class']  = 'spoke-nav-link';
-            $atts['target'] = ! empty($item->target) ? $item->target : '';
-            $atts['rel']    = ! empty($item->xfn)    ? $item->xfn    : '';
-            if (! empty($item->attr_title)) {
-                $atts['title'] = $item->attr_title;
-            }
-
-            $attr_str = '';
-            foreach ($atts as $attr => $val) {
-                if ('' !== $val) {
-                    $attr_str .= ' ' . $attr . '="' . esc_attr($val) . '"';
-                }
-            }
-
-            $title  = apply_filters('the_title', $item->title, $item->ID);
-            $title  = apply_filters('nav_menu_item_title', $title, $item, $args, $depth);
-
-            $chevron = $has_child
-                ? ' <svg class="spoke-nav-chevron" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>'
-                : '';
-
-            $output .= '<a' . $attr_str . '>' . esc_html($title) . $chevron . '</a>';
+class Spoke_Nav_Walker extends Walker_Nav_Menu
+{
+    public function start_el(&$output, $data_object, $depth = 0, $args = null, $id = 0) {
+        $item      = $data_object;
+        $classes   = empty($item->classes) ? [] : (array) $item->classes;
+        $has_child = in_array('menu-item-has-children', $classes, true);
+        if ($has_child) $classes[] = 'spoke-has-dropdown';
+        $output .= '<li id="menu-item-' . esc_attr($item->ID) . '" class="' . esc_attr(implode(' ', array_filter(array_unique($classes)))) . '">';
+        $atts = ['href' => !empty($item->url) ? $item->url : '#', 'class' => 'spoke-nav-link', 'target' => !empty($item->target) ? $item->target : '', 'rel' => !empty($item->xfn) ? $item->xfn : ''];
+        if (!empty($item->attr_title)) $atts['title'] = $item->attr_title;
+        $attr_str = '';
+        foreach ($atts as $attr => $val) {
+            if ('' !== $val) $attr_str .= ' ' . $attr . '="' . esc_attr($val) . '"';
         }
-
-        /**
-         * Open the sub-menu <ul> — wraps it in the dropdown div.
-         */
-        public function start_lvl(&$output, $depth = 0, $args = null)
-        {
-            $output .= '<div class="spoke-dropdown" role="menu"><ul>';
-        }
-
-        /**
-         * Close the sub-menu <ul> and its wrapper div.
-         */
-        public function end_lvl(&$output, $depth = 0, $args = null)
-        {
-            $output .= '</ul></div>';
-        }
-
-        /**
-         * Close <li>.
-         */
-        public function end_el(&$output, $data_object, $depth = 0, $args = null)
-        {
-            $output .= '</li>';
-        }
+        $title   = apply_filters('nav_menu_item_title', apply_filters('the_title', $item->title, $item->ID), $item, $args, $depth);
+        $chevron = $has_child ? ' <svg class="spoke-nav-chevron" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>' : '';
+        $output .= '<a' . $attr_str . '>' . esc_html($title) . $chevron . '</a>';
     }
+    public function start_lvl(&$output, $depth = 0, $args = null) { $output .= '<div class="spoke-dropdown" role="menu"><ul>'; }
+    public function end_lvl(&$output, $depth = 0, $args = null)   { $output .= '</ul></div>'; }
+    public function end_el(&$output, $data_object, $depth = 0, $args = null) { $output .= '</li>'; }
+}
+endif;
 
-endif; // class_exists Spoke_Nav_Walker
 
+// ─────────────────────────────────────────────────────────────────
+// 23. EMPTY CART CTA
+// ─────────────────────────────────────────────────────────────────
+
+add_filter('render_block', function (string $content, array $block): string {
+    if (!isset($block['blockName']) || $block['blockName'] !== 'woocommerce/empty-cart-block') return $content;
+    $btn = '<a href="' . esc_url(home_url('/courses/')) . '" class="spoke-empty-cart-cta">'
+        . '<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>'
+        . 'Browse Our Courses</a>';
+    $content = preg_replace('/(<h2[^>]*class="[^"]*wc-block-cart__empty-cart__title[^"]*"[^>]*>.*?<\/h2>)/is', '$1' . $btn, $content, 1);
+    return $content;
+}, 10, 2);
+
+add_action('wp_enqueue_scripts', function(): void {
+    // Force WooCommerce cart fragments to load in footer AFTER React hydration
+    wp_enqueue_script('wc-cart-fragments');
+}, 99);
+
+// Force jQuery to load in head so it's ready before everything else
+add_filter('wp_enqueue_scripts', function(): void {
+    wp_enqueue_script('jquery');
+}, 1);
+
+
+// ─────────────────────────────────────────────────────────────────
+// 24. REQUIRE INC FILES
+// ─────────────────────────────────────────────────────────────────
+
+require_once get_template_directory() . '/inc/functions-course-meta.php';
 require_once get_template_directory() . '/inc/functions-archive-addon.php';
 require_once get_template_directory() . '/inc/functions-single-course.php';
+require_once get_template_directory() . '/inc/functions-login.php';
+require_once get_template_directory() . '/inc/functions-hot-deals.php';
+require_once get_template_directory() . '/inc/functions-footer.php';

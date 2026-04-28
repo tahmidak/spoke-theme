@@ -1,4 +1,3 @@
-<!-- wp:html  -->
 <style>
   body>div.wp-site-blocks>header>header>div {
     gap: 0px !important;
@@ -86,49 +85,44 @@
 <script>
   /*  */
 </script>
-<!-- /wp:html  -->
+
 <!-- wp:group {"tagName":"header","style":{"position":{"type":"sticky"},"zIndex":50},"backgroundColor":"white","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<header class="wp-block-group has-white-background-color has-background"
-  style="position:sticky;top:0;z-index:50;border-bottom:1px solid #e7e8e9;">
-
-
-  <!-- wp:columns {"verticalAlignment":"center","style":{"spacing":{"padding":{"top":"0","bottom":"0"}}}} -->
+<header class="wp-block-group has-white-background-color has-background">
+  <!-- wp:columns {"verticalAlignment":"center","style":{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40","left":"var:preset|spacing|50","right":"var:preset|spacing|50"}}}} -->
   <div class="wp-block-columns are-vertically-aligned-center"
-    style="padding:0;max-width:1280px;margin:0 auto;padding-left:24px;padding-right:24px;min-height:80px;">
-
-    <!-- Logo col -->
+    style="padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--50)">
     <!-- wp:column {"verticalAlignment":"center","width":"200px"} -->
     <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:200px">
       <!-- wp:site-title {"level":0,"style":{"typography":{"fontWeight":"700","fontSize":"22px","letterSpacing":"-0.05em"},"color":{"text":"#002653"}}} /-->
     </div>
     <!-- /wp:column -->
 
-    <!-- Nav col -->
-
-    <!-- wp:column {"verticalAlignment":"center"} -->
-
+    <!-- wp:column {"verticalAlignment":"center","className":"nav-column"} -->
     <div class="wp-block-column is-vertically-aligned-center nav-column">
-      <!-- wp:navigation {"overlayMenu":"mobile","orientation":"horizontal","layout":{"type":"flex","justifyContent":"center","flexWrap":"nowrap"},"style":{"typography":{"fontWeight":"500","fontSize":"15px"},"color":{"text":"#43474f"}}} /-->
+      <!-- wp:navigation {"ref":102,"metadata":{"ignoredHookedBlocks":["woocommerce/customer-account"]},"style":{"typography":{"fontWeight":"500","fontSize":"15px"},"color":{"text":"#43474f"}},"layout":{"type":"flex","orientation":"horizontal"}} /-->
+
+      <!-- wp:woocommerce/customer-account {"displayStyle":"icon_only","iconStyle":"line","iconClass":"wc-block-customer-account__account-icon","style":{"typography":{"fontSize":"var(\u002d\u002dwp\u002d\u002dpreset\u002d\u002dfont-size\u002d\u002dbody)"}}} /-->
+
+      <!-- wp:woocommerce/mini-cart {"style":{"typography":{"fontSize":"var(\u002d\u002dwp\u002d\u002dpreset\u002d\u002dfont-size\u002d\u002dbody)"}}} /-->
     </div>
     <!-- /wp:column -->
 
-    <!-- Actions col -->
     <!-- wp:column {"verticalAlignment":"center","width":"200px"} -->
-    <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:200px;">
+    <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:200px">
       <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"right"}} -->
       <div class="wp-block-buttons">
         <!-- wp:button {"backgroundColor":"primary","textColor":"white","style":{"border":{"radius":"8px"},"spacing":{"padding":{"top":"10px","bottom":"10px","left":"18px","right":"18px"}}}} -->
         <div class="wp-block-button"><a
-            class="wp-block-button__link has-white-color has-primary-background-color has-text-color has-background"
-            href="/courses/" style="border-radius:8px;padding:10px 18px;">Browse Courses</a></div>
+            class="wp-block-button__link has-white-color has-primary-background-color has-text-color has-background wp-element-button"
+            href="/courses/"
+            style="border-radius:8px;padding-top:10px;padding-right:18px;padding-bottom:10px;padding-left:18px">Browse
+            Courses</a></div>
         <!-- /wp:button -->
       </div>
       <!-- /wp:buttons -->
     </div>
     <!-- /wp:column -->
-
   </div>
   <!-- /wp:columns -->
-
 </header>
 <!-- /wp:group -->

@@ -1023,7 +1023,80 @@ mark.order-status.status-refunded {
 	margin-bottom: var(--woo-sp-2) !important;
 }
 
+/* Apply flex only to the wrapper that contains the login form */
+#main-content > div.entry-content > div.woocommerce:has(.woocommerce-form-login) {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0 !important;
+    flex-direction: column !important;
+}
 
+#main-content > div.entry-content > div.woocommerce > h2 {
+	font-size:     clamp(1.5rem, 5vw, 2rem) !important;
+	font-weight:   500 !important;
+	color:         var(--woo-primary) !important;
+	margin-top:    var(--woo-sp-4) !important;
+	margin-bottom: var(--woo-sp-4) !important;
+}
+
+/* ── Empty cart: hide "New in store" product grid ── */
+.wp-block-woocommerce-empty-cart-block .wp-block-woocommerce-product-new,
+.wp-block-woocommerce-empty-cart-block .wc-block-product-new,
+.wp-block-woocommerce-empty-cart-block hr.wp-block-separator,
+.wp-block-woocommerce-empty-cart-block h2:not(.wc-block-cart__empty-cart__title) {
+    display: none !important;
+}
+
+/* ── Empty cart: centre the title and button nicely ── */
+.wp-block-woocommerce-empty-cart-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 80px 24px;
+    text-align: center;
+}
+
+.wp-block-woocommerce-empty-cart-block .wc-block-cart__empty-cart__title {
+    font-size: clamp(1.5rem, 3vw, 2rem) !important;
+    font-weight: 700 !important;
+    color: var(--woo-primary) !important;
+    margin: 0 !important;
+}
+
+/* ── Browse Courses button ── */
+.spoke-empty-cart-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 52px;
+    padding: 0 32px;
+    background: var(--woo-accent);
+    color: var(--woo-dark) !important;
+    border-radius: 8px;
+    font-family: var(--wp--preset--font-family--inter);
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: filter 200ms ease, transform 200ms ease;
+}
+.spoke-empty-cart-cta:hover {
+    filter: brightness(1.07);
+    transform: translateY(-1px);
+}
+.spoke-empty-cart-cta svg {
+    flex-shrink: 0;
+}
+/* ── Hide page title on Cart page ── */
+.woocommerce-cart .wp-block-post-title {
+    display: none !important;
+}
+
+.wc-block-mini-cart__badge {
+    display: flex !important;
+    opacity: 1 !important;
+}
 /* ──────────────────────────────────────────────────────────────────
    15. RESPONSIVE OVERRIDES (≤ 768px)
    ────────────────────────────────────────────────────────────────── */
