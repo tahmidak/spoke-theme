@@ -12,7 +12,7 @@
 
     <!-- Section heading -->
     <div class="flex flex-col items-center gap-4 mb-14">
-      <h2 class="font-medium text-center tracking-[-0.9px]" style="color:#002653;font-size:clamp(1.75rem,3vw,2.25rem);">What our professional students say</h2>
+      <h2 class="font-medium text-center tracking-[-0.9px]" style="color:var(--wp--preset--color--primary);font-size:clamp(1.75rem,3vw,2.25rem);">What our professional students say</h2>
       <div class="w-20 h-1 rounded-full" style="background:#fdaf2e;"></div>
     </div>
 
@@ -22,9 +22,9 @@
       <!-- Testimonial 1 -->
       <blockquote class="bg-white rounded-xl p-8 flex flex-col gap-4" style="border:1px solid rgba(196,198,208,0.2);box-shadow:0 8px 32px rgba(26,60,110,0.04);">
         <div class="flex items-center gap-4">
-          <div class="w-14 h-14 rounded flex items-center justify-center text-white text-[15px] font-bold flex-shrink-0" style="background:#002653;">JW</div>
+          <div class="w-14 h-14 rounded flex items-center justify-center text-white text-[15px] font-bold flex-shrink-0" style="background:var(--wp--preset--color--primary);">JW</div>
           <div>
-            <p class="font-bold text-[15px]" style="color:#002653;">James Whitaker</p>
+            <p class="font-bold text-[15px]" style="color:var(--wp--preset--color--primary);">James Whitaker</p>
             <p class="text-[12px]" style="color:#43474f;">Senior Project Manager</p>
           </div>
         </div>
@@ -41,9 +41,9 @@
       <!-- Testimonial 2 -->
       <blockquote class="bg-white rounded-xl p-8 flex flex-col gap-4" style="border:1px solid rgba(196,198,208,0.2);box-shadow:0 8px 32px rgba(26,60,110,0.04);">
         <div class="flex items-center gap-4">
-          <div class="w-14 h-14 rounded flex items-center justify-center text-white text-[15px] font-bold flex-shrink-0" style="background:#002653;">EC</div>
+          <div class="w-14 h-14 rounded flex items-center justify-center text-white text-[15px] font-bold flex-shrink-0" style="background:var(--wp--preset--color--primary);">EC</div>
           <div>
-            <p class="font-bold text-[15px]" style="color:#002653;">Emily Chen</p>
+            <p class="font-bold text-[15px]" style="color:var(--wp--preset--color--primary);">Emily Chen</p>
             <p class="text-[12px]" style="color:#43474f;">Operations Lead</p>
           </div>
         </div>
@@ -60,9 +60,9 @@
       <!-- Testimonial 3 -->
       <blockquote class="bg-white rounded-xl p-8 flex flex-col gap-4 sm:col-span-2 lg:col-span-1" style="border:1px solid rgba(196,198,208,0.2);box-shadow:0 8px 32px rgba(26,60,110,0.04);">
         <div class="flex items-center gap-4">
-          <div class="w-14 h-14 rounded flex items-center justify-center text-white text-[15px] font-bold flex-shrink-0" style="background:#002653;">RH</div>
+          <div class="w-14 h-14 rounded flex items-center justify-center text-white text-[15px] font-bold flex-shrink-0" style="background:var(--wp--preset--color--primary);">RH</div>
           <div>
-            <p class="font-bold text-[15px]" style="color:#002653;">Robert Hughes</p>
+            <p class="font-bold text-[15px]" style="color:var(--wp--preset--color--primary);">Robert Hughes</p>
             <p class="text-[12px]" style="color:#43474f;">Marketing Director</p>
           </div>
         </div>

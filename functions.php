@@ -674,7 +674,6 @@ add_filter('wp_enqueue_scripts', function(): void {
     wp_enqueue_script('jquery');
 }, 1);
 
-
 // ─────────────────────────────────────────────────────────────────
 // 24. REQUIRE INC FILES
 // ─────────────────────────────────────────────────────────────────
@@ -685,3 +684,72 @@ require_once get_template_directory() . '/inc/functions-single-course.php';
 require_once get_template_directory() . '/inc/functions-login.php';
 require_once get_template_directory() . '/inc/functions-hot-deals.php';
 require_once get_template_directory() . '/inc/functions-footer.php';
+require_once get_template_directory() . '/inc/functions-contact.php';
+require_once get_template_directory() . '/inc/functions-course-card.php';
+require_once get_template_directory() . '/inc/functions-custom-logo.php';
+require_once get_template_directory() . '/inc/functions-blog-archive.php';
+require_once get_template_directory() . '/inc/functions-blog-single.php';
+require_once get_template_directory() . '/inc/functions-reviews.php';
+
+// ─────────────────────────────────────────────────────────────────
+// 25. REMOVE EMPTY <p> TAGS GLOBALLY
+// ─────────────────────────────────────────────────────────────────
+add_filter( 'the_content', function( string $content ): string {
+    // Remove <p> tags that contain only whitespace, &nbsp;, or nothing.
+    $content = preg_replace( '/<p>(\s|&nbsp;|\xc2\xa0)*<\/p>/i', '', $content );
+    return $content;
+}, 99 );
+
+
+//debug
+add_action('template_redirect', function(): void {
+    if (is_home()) {
+        error_log('Template: ' . get_template_directory() . '/templates/archive.html');
+        error_log('is_home: ' . var_export(is_home(), true));
+        error_log('is_page: ' . var_export(is_page(), true));
+    }
+});
+
+// ─────────────────────────────────────────────────────────────────
+// 26. the single and archive teplate fix
+// ─────────────────────────────────────────────────────────────────
+
+add_filter( 'template_include', function ( string $template ): string {
+
+    if ( is_singular( 'post' ) ) {
+        $block_template = get_block_template(
+            get_stylesheet() . '//single',
+            'wp_template'
+        );
+        if ( $block_template && ! empty( $block_template->content ) ) {
+            global $_wp_current_template_content, $_wp_current_template_id;
+            $_wp_current_template_content = $block_template->content;
+            $_wp_current_template_id      = $block_template->id;
+            return ABSPATH . WPINC . '/template-canvas.php';
+        }
+    }
+
+    return $template;
+
+}, 99 ); // priority 99 — after WP resolves, before your priority 9999 handler
+
+add_filter( 'template_include', function ( string $template ): string {
+
+    if ( is_home() || is_category() || is_tag() || is_author() || is_date() ) {
+        $block_template = get_block_template(
+            get_stylesheet() . '//archive',
+            'wp_template'
+        );
+        if ( $block_template && ! empty( $block_template->content ) ) {
+            global $_wp_current_template_content, $_wp_current_template_id;
+            $_wp_current_template_content = $block_template->content;
+            $_wp_current_template_id      = $block_template->id;
+            return ABSPATH . WPINC . '/template-canvas.php';
+        }
+    }
+
+    return $template;
+
+}, 99 );
+
+

@@ -7,7 +7,7 @@
  */
 ?>
 <!-- wp:html -->
-<section class="px-6 lg:px-8 py-14 lg:py-16" style="background:#002653;">
+<section class="px-6 lg:px-8 py-14 lg:py-16" style="background:var(--wp--preset--color--primary);">
   <div class="max-w-[1280px] mx-auto">
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
 

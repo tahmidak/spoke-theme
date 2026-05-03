@@ -137,6 +137,29 @@ html {
   padding-bottom: 0 !important;
 }
 
+.site-branding-smart {
+  display: flex;
+  align-items: center;
+}
+
+.site-branding-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.site-logo-img {
+  max-height: 40px;
+  width: auto;
+}
+
+.site-title-text {
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.05em;
+  color: var(--wp--preset--color--primary);
+}
+
 /* ── Inter font via Google Fonts fallback ─────────────────────── */
 /* Self-hosted Inter is preferred (theme.json fontFace).
    This is a safety net if the woff2 files haven't been installed. */

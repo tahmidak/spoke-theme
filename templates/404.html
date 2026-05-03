@@ -1,0 +1,183 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- ═══════════════════════════════════════════════════════════════
+     404 NOT FOUND — 404.html
+     Spoke Theme · Phase 6  |  Tailwind CDN via functions.php
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- wp:html -->
+<style>
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-16px); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse-ring {
+    0%   { transform: scale(0.9); opacity: 0.6; }
+    70%  { transform: scale(1.2); opacity: 0; }
+    100% { transform: scale(1.2); opacity: 0; }
+  }
+  .icon-float { animation: float 4s ease-in-out infinite; }
+  .fade-up-1  { animation: fadeUp 0.6s ease both; animation-delay: 0.1s; }
+  .fade-up-2  { animation: fadeUp 0.6s ease both; animation-delay: 0.25s; }
+  .fade-up-3  { animation: fadeUp 0.6s ease both; animation-delay: 0.4s; }
+  .fade-up-4  { animation: fadeUp 0.6s ease both; animation-delay: 0.55s; }
+  .pulse-ring { animation: pulse-ring 2.5s ease-out infinite; }
+  .nf-search-field {
+    width: 100%; height: 52px; padding: 0 52px 0 20px;
+    background: #fff; border: 2px solid rgba(0,0,0,0.1);
+    border-radius: 10px; font-family: inherit; font-size: 15px;
+    color: #191c1d; transition: border-color 200ms, box-shadow 200ms;
+  }
+  .nf-search-field:focus {
+    outline: none; border-color: #F4A726;
+    box-shadow: 0 0 0 4px rgba(244,167,38,0.15);
+  }
+  .nf-quick-link {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px; background: #fff; border-radius: 10px;
+    text-decoration: none; transition: transform 200ms, box-shadow 200ms;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .nf-quick-link:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,60,110,0.10); }
+  .nf-btn-navy {
+    display: inline-flex; align-items: center; gap: 8px;
+    height: 50px; padding: 0 28px; background: #1A3C6E; color: #fff;
+    border-radius: 10px; font-weight: 700; font-size: 15px;
+    text-decoration: none; transition: filter 200ms, transform 200ms;
+  }
+  .nf-btn-navy:hover { filter: brightness(1.15); transform: translateY(-1px); }
+  .nf-btn-amber {
+    display: inline-flex; align-items: center; gap: 8px;
+    height: 50px; padding: 0 28px; background: #F4A726; color: #6b4500;
+    border-radius: 10px; font-weight: 700; font-size: 15px;
+    text-decoration: none; transition: filter 200ms, transform 200ms;
+  }
+  .nf-btn-amber:hover { filter: brightness(1.07); transform: translateY(-1px); }
+</style>
+
+<div style="min-height:calc(100vh - 80px);background:linear-gradient(160deg,#f8f9fa 0%,#eef2f8 100%);display:flex;align-items:center;justify-content:center;padding:60px 24px;font-family:'Inter',sans-serif;position:relative;overflow:hidden;">
+
+  <!-- Background decorative circles -->
+  <div style="position:absolute;top:-120px;right:-120px;width:500px;height:500px;border-radius:50%;background:rgba(26,60,110,0.04);pointer-events:none;"></div>
+  <div style="position:absolute;bottom:-80px;left:-80px;width:360px;height:360px;border-radius:50%;background:rgba(244,167,38,0.06);pointer-events:none;"></div>
+  <div style="position:absolute;top:40%;left:5%;width:18px;height:18px;border-radius:50%;background:#F4A726;opacity:0.25;pointer-events:none;"></div>
+  <div style="position:absolute;top:20%;right:10%;width:10px;height:10px;border-radius:50%;background:#1A3C6E;opacity:0.15;pointer-events:none;"></div>
+
+  <div style="max-width:640px;width:100%;text-align:center;position:relative;z-index:1;">
+
+    <!-- Floating icon -->
+    <div class="fade-up-1" style="margin-bottom:32px;display:flex;justify-content:center;">
+      <div style="position:relative;width:120px;height:120px;">
+        <div class="pulse-ring" style="position:absolute;inset:0;border-radius:50%;background:rgba(244,167,38,0.2);"></div>
+        <div class="icon-float" style="width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#1A3C6E 0%,#1A1A2E 100%);display:flex;align-items:center;justify-content:center;box-shadow:0 20px 50px rgba(26,60,110,0.25);position:relative;z-index:1;">
+          <svg width="52" height="52" fill="none" stroke="#F4A726" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- 404 number -->
+    <div class="fade-up-1" style="font-size:clamp(5rem,15vw,9rem);font-weight:900;line-height:1;letter-spacing:-4px;margin-bottom:8px;background:linear-gradient(135deg,#1A3C6E 0%,#3a6ea8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+      404
+    </div>
+
+    <!-- Headline -->
+    <h1 class="fade-up-2" style="font-size:clamp(1.375rem,3vw,2rem);font-weight:700;color:#1A3C6E;letter-spacing:-0.03em;margin:0 0 12px;">
+      Page Not Found
+    </h1>
+
+    <!-- Subtext -->
+    <p class="fade-up-2" style="font-size:16px;line-height:1.7;color:#43474f;margin:0 auto 36px;max-width:460px;">
+      The page you're looking for may have been moved, renamed, or removed. Let's get you back on track.
+    </p>
+
+    <!-- Search — action resolved by JS below -->
+    <div class="fade-up-3" style="margin-bottom:40px;">
+      <div style="position:relative;max-width:460px;margin:0 auto;">
+        <label for="nf-search" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Search the site</label>
+        <input type="search" id="nf-search" class="nf-search-field" placeholder="Search for a course or page…" autocomplete="off" />
+        <button id="nf-search-btn" type="button" aria-label="Search"
+                style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#1A3C6E;display:flex;align-items:center;padding:4px;">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Primary CTAs -->
+    <div class="fade-up-3" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:48px;">
+      <a href="/" class="nf-btn-navy">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        Back to Home
+      </a>
+      <a href="/courses/" class="nf-btn-amber">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        Browse Courses
+      </a>
+    </div>
+
+    <!-- Quick links -->
+    <div class="fade-up-4">
+      <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#43474f;margin:0 0 14px;">Popular destinations</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;max-width:500px;margin:0 auto;">
+
+        <a href="/hot-deals/" class="nf-quick-link">
+          <span style="width:36px;height:36px;border-radius:8px;background:rgba(244,167,38,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;">🔥</span>
+          <div style="text-align:left;">
+            <strong style="display:block;font-size:13px;font-weight:700;color:#1A3C6E;">Hot Deals</strong>
+            <span style="font-size:11px;color:#43474f;">Up to 70% off</span>
+          </div>
+        </a>
+
+        <a href="/about/" class="nf-quick-link">
+          <span style="width:36px;height:36px;border-radius:8px;background:rgba(26,60,110,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;">🏛️</span>
+          <div style="text-align:left;">
+            <strong style="display:block;font-size:13px;font-weight:700;color:#1A3C6E;">About Us</strong>
+            <span style="font-size:11px;color:#43474f;">Our story</span>
+          </div>
+        </a>
+
+        <a href="/contact/" class="nf-quick-link">
+          <span style="width:36px;height:36px;border-radius:8px;background:rgba(26,60,110,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;">💬</span>
+          <div style="text-align:left;">
+            <strong style="display:block;font-size:13px;font-weight:700;color:#1A3C6E;">Contact</strong>
+            <span style="font-size:11px;color:#43474f;">Get help</span>
+          </div>
+        </a>
+
+        <a href="/dashboard/" class="nf-quick-link">
+          <span style="width:36px;height:36px;border-radius:8px;background:rgba(26,60,110,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;">🎓</span>
+          <div style="text-align:left;">
+            <strong style="display:block;font-size:13px;font-weight:700;color:#1A3C6E;">Dashboard</strong>
+            <span style="font-size:11px;color:#43474f;">My learning</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var input = document.getElementById('nf-search');
+  var btn   = document.getElementById('nf-search-btn');
+  function doSearch() {
+    var q = input ? input.value.trim() : '';
+    if (q) window.location.href = '/?s=' + encodeURIComponent(q);
+  }
+  if (btn)   btn.addEventListener('click', doSearch);
+  if (input) input.addEventListener('keydown', function (e) { if (e.key === 'Enter') doSearch(); });
+})();
+</script>
+<!-- /wp:html -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

@@ -7,7 +7,7 @@
  */
 ?>
 <!-- wp:html -->
-<section class="relative overflow-hidden py-20 lg:py-32 px-6 lg:px-8" style="background: linear-gradient(142deg, #002653 0%, #252539 100%);">
+<section class="relative overflow-hidden py-20 lg:py-32 px-6 lg:px-8" style="background: linear-gradient(142deg, var(--wp--preset--color--primary) 0%, #252539 100%);">
 
   <!-- Decorative orbs -->
   <div class="absolute top-0 right-0 w-[400px] h-[400px] rounded-full pointer-events-none" style="background:rgba(255,255,255,0.05);transform:translate(33%,-33%);"></div>
@@ -66,10 +66,10 @@
         <div class="absolute -bottom-6 -left-8 bg-white rounded-xl p-5 z-10" style="box-shadow:0 20px 50px rgba(0,0,0,0.2);max-width:220px;">
           <div class="flex items-center gap-3 mb-3">
             <div class="w-10 h-10 rounded flex items-center justify-center flex-shrink-0" style="background:#d7e3ff;">
-              <svg class="w-5 h-5" fill="none" stroke="#002653" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              <svg class="w-5 h-5" fill="none" stroke="var(--wp--preset--color--primary)" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
             </div>
             <div>
-              <p class="font-bold text-[14px] leading-tight" style="color:#002653;">New Course</p>
+              <p class="font-bold text-[14px] leading-tight" style="color:var(--wp--preset--color--primary);">New Course</p>
               <p class="text-[12px]" style="color:#43474f;">Project Leadership</p>
             </div>
           </div>

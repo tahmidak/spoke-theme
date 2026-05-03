@@ -109,187 +109,20 @@ add_action('wp_enqueue_scripts', function (): void {
 
 
 // ─────────────────────────────────────────────────────────────────
-// 4. HOT DEALS ADMIN MENU
-// ─────────────────────────────────────────────────────────────────
-
-/* add_action( 'admin_menu', function (): void {
-    add_menu_page(
-        __( 'Hot Deals', 'spoke-theme' ),
-        __( 'Hot Deals', 'spoke-theme' ),
-        'manage_options',
-        'spoke-hot-deals',
-        'spoke_hot_deals_admin_page',
-        'dashicons-tag',
-        58
-    );
-} );
-
-function spoke_hot_deals_admin_page(): void {
-    if (
-        isset( $_POST['spoke_hot_deals_nonce'] ) &&
-        wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['spoke_hot_deals_nonce'] ) ), 'spoke_save_hot_deals' )
-    ) {
-        $ids = [];
-        if ( ! empty( $_POST['hot_deal_ids'] ) ) {
-            foreach ( explode( ',', sanitize_text_field( wp_unslash( $_POST['hot_deal_ids'] ) ) ) as $id ) {
-                $id = (int) trim( $id );
-                if ( $id > 0 ) {
-                    $ids[] = $id;
-                }
-            }
-        }
-        update_option( 'spoke_hot_deal_ids', array_unique( array_slice( $ids, 0, 16 ) ) );
-        echo '<div class="notice notice-success"><p>' . esc_html__( 'Hot Deals saved!', 'spoke-theme' ) . '</p></div>';
-    }
-
-    $saved_ids   = (array) get_option( 'spoke_hot_deal_ids', [] );
-    $all_courses = get_posts( [
-        'post_type'      => [ 'courses', 'product' ],
-        'posts_per_page' => 200,
-        'post_status'    => 'publish',
-        'orderby'        => 'title',
-        'order'          => 'ASC',
-    ] );
-    ?>
-    <div class="wrap">
-        <h1><?php esc_html_e( 'Hot Deals — Course Curation', 'spoke-theme' ); ?></h1>
-        <p class="description"><?php esc_html_e( 'Select up to 16 courses to feature on the Hot Deals page.', 'spoke-theme' ); ?></p>
-        <form method="post" action="">
-            <?php wp_nonce_field( 'spoke_save_hot_deals', 'spoke_hot_deals_nonce' ); ?>
-            <input type="hidden" name="hot_deal_ids" id="hot-deal-ids-input"
-                   value="<?php echo esc_attr( implode( ',', $saved_ids ) ); ?>">
-            <div style="display:flex;gap:24px;margin-top:20px;flex-wrap:wrap;">
-                <div style="flex:1;min-width:280px;">
-                    <h3><?php esc_html_e( 'All Courses / Products', 'spoke-theme' ); ?></h3>
-                    <input type="text" id="spoke-search-products" placeholder="<?php esc_attr_e( 'Search…', 'spoke-theme' ); ?>"
-                           style="width:100%;margin-bottom:8px;padding:6px 10px;border:1px solid #ddd;border-radius:4px;">
-                    <div id="spoke-all-courses" style="border:1px solid #ddd;border-radius:6px;height:400px;overflow-y:auto;background:#fff;padding:4px;">
-                        <?php foreach ( $all_courses as $p ) :
-                            $already = in_array( $p->ID, $saved_ids, true );
-                        ?>
-                        <div class="spoke-course-row"
-                             data-id="<?php echo esc_attr( $p->ID ); ?>"
-                             data-title="<?php echo esc_attr( strtolower( $p->post_title ) ); ?>"
-                             style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:4px;margin-bottom:2px;background:<?php echo $already ? '#e8f4ec' : '#f9f9f9'; ?>;<?php echo $already ? 'opacity:0.5;' : ''; ?>">
-                            <span style="font-size:13px;">
-                                <?php echo esc_html( $p->post_title ); ?>
-                                <span style="color:#999;font-size:11px;">(#<?php echo esc_html( $p->ID ); ?> — <?php echo esc_html( $p->post_type ); ?>)</span>
-                            </span>
-                            <button type="button" class="spoke-add-deal button button-small"
-                                    data-id="<?php echo esc_attr( $p->ID ); ?>"
-                                    data-title="<?php echo esc_attr( $p->post_title ); ?>"
-                                    <?php echo $already ? 'disabled' : ''; ?>>
-                                <?php echo $already ? esc_html__( 'Added', 'spoke-theme' ) : esc_html__( '+ Add', 'spoke-theme' ); ?>
-                            </button>
-                        </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-                <div style="flex:1;min-width:280px;">
-                    <h3>
-                        <?php esc_html_e( 'Hot Deals List', 'spoke-theme' ); ?>
-                        <span id="deal-count" style="font-size:13px;color:#666;">(<?php echo count( $saved_ids ); ?>/16)</span>
-                    </h3>
-                    <ul id="spoke-deal-list" style="border:1px solid #ddd;border-radius:6px;min-height:400px;background:#fff;padding:8px;list-style:none;margin:0;">
-                        <?php foreach ( $saved_ids as $sid ) :
-                            $p = get_post( $sid );
-                            if ( ! $p ) { continue; }
-                        ?>
-                        <li class="spoke-deal-item" data-id="<?php echo esc_attr( $sid ); ?>"
-                            style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:4px;margin-bottom:4px;background:#f3f4f5;cursor:grab;border:1px solid #e0e0e0;">
-                            <span style="font-size:13px;">≡ <?php echo esc_html( $p->post_title ); ?></span>
-                            <button type="button" class="spoke-remove-deal button button-small button-link-delete"
-                                    data-id="<?php echo esc_attr( $sid ); ?>">✕</button>
-                        </li>
-                        <?php endforeach; ?>
-                    </ul>
-                    <p style="margin-top:8px;font-size:12px;color:#666;"><?php esc_html_e( 'Drag items to reorder. Max 16.', 'spoke-theme' ); ?></p>
-                </div>
-            </div>
-            <p class="submit">
-                <input type="submit" class="button button-primary" value="<?php esc_attr_e( 'Save Hot Deals', 'spoke-theme' ); ?>">
-            </p>
-        </form>
-    </div>
-    <script>
-    (function () {
-        var ids   = <?php echo wp_json_encode( $saved_ids ); ?>;
-        var input = document.getElementById('hot-deal-ids-input');
-        var list  = document.getElementById('spoke-deal-list');
-        var count = document.getElementById('deal-count');
-        function updateInput() { input.value = ids.join(','); count.textContent = '(' + ids.length + '/16)'; }
-        document.querySelectorAll('.spoke-add-deal').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                if (ids.length >= 16) { alert('Maximum 16 courses.'); return; }
-                var id = parseInt(this.dataset.id), title = this.dataset.title;
-                if (ids.indexOf(id) !== -1) return;
-                ids.push(id); updateInput();
-                var li = document.createElement('li');
-                li.className = 'spoke-deal-item'; li.dataset.id = id;
-                li.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:4px;margin-bottom:4px;background:#f3f4f5;cursor:grab;border:1px solid #e0e0e0;';
-                li.innerHTML = '<span style="font-size:13px;">≡ ' + title + '</span><button type="button" class="spoke-remove-deal button button-small button-link-delete" data-id="' + id + '">✕</button>';
-                list.appendChild(li); bindRemove(li.querySelector('.spoke-remove-deal'));
-                this.textContent = 'Added'; this.disabled = true;
-                var row = this.closest('.spoke-course-row');
-                if (row) { row.style.opacity = '0.5'; row.style.background = '#e8f4ec'; }
-            });
-        });
-        function bindRemove(btn) {
-            btn.addEventListener('click', function () {
-                var id = parseInt(this.dataset.id);
-                ids = ids.filter(function (x) { return x !== id; }); updateInput();
-                this.closest('li').remove();
-                var addBtn = document.querySelector('.spoke-add-deal[data-id="' + id + '"]');
-                if (addBtn) { addBtn.textContent = '+ Add'; addBtn.disabled = false; var row = addBtn.closest('.spoke-course-row'); if (row) { row.style.opacity = '1'; row.style.background = '#f9f9f9'; } }
-            });
-        }
-        document.querySelectorAll('.spoke-remove-deal').forEach(bindRemove);
-        document.getElementById('spoke-search-products').addEventListener('input', function () {
-            var q = this.value.toLowerCase();
-            document.querySelectorAll('.spoke-course-row').forEach(function (r) { r.style.display = r.dataset.title.includes(q) ? '' : 'none'; });
-        });
-        var dragSrc = null;
-        function makeDraggable(el) {
-            el.draggable = true;
-            el.addEventListener('dragstart', function () { dragSrc = this; this.style.opacity = '0.4'; });
-            el.addEventListener('dragend',   function () { this.style.opacity = ''; });
-            el.addEventListener('dragover',  function (e) { e.preventDefault(); });
-            el.addEventListener('drop', function (e) {
-                e.preventDefault();
-                if (dragSrc !== this) {
-                    var items = [...list.querySelectorAll('.spoke-deal-item')];
-                    var si = items.indexOf(dragSrc), di = items.indexOf(this);
-                    si < di ? list.insertBefore(dragSrc, this.nextSibling) : list.insertBefore(dragSrc, this);
-                    ids = [...list.querySelectorAll('.spoke-deal-item')].map(function (li) { return parseInt(li.dataset.id); });
-                    updateInput();
-                }
-            });
-        }
-        document.querySelectorAll('.spoke-deal-item').forEach(makeDraggable);
-        new MutationObserver(function (mutations) {
-            mutations.forEach(function (m) { m.addedNodes.forEach(function (n) { if (n.classList && n.classList.contains('spoke-deal-item')) makeDraggable(n); }); });
-        }).observe(list, { childList: true });
-    })();
-    </script>
-    <?php
-}*/
-
-
-// ─────────────────────────────────────────────────────────────────
-// 5. HELPER: GET HOT DEAL IDS
-// ─────────────────────────────────────────────────────────────────
-
-/* function spoke_get_hot_deal_ids(): array {
-    return array_map( 'intval', (array) get_option( 'spoke_hot_deal_ids', [] ) );
-}
- */
-
-// ─────────────────────────────────────────────────────────────────
 // 6. AJAX ENDPOINT — spoke_courses
 // ─────────────────────────────────────────────────────────────────
 
 function spoke_courses_ajax_handler(): void
 {
+    // Add this block
+    if (
+        ! isset($_REQUEST['_wpnonce']) ||
+        ! wp_verify_nonce(sanitize_text_field(wp_unslash($_REQUEST['_wpnonce'])), 'spoke_courses_nonce')
+    ) {
+        wp_send_json_error(['message' => 'Invalid request.'], 403);
+        return;
+    }
+
     $sort_map = [
         'popularity' => ['orderby' => 'date',           'order' => 'DESC'],
         'rating'     => ['orderby' => 'meta_value_num', 'order' => 'DESC', 'meta_key' => '_spoke_rating_avg'],
@@ -353,7 +186,7 @@ function spoke_courses_ajax_handler(): void
         $allowed = ['beginner', 'intermediate', 'advanced'];
         $safe    = array_values(array_intersect($levels, $allowed));
         if (! empty($safe)) {
-            $meta_query[] = ['key' => '_spoke_level', 'value' => $safe, 'compare' => 'IN'];
+            $meta_query[] = ['key' => '_tutor_course_level', 'value' => $safe, 'compare' => 'IN'];
         }
     }
     if (! empty($meta_query)) {
@@ -379,6 +212,8 @@ function spoke_courses_to_json(WP_Query $loop): array
     $courses    = [];
     $user_id    = get_current_user_id();
     $is_logged  = $user_id > 0;
+    // Pre-fetch cart IDs once.
+    $cart_pids = spoke_get_cart_product_ids();
 
     // Pre-fetch purchased product IDs for logged-in users (one query, not per card).
     $bought_product_ids = [];
@@ -457,6 +292,12 @@ function spoke_courses_to_json(WP_Query $loop): array
             // ── Thumbnail ────────────────────────────────────────────
             $thumb = get_the_post_thumbnail_url($id, 'medium_large') ?: '';
 
+            // ── Level & Duration ─────────────────────────────────────
+            $level_raw    = get_post_meta($id, '_tutor_course_level', true);
+            $level        = $level_raw ? ucfirst($level_raw) : '';
+            $duration_raw = get_post_meta($id, '_course_duration', true);
+            $duration     = is_array($duration_raw) ? implode(' ', array_filter($duration_raw)) : (string) $duration_raw;
+
             // ── Keep _spoken_effective_price in sync ──────────────────
             $cached = (float) get_post_meta($id, '_spoken_effective_price', true);
             if ($cached !== $effective) {
@@ -480,9 +321,12 @@ function spoke_courses_to_json(WP_Query $loop): array
                 'wc_product_id'   => $wc_pid,
                 'add_to_cart_url' => $add_to_cart_url,
                 'can_add'         => $can_add,
+                'in_cart'         => $wc_pid ? in_array($wc_pid, $cart_pids, true) : false,
                 'purchased'       => $purchased,
                 'dashboard_url'   => home_url('/dashboard/'),
                 'cart_url'        => function_exists('wc_get_cart_url') ? wc_get_cart_url() : home_url('/cart/'),
+                'level'    => $level,
+                'duration' => $duration,
             ];
         }
         wp_reset_postdata();
@@ -736,29 +580,24 @@ function spoke_render_course_archive(): void
             }
 
             // ── CTA BUILDER — three states ─────────────────────────────────
-            // State 1 (purchased): Go to Dashboard — navy button.
-            // State 2 (in cart / just added): View Cart — navy button (toggled via JS event).
-            // State 3 (default): Add to Cart — amber button with WooCommerce AJAX class.
             function buildCta(c) {
                 var wrap = '<div class="spoke-cta-wrap" data-course="' + c.id + '" data-pid="' + c.wc_product_id + '">';
+                var baseStyle = 'display:inline-flex;align-items:center;height:40px;padding:0 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;transition:filter 150ms ease;';
+                var navyStyle = baseStyle + 'background:#1A3C6E;color:#fff;';
+                var amberStyle = baseStyle + 'background:#F4A726;color:#6b4500;';
 
                 if (c.purchased) {
-                    // Already enrolled — go straight to the dashboard.
-                    wrap += '<a href="' + esc(c.dashboard_url) + '" class="inline-flex items-center h-10 px-4 rounded-lg font-bold text-[13px] no-underline" style="background:#1A3C6E;color:#fff;">Go to Dashboard</a>';
+                    wrap += '<a href="' + esc(c.dashboard_url) + '" style="' + navyStyle + '">Go to Dashboard</a>';
+                } else if (c.in_cart) {
+                    wrap += '<a href="' + esc(c.cart_url) + '" style="' + navyStyle + '">View Cart →</a>';
                 } else if (c.can_add) {
-                    // Add to Cart (default) — WooCommerce AJAX add-to-cart class attached.
-                    // View Cart link is hidden by default; JS shows it after add-to-cart fires.
                     wrap += '<a href="' + esc(c.add_to_cart_url) + '" ' +
                         'data-quantity="1" data-product_id="' + c.wc_product_id + '" ' +
-                        'class="ajax_add_to_cart add_to_cart_button spoke-add-to-cart-btn spoke-btn-add inline-flex items-center h-10 px-4 rounded-lg font-bold text-[13px] no-underline" ' +
-                        'style="background:#F4A726;color:#6b4500;" rel="nofollow">Add to Cart</a>';
-                    // View Cart — hidden until add-to-cart completes.
-                    wrap += '<a href="' + esc(c.cart_url) + '" ' +
-                        'class="spoke-view-cart-btn inline-flex items-center h-10 px-4 rounded-lg font-bold text-[13px] no-underline" ' +
-                        'style="background:#1A3C6E;color:#fff;display:none;">View Cart →</a>';
+                        'class="ajax_add_to_cart add_to_cart_button spoke-btn-add" rel="nofollow" ' +
+                        'style="' + amberStyle + '">Add to Cart</a>';
+                    wrap += '<a href="' + esc(c.cart_url) + '" class="spoke-view-cart-btn" style="' + navyStyle + 'display:none;">View Cart →</a>';
                 } else {
-                    // No WC product linked — link to single course page.
-                    wrap += '<a href="' + esc(c.url) + '" class="inline-flex items-center h-10 px-4 rounded-lg font-bold text-[13px] no-underline" style="background:#1A3C6E;color:#fff;">View Course</a>';
+                    wrap += '<a href="' + esc(c.url) + '" style="' + navyStyle + '">View Course</a>';
                 }
 
                 wrap += '</div>';
@@ -769,7 +608,7 @@ function spoke_render_course_archive(): void
             function buildCard(c) {
                 var thumbHtml = c.thumb ?
                     '<img src="' + esc(c.thumb) + '" alt="' + esc(c.title) + '" class="w-full h-full object-cover" loading="lazy" width="400" height="170">' :
-                    '<div class="w-full h-full flex items-center justify-center" style="background:linear-gradient(135deg,#1A3C6E,#1A1A2E);"><svg class="w-14 h-14 opacity-20" fill="white" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>';
+                    '<div class="w-full h-full flex items-center justify-center" style="background:#1A3C6E;padding:16px;"><span style="color:#fff;font-size:14px;font-weight:700;text-align:center;line-height:1.4;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">' + esc(c.title) + '</span></div>';
 
                 var catBadge = c.cat_name ?
                     '<span class="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-[0.5px] px-2.5 py-1 rounded" style="background:#F4A726;color:#6b4500;">' + esc(c.cat_name) + '</span>' :
@@ -805,6 +644,7 @@ function spoke_render_course_archive(): void
                     catBadge + discBadge +
                     '</div>' +
                     '<div class="p-5 flex flex-col gap-2 flex-1">' +
+                    (c.level || c.duration ? '<div style="display:flex;flex-wrap:wrap;gap:4px;">' + (c.level ? '<span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:2px 8px;border-radius:4px;background:rgba(26,60,110,0.07);color:#1A3C6E;">' + esc(c.level) + '</span>' : '') + (c.duration ? '<span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:2px 8px;border-radius:4px;background:rgba(26,60,110,0.07);color:#1A3C6E;">' + esc(c.duration) + '</span>' : '') + '</div>' : '') +
                     '<h3 class="font-bold text-[16px] leading-snug m-0" style="color:#1A3C6E;">' +
                     '<a href="' + esc(c.url) + '" class="no-underline hover:underline" style="color:inherit;">' + esc(c.title) + '</a>' +
                     '</h3>' +

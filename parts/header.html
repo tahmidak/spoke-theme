@@ -82,9 +82,6 @@
   }
 </style>
 
-<script>
-  /*  */
-</script>
 
 <!-- wp:group {"tagName":"header","style":{"position":{"type":"sticky"},"zIndex":50},"backgroundColor":"white","layout":{"type":"constrained","wideSize":"1280px"}} -->
 <header class="wp-block-group has-white-background-color has-background">
@@ -93,7 +90,11 @@
     style="padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--50)">
     <!-- wp:column {"verticalAlignment":"center","width":"200px"} -->
     <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:200px">
-      <!-- wp:site-title {"level":0,"style":{"typography":{"fontWeight":"700","fontSize":"22px","letterSpacing":"-0.05em"},"color":{"text":"#002653"}}} /-->
+      <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:200px">
+        <!-- wp:shortcode -->
+        [site_logo_or_title]
+        <!-- /wp:shortcode -->
+      </div>
     </div>
     <!-- /wp:column -->
 
@@ -126,3 +127,13 @@
   <!-- /wp:columns -->
 </header>
 <!-- /wp:group -->
+
+<script>
+  window.addEventListener("load", function () {
+    const logo = document.querySelector(".wp-block-site-logo img");
+
+    if (logo && logo.src && logo.src.trim() !== "") {
+      document.body.classList.add("has-real-logo");
+    }
+  });
+</script>

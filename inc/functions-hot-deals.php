@@ -512,15 +512,16 @@ function spoke_hot_deals_admin_page(): void {
 // ─────────────────────────────────────────────────────────────────
 
 function spoke_render_hot_deals_section(): void {
-
+ 
 	$deal_ids = array_slice( spoke_get_hot_deal_ids(), 0, 12 );
-	if ( empty( $deal_ids ) ) { return; }
-
+	if ( empty( $deal_ids ) ) {
+		return;
+	}
+ 
 	$user_id   = get_current_user_id();
 	$is_logged = $user_id > 0;
-	$cart_url  = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart/' );
-
-	// Pre-fetch purchased product IDs (one query)
+ 
+	// ── Pre-fetch purchased product IDs (one query, not N) ────────
 	$bought_pids = [];
 	if ( $is_logged && function_exists( 'wc_get_orders' ) ) {
 		$order_ids = wc_get_orders( [
@@ -531,153 +532,101 @@ function spoke_render_hot_deals_section(): void {
 		] );
 		foreach ( $order_ids as $oid ) {
 			$order = wc_get_order( $oid );
-			if ( ! $order ) { continue; }
+			if ( ! $order ) {
+				continue;
+			}
 			foreach ( $order->get_items() as $item ) {
 				if ( $item instanceof WC_Order_Item_Product ) {
 					$pid = (int) $item->get_product_id();
-					if ( $pid ) { $bought_pids[] = $pid; }
+					if ( $pid ) {
+						$bought_pids[] = $pid;
+					}
 				}
 			}
 		}
 		$bought_pids = array_unique( $bought_pids );
 	}
-
-	// Build course data
-	$courses = [];
-	$loop = new WP_Query( [
+ 
+	// ── Collect card data, preserving admin-curated order ─────────
+	$cards = [];
+	$loop  = new WP_Query( [
 		'post_type'      => 'courses',
 		'post__in'       => $deal_ids,
 		'orderby'        => 'post__in',
 		'posts_per_page' => 12,
 		'post_status'    => 'publish',
 	] );
-
+ 
 	if ( $loop->have_posts() ) {
 		while ( $loop->have_posts() ) {
 			$loop->the_post();
-			$id = get_the_ID();
-
-			// Fake data takes priority over real Tutor LMS data
-			$display    = spoke_get_course_display_data( $id );
-			$rating_avg = $display['rating_avg'];
-			$rating_cnt = $display['rating_cnt'];
-			$students   = $display['students'];
-
-			$wc_pid     = (int) get_post_meta( $id, '_tutor_course_product_id', true );
-			$wc_product = ( $wc_pid && function_exists( 'wc_get_product' ) ) ? wc_get_product( $wc_pid ) : null;
-			if ( $wc_product ) {
-				$price           = (float) $wc_product->get_regular_price();
-				$sale_price      = (float) $wc_product->get_sale_price();
-				$add_to_cart_url = $wc_product->add_to_cart_url();
-				$can_add         = $wc_product->is_purchasable() && $wc_product->is_in_stock();
-			} else {
-				$price = $sale_price = 0.0;
-				$add_to_cart_url = get_permalink();
-				$can_add = false; $wc_pid = 0;
+			$card = spoke_get_card_data( get_the_ID() );
+			if ( ! $card ) {
+				continue;
 			}
-			$effective = $sale_price > 0 ? $sale_price : $price;
-			$disc_pct  = ( $sale_price > 0 && $price > 0 ) ? round( ( 1 - $sale_price / $price ) * 100 ) : 0;
-
-			$purchased = false;
-			if ( $is_logged ) {
-				if ( function_exists( 'tutor_utils' ) && tutor_utils()->is_enrolled( $id, $user_id ) ) {
-					$purchased = true;
-				} elseif ( $wc_pid && in_array( $wc_pid, $bought_pids, true ) ) {
-					$purchased = true;
-				}
+ 
+			// Apply pre-fetched purchase status.
+			if ( $is_logged && ! $card['purchased'] && $card['wc_product_id'] && in_array( $card['wc_product_id'], $bought_pids, true ) ) {
+				$card['purchased'] = true;
 			}
-
-			$c_cats   = get_the_terms( $id, 'course-category' );
-			$cat_name = ( $c_cats && ! is_wp_error( $c_cats ) ) ? $c_cats[0]->name : '';
-			$thumb    = get_the_post_thumbnail_url( $id, 'medium_large' ) ?: '';
-
-			$courses[] = [
-				'id'              => $id,
-				'title'           => get_the_title(),
-				'url'             => get_permalink(),
-				'thumb'           => $thumb,
-				'cat_name'        => $cat_name,
-				'price'           => $price,
-				'sale_price'      => $sale_price,
-				'effective'       => $effective,
-				'disc_pct'        => $disc_pct,
-				'rating_avg'      => $rating_avg,
-				'rating_cnt'      => $rating_cnt,
-				'students'        => $students,
-				'wc_pid'          => $wc_pid,
-				'add_to_cart_url' => $add_to_cart_url,
-				'can_add'         => $can_add,
-				'purchased'       => $purchased,
-				'dashboard_url'   => home_url( '/dashboard/' ),
-				'cart_url'        => $cart_url,
-			];
+ 
+			$cards[] = $card;
 		}
 		wp_reset_postdata();
 	}
-
-	if ( empty( $courses ) ) { return; }
-
-	// ── Inline CSS ────────────────────────────────────────────────
-	static $css_printed = false;
-	if ( ! $css_printed ) {
-		$css_printed = true;
-		echo '<style>.hdb-wrap{background:#f3f4f5;padding:80px 24px;font-family:"Inter",sans-serif;}.hdb-inner{max-width:1280px;margin:0 auto;}.hdb-top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:40px;}.hdb-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;border-radius:100px;background:rgba(244,167,38,.15);border:1px solid rgba(244,167,38,.35);color:#F4A726;margin-bottom:10px;}.hdb-h2{font-size:clamp(1.75rem,3vw,2.25rem);font-weight:700;color:#1A3C6E;letter-spacing:-.04em;margin:0 0 8px;}.hdb-sub{font-size:15px;color:#43474f;margin:0;}.hdb-link{display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:700;color:#1A3C6E;text-decoration:none;white-space:nowrap;}.hdb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}.hdb-card{background:#fff;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(0,0,0,.08);transition:box-shadow 200ms,transform 200ms;}.hdb-card:hover{box-shadow:0 8px 32px rgba(26,60,110,.12);transform:translateY(-3px);}.hdb-thumb{position:relative;height:170px;overflow:hidden;display:block;flex-shrink:0;}.hdb-thumb img{width:100%;height:100%;object-fit:cover;transition:transform 400ms;}.hdb-card:hover .hdb-thumb img{transform:scale(1.05);}.hdb-ph{width:100%;height:100%;background:linear-gradient(135deg,#1A3C6E,#1A1A2E);display:flex;align-items:center;justify-content:center;}.hdb-cat{position:absolute;top:10px;left:10px;font-size:10px;font-weight:700;text-transform:uppercase;padding:3px 10px;border-radius:4px;background:#F4A726;color:#6b4500;}.hdb-disc{position:absolute;bottom:10px;right:10px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;background:#BA1A1A;color:#fff;}.hdb-body{padding:20px;display:flex;flex-direction:column;gap:8px;flex:1;}.hdb-title{font-size:16px;font-weight:700;color:#1A3C6E;line-height:1.3;margin:0;}.hdb-title a{color:inherit;text-decoration:none;}.hdb-title a:hover{text-decoration:underline;}.hdb-stars{display:flex;align-items:center;gap:4px;flex-wrap:wrap;font-size:12px;color:#43474f;}.hdb-foot{display:flex;align-items:center;justify-content:space-between;padding-top:12px;margin-top:auto;border-top:1px solid rgba(0,0,0,.07);}.hdb-price{font-size:20px;font-weight:900;color:#1A3C6E;}.hdb-orig{font-size:13px;text-decoration:line-through;color:#43474f;margin-left:6px;}.hdb-cta{display:flex;gap:8px;align-items:center;}.hdb-btn-add,.hdb-btn-cart,.hdb-btn-nav{display:inline-flex;align-items:center;height:38px;padding:0 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;transition:filter 150ms;white-space:nowrap;}.hdb-btn-add{background:#F4A726;color:#6b4500;}.hdb-btn-add:hover{filter:brightness(1.07);}.hdb-btn-cart{background:#1A3C6E;color:#fff;display:none;}.hdb-btn-cart.hdb-show{display:inline-flex;}.hdb-btn-nav{background:#1A3C6E;color:#fff;}.hdb-cta .added_to_cart{display:none!important;}@media(max-width:1024px){.hdb-grid{grid-template-columns:repeat(2,1fr);}}@media(max-width:640px){.hdb-grid{grid-template-columns:1fr;}.hdb-wrap{padding:56px 16px;}}</style>';
+ 
+	if ( empty( $cards ) ) {
+		return;
 	}
-
+ 
+	// ── Print shared card CSS once ─────────────────────────────────
+	spoke_enqueue_card_styles();
+ 
+	// ── Section-level CSS (unique to hot-deals section) ───────────
+	static $hd_css_printed = false;
+	if ( ! $hd_css_printed ) {
+		$hd_css_printed = true;
+		echo '<style>
+.hdb-wrap { background:#f3f4f5; padding:80px 24px; font-family:"Inter",sans-serif; }
+.hdb-inner { max-width:1280px; margin:0 auto; }
+.hdb-top { display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:40px; }
+.hdb-eyebrow { display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; padding:4px 12px; border-radius:100px; background:rgba(244,167,38,.15); border:1px solid rgba(244,167,38,.35); color:#F4A726; margin-bottom:10px; }
+.hdb-h2 { font-size:clamp(1.75rem,3vw,2.25rem); font-weight:700; color:#1A3C6E; letter-spacing:-.04em; margin:0 0 8px; }
+.hdb-sub { font-size:15px; color:#43474f; margin:0; }
+.hdb-link { display:inline-flex; align-items:center; gap:6px; font-size:15px; font-weight:700; color:#1A3C6E; text-decoration:none; white-space:nowrap; }
+.hdb-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+@media(max-width:1024px) { .hdb-grid { grid-template-columns:repeat(2,1fr); } }
+@media(max-width:640px)  { .hdb-grid { grid-template-columns:1fr; } .hdb-wrap { padding:56px 16px; } }
+</style>';
+	}
+ 
 	// ── Markup ────────────────────────────────────────────────────
 	echo '<section class="hdb-wrap"><div class="hdb-inner">';
-	echo '<div class="hdb-top"><div><span class="hdb-eyebrow">🔥 Hot Deals</span><h2 class="hdb-h2">Our Most Popular Courses</h2><p class="hdb-sub">Hand-picked programmes trending among UK professionals — at exclusive prices.</p></div>';
-	echo '<a href="' . esc_url( home_url( '/courses/' ) ) . '" class="hdb-link">View All Courses <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></a></div>';
+	echo '<div class="hdb-top">';
+	echo '<div>';
+	echo '<span class="hdb-eyebrow">🔥 Hot Deals</span>';
+	echo '<h2 class="hdb-h2">Our Most Popular Courses</h2>';
+	echo '<p class="hdb-sub">Hand-picked programmes trending among UK professionals — at exclusive prices.</p>';
+	echo '</div>';
+	echo '<a href="' . esc_url( home_url( '/courses/' ) ) . '" class="hdb-link">';
+	echo 'View All Courses ';
+	echo '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>';
+	echo '</a>';
+	echo '</div>';
+ 
+	// Grid — use shared card with hot-deals context.
 	echo '<div class="hdb-grid">';
-
-	foreach ( $courses as $c ) {
-		$stars = '';
-		for ( $s = 1; $s <= 5; $s++ ) {
-			$fill   = $s <= round( $c['rating_avg'] ) ? '#F4A726' : '#D1D5DB';
-			$stars .= '<svg width="13" height="13" fill="' . $fill . '" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>';
-		}
-
-		echo '<article class="hdb-card">';
-		echo '<a href="' . esc_url( $c['url'] ) . '" class="hdb-thumb" tabindex="-1" aria-hidden="true">';
-		if ( $c['thumb'] ) {
-			echo '<img src="' . esc_url( $c['thumb'] ) . '" alt="' . esc_attr( $c['title'] ) . '" width="400" height="170" loading="lazy">';
-		} else {
-			echo '<div class="hdb-ph"><svg width="48" height="48" fill="rgba(255,255,255,0.2)" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>';
-		}
-		if ( $c['cat_name'] )    { echo '<span class="hdb-cat">' . esc_html( $c['cat_name'] ) . '</span>'; }
-		if ( $c['disc_pct'] > 0 ) { echo '<span class="hdb-disc">' . (int) $c['disc_pct'] . '% OFF</span>'; }
-		echo '</a>';
-
-		echo '<div class="hdb-body">';
-		echo '<h3 class="hdb-title"><a href="' . esc_url( $c['url'] ) . '">' . esc_html( $c['title'] ) . '</a></h3>';
-		echo '<div class="hdb-stars">' . $stars;
-		echo '<strong style="color:#1A3C6E;">' . number_format( $c['rating_avg'], 1 ) . '</strong>';
-		if ( $c['rating_cnt'] > 0 ) { echo '<span>(' . number_format( $c['rating_cnt'] ) . ')</span>'; }
-		if ( $c['students']   > 0 ) { echo '<span style="margin-left:auto;">' . number_format( $c['students'] ) . ' students</span>'; }
-		echo '</div>';
-
-		echo '<div class="hdb-foot"><div>';
-		if ( $c['effective'] > 0 ) {
-			echo '<span class="hdb-price">£' . number_format( $c['effective'], 2 ) . '</span>';
-			if ( $c['disc_pct'] > 0 ) { echo '<span class="hdb-orig">£' . number_format( $c['price'], 2 ) . '</span>'; }
-		} else {
-			echo '<span class="hdb-price">Free</span>';
-		}
-		echo '</div>';
-		echo '<div class="hdb-cta" data-course="' . esc_attr( $c['id'] ) . '" data-pid="' . esc_attr( $c['wc_pid'] ) . '">';
-		if ( $c['purchased'] ) {
-			echo '<a href="' . esc_url( $c['dashboard_url'] ) . '" class="hdb-btn-nav">Go to Dashboard</a>';
-		} elseif ( $c['can_add'] ) {
-			echo '<a href="' . esc_url( $c['add_to_cart_url'] ) . '" class="ajax_add_to_cart add_to_cart_button hdb-btn-add" data-quantity="1" data-product_id="' . esc_attr( $c['wc_pid'] ) . '" rel="nofollow">Add to Cart</a>';
-			echo '<a href="' . esc_url( $c['cart_url'] ) . '" class="hdb-btn-cart">View Cart →</a>';
-		} else {
-			echo '<a href="' . esc_url( $c['url'] ) . '" class="hdb-btn-nav">View Course</a>';
-		}
-		echo '</div></div></div></article>';
+	foreach ( $cards as $card ) {
+		echo spoke_get_course_card_html( $card, [
+			'context'    => 'hot-deals',
+			'img_height' => 170,
+			'lazy'       => true,
+		] );
 	}
-
-	echo '</div></div></section>';
-
-	// WC add-to-cart event handler
-	echo '<script>(function(){if(typeof jQuery==="undefined"){return;}jQuery(document.body).on("added_to_cart.hdb",function(e,f,h,$btn){var pid=parseInt($btn.data("product_id"),10);if(!pid){return;}document.querySelectorAll(".hdb-cta[data-pid=\""+pid+"\"]").forEach(function(w){var a=w.querySelector(".hdb-btn-add"),v=w.querySelector(".hdb-btn-cart"),wc=w.querySelector(".added_to_cart");if(a)a.style.display="none";if(v)v.classList.add("hdb-show");if(wc)wc.remove();});});new MutationObserver(function(mm){mm.forEach(function(m){m.addedNodes.forEach(function(n){if(n.nodeType!==1)return;var w=n.closest?n.closest(".hdb-cta"):null;if(w&&n.classList&&n.classList.contains("added_to_cart")){n.remove();var v=w.querySelector(".hdb-btn-cart");if(v)v.classList.add("hdb-show");var a=w.querySelector(".hdb-btn-add");if(a)a.style.display="none";}});});}).observe(document.body,{childList:true,subtree:true});})();</script>';
+	echo '</div>';
+ 
+	echo '</div></section>';
+ 
+	// Print the shared add-to-cart JS (once per page).
+	spoke_print_card_atc_script();
 }
